@@ -1,0 +1,31 @@
+## Identidad
+- Agencia digital de transformación de negocios
+- Filosofía: Show, Don't Tell. Calidad que habla sola.
+- Tono: Disruptivo, joven, clase mundial, cinematográfico
+- Referencias visuales nivel: Instrument, Fantasy, Work & Co, AKQA
+- Video hero: https://res.cloudinary.com/degisx2oq/video/upload/v1773968303/0318_1_1_imwrz4.mp4## Secciones en orden
+1. Navbar — isotipo + wordmark + nav links + CTA animado
+2. Hero — video blur→focus, "PROJECT 4" con Horizon, tagline, scroll indicator naranja
+3. Nosotros — tabs interactivos estilo "Global Reach", card con stats
+4. Servicios — interactivo estilo Apple timer, cards 3D giratorias
+5. Portafolio — grid inclinado -4deg, 4 columnas scroll opuesto, 2 cols en móvil
+6. Mundo/Globe — canvas globe integrado con markers naranja, 3 casos (MX, UK, Asia)
+7. Contacto — minimalista, CTA directo
+8. Footer — efecto tipográfico "PROJECT 4"
+
+
+## Proyectos reales
+algoritso https://www.algoritso.com/, hotyogacuu.com.mx, https://reinventacapacitacion.com.mx/ reinventa consultoria, herrcava (consultoria), Gallery 2020 https://gallery2020mx.netlify.app/)
+
+
+## Servicios
+Desarrollo web, branding, Meta Ads, contenido/video, automatizaciones, IA, diseño de imagen, package design, redes sociales
+
+## Filosofía de trabajo
+Entender → Estrategia → Activar → Crecer
+Valor antes que precio. Mejora continua. Nunca solo entregar y terminar.
+
+## Lo que NO queremos
+- Nada genérico (no Inter, no purple gradients, no card grids básicos)
+- No plantilla. Cada elemento debe sentirse diseñado a propósito.
+- Cero AI slop aesthetics
