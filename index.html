@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project 4 — Agencia digital premium. Ecosistemas corporativos que transforman marcas mediante arquitectura digital escalable." />
+  <title>Project 4 — Digital Ecosystems</title>
+
+  <!-- Fonts: Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js" defer></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <!-- ─── CURSOR ─────────────────────────────────────────────── -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- ─── SPLASH ────────────────────────────────────────────── -->
+  <section id="splash" aria-hidden="true" role="presentation">
+    <div class="splash__inner">
+      <div class="splash__logo">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash__mark">
+          <rect x="0" y="0" width="80" height="80" rx="4" fill="none"/>
+          <path class="splash__p4-path" d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
+          <path class="splash__p4-path" d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
+        </svg>
+        <span class="splash__wordmark">PROJECT<em>4</em></span>
+      </div>
+      <div class="splash__tagline">
+        <span class="splash__tag-line1">ECOSISTEMAS</span>
+        <span class="splash__tag-line2">DIGITALES</span>
+        <span class="splash__tag-line3">PREMIUM</span>
+      </div>
+      <div class="splash__progress">
+        <div class="splash__progress-bar" id="splashBar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── NAV ───────────────────────────────────────────────── -->
+  <nav class="nav" id="mainNav" role="navigation" aria-label="Navegación principal">
+    <div class="nav__pill">
+      <a href="#hero" class="nav__logo" aria-label="Project 4 inicio">
+        <svg width="28" height="28" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
+          <path d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
+        </svg>
+        <span>P4</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#about" class="nav__link">Nosotros</a></li>
+        <li><a href="#world" class="nav__link">Proyectos</a></li>
+        <li><a href="#services" class="nav__link">Servicios</a></li>
+        <li><a href="#contact" class="nav__link nav__link--cta">Hablemos</a></li>
+      </ul>
+      <button class="nav__menu-toggle" aria-label="Abrir menú" aria-expanded="false" id="menuToggle">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── MOBILE MENU ──────────────────────────────────────── -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <ul class="mobile-menu__links" role="list">
+      <li><a href="#about" class="mobile-menu__link">Nosotros</a></li>
+      <li><a href="#world" class="mobile-menu__link">Proyectos</a></li>
+      <li><a href="#services" class="mobile-menu__link">Servicios</a></li>
+      <li><a href="#methodology" class="mobile-menu__link">Metodología</a></li>
+      <li><a href="#contact" class="mobile-menu__link">Contacto</a></li>
+    </ul>
+  </div>
+
+  <!-- ─── MAIN ─────────────────────────────────────────────── -->
+  <main id="main">
+
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero__layout">
+
+        <!-- Left column: editorial type -->
+        <div class="hero__left">
+          <span class="hero__eyebrow">
+            <span class="hero__eyebrow-line"></span>
+            Agencia Digital Premium
+          </span>
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__title-line hero__title-line--1">Ecosistemas</span>
+            <span class="hero__title-line hero__title-line--2">
+              <em>digitales</em>
+            </span>
+            <span class="hero__title-line hero__title-line--3">que escalan.</span>
+          </h1>
+          <p class="hero__sub">
+            No vendemos páginas web.<br/>
+            Construimos la infraestructura digital<br/>
+            que tu negocio necesita para crecer.
+          </p>
+          <div class="hero__actions">
+            <a href="#world" class="btn btn--primary">
+              Ver proyectos
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#contact" class="btn btn--ghost">Agendar llamada</a>
+          </div>
+        </div>
+
+        <!-- Right column: floating metric cards + accent -->
+        <div class="hero__right" aria-hidden="true">
+          <div class="hero__visual">
+            <div class="hero__glow"></div>
+
+            <!-- Metrics floating cards -->
+            <div class="hero__card hero__card--1">
+              <span class="hero__card-num">+340%</span>
+              <span class="hero__card-label">ROI Promedio</span>
+            </div>
+
+            <div class="hero__card hero__card--2">
+              <span class="hero__card-num">47</span>
+              <span class="hero__card-label">Proyectos activos</span>
+            </div>
+
+            <div class="hero__card hero__card--3">
+              <div class="hero__card-dot"></div>
+              <span class="hero__card-label">Operando en 12 países</span>
+            </div>
+
+            <!-- Large background number -->
+            <span class="hero__bg-num" aria-hidden="true">P4</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero__scroll" aria-hidden="true">
+        <span class="hero__scroll-text">Scroll</span>
+        <div class="hero__scroll-line">
+          <div class="hero__scroll-progress"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE ────────────────────────────────────────────── -->
+    <div class="marquee" aria-hidden="true" role="presentation">
+      <div class="marquee__track">
+        <span>Diseño Web Inmersivo</span>
+        <span class="marquee__sep">◆</span>
+        <span>E-Commerce Premium</span>
+        <span class="marquee__sep">◆</span>
+        <span>Branding Estratégico</span>
+        <span class="marquee__sep">◆</span>
+        <span>Automatización IA</span>
+        <span class="marquee__sep">◆</span>
+        <span>Marketing Visual</span>
+        <span class="marquee__sep">◆</span>
+        <span>Diseño Web Inmersivo</span>
+        <span class="marquee__sep">◆</span>
+        <span>E-Commerce Premium</span>
+        <span class="marquee__sep">◆</span>
+        <span>Branding Estratégico</span>
+        <span class="marquee__sep">◆</span>
+        <span>Automatización IA</span>
+        <span class="marquee__sep">◆</span>
+        <span>Marketing Visual</span>
+        <span class="marquee__sep">◆</span>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ──────────────────────────────────────────────── -->
+    <section id="about" class="about" aria-labelledby="about-title">
+      <div class="about__layout">
+
+        <div class="about__left">
+          <span class="section-label">01 — Quiénes somos</span>
+          <h2 class="about__title" id="about-title">
+            Transformamos<br/>
+            marcas. No<br/>
+            <em>prometemos</em>.<br/>
+            Mostramos.
+          </h2>
+        </div>
+
+        <div class="about__right">
+          <p class="about__body">
+            Somos la agencia que no desaparece después del pago.
+            Construimos ecosistemas digitales completos — desde la
+            identidad visual hasta la infraestructura técnica — con
+            un solo objetivo: <strong>ROI real y medible</strong>.
+          </p>
+          <p class="about__body">
+            Cada pixel, cada línea de código, cada automatización
+            existe para que tu marca crezca. No para ganar premios
+            de diseño — aunque los ganamos de todos modos.
+          </p>
+
+          <div class="about__stats">
+            <div class="about__stat">
+              <span class="about__stat-num">8+</span>
+              <span class="about__stat-label">Años en el mercado</span>
+            </div>
+            <div class="about__stat">
+              <span class="about__stat-num">120+</span>
+              <span class="about__stat-label">Marcas transformadas</span>
+            </div>
+            <div class="about__stat">
+              <span class="about__stat-num">12</span>
+              <span class="about__stat-label">Países</span>
+            </div>
+          </div>
+
+          <a href="#world" class="about__link">
+            Ver casos de éxito
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Philosophy card -->
+      <div class="about__philosophy">
+        <span class="about__philosophy-label">Filosofía</span>
+        <blockquote class="about__quote">
+          "Show, Don't Tell"
+        </blockquote>
+        <p class="about__quote-sub">
+          La autoridad se demuestra con resultados, no con palabras.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── WORLD / GLOBE ─────────────────────────────────────── -->
+    <section id="world" class="world" aria-labelledby="world-title">
+      <div class="world__header">
+        <span class="section-label">02 — Impacto Global</span>
+        <h2 class="world__title" id="world-title">
+          Donde operan<br/>nuestros<br/><em>clientes</em>.
+        </h2>
+      </div>
+
+      <!-- Globe canvas container -->
+      <div class="world__globe-wrap" id="globeWrap" aria-hidden="true">
+        <canvas id="globeCanvas"></canvas>
+
+        <!-- Floating case study cards -->
+        <div class="world__case world__case--mx" id="caseMX" aria-label="Caso: Mercado México">
+          <div class="world__case-inner">
+            <span class="world__case-tag">México · Fashion</span>
+            <h3 class="world__case-name">Nude Project MX</h3>
+            <p class="world__case-stat">+280% ventas online</p>
+            <div class="world__case-bar"><div class="world__case-fill" style="--fill:78%"></div></div>
+          </div>
+        </div>
+
+        <div class="world__case world__case--eu" id="caseEU" aria-label="Caso: Mercado Europa">
+          <div class="world__case-inner">
+            <span class="world__case-tag">UK · Fitness</span>
+            <h3 class="world__case-name">Gymshark</h3>
+            <p class="world__case-stat">+190% conversión</p>
+            <div class="world__case-bar"><div class="world__case-fill" style="--fill:65%"></div></div>
+          </div>
+        </div>
+
+        <div class="world__case world__case--global" id="caseGlobal" aria-label="Caso: Expansión Global">
+          <div class="world__case-inner">
+            <span class="world__case-tag">Global · B2B</span>
+            <h3 class="world__case-name">12 mercados</h3>
+            <p class="world__case-stat">Presencia simultánea</p>
+            <div class="world__case-bar"><div class="world__case-fill" style="--fill:92%"></div></div>
+          </div>
+        </div>
+
+        <!-- Globe navigation dots -->
+        <div class="world__nav" aria-label="Navegación del globo">
+          <button class="world__nav-dot world__nav-dot--active" data-region="americas" aria-label="Américas">AM</button>
+          <button class="world__nav-dot" data-region="europe" aria-label="Europa">EU</button>
+          <button class="world__nav-dot" data-region="global" aria-label="Global">GL</button>
+        </div>
+      </div>
+
+      <div class="world__copy">
+        <p>De México a Europa. De startups a corporativos globales. Llevamos marcas al siguiente nivel sin importar la latitud.</p>
+      </div>
+    </section>
+
+    <!-- ── PORTFOLIO ─────────────────────────────────────────── -->
+    <section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
+      <div class="portfolio__header">
+        <span class="section-label">03 — Portafolio</span>
+        <h2 class="portfolio__title" id="portfolio-title">
+          Trabajo<br/><em>selecto</em>.
+        </h2>
+      </div>
+
+      <div class="portfolio__grid">
+
+        <article class="portfolio__item portfolio__item--lg" data-cursor="Ver proyecto">
+          <div class="portfolio__img portfolio__img--1">
+            <div class="portfolio__img-overlay"></div>
+          </div>
+          <div class="portfolio__meta">
+            <span class="portfolio__cat">E-Commerce · Fashion</span>
+            <h3 class="portfolio__name">Nude Project MX</h3>
+            <span class="portfolio__year">2024</span>
+          </div>
+          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Nude Project MX">Ver proyecto</a>
+        </article>
+
+        <article class="portfolio__item portfolio__item--sm" data-cursor="Ver proyecto">
+          <div class="portfolio__img portfolio__img--2">
+            <div class="portfolio__img-overlay"></div>
+          </div>
+          <div class="portfolio__meta">
+            <span class="portfolio__cat">Branding · Fitness</span>
+            <h3 class="portfolio__name">Gymshark Platform</h3>
+            <span class="portfolio__year">2024</span>
+          </div>
+          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Gymshark">Ver proyecto</a>
+        </article>
+
+        <article class="portfolio__item portfolio__item--sm" data-cursor="Ver proyecto">
+          <div class="portfolio__img portfolio__img--3">
+            <div class="portfolio__img-overlay"></div>
+          </div>
+          <div class="portfolio__meta">
+            <span class="portfolio__cat">Automatización · SaaS</span>
+            <h3 class="portfolio__name">Plataforma CRM IA</h3>
+            <span class="portfolio__year">2023</span>
+          </div>
+          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto CRM IA">Ver proyecto</a>
+        </article>
+
+        <article class="portfolio__item portfolio__item--lg portfolio__item--diag" data-cursor="Ver proyecto">
+          <div class="portfolio__img portfolio__img--4">
+            <div class="portfolio__img-overlay"></div>
+          </div>
+          <div class="portfolio__meta">
+            <span class="portfolio__cat">Web Inmersiva · Luxury</span>
+            <h3 class="portfolio__name">Estudio Arquitectura</h3>
+            <span class="portfolio__year">2023</span>
+          </div>
+          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Estudio Arquitectura">Ver proyecto</a>
+        </article>
+
+      </div>
+
+      <div class="portfolio__footer">
+        <a href="#contact" class="btn btn--outline">
+          Ver todos los proyectos
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── SERVICES ──────────────────────────────────────────── -->
+    <section id="services" class="services" aria-labelledby="services-title">
+      <div class="services__header">
+        <span class="section-label">04 — Servicios</span>
+        <h2 class="services__title" id="services-title">
+          Lo que<br/><em>construimos</em><br/>para ti.
+        </h2>
+      </div>
+
+      <div class="services__list" role="list">
+
+        <div class="services__item" role="listitem">
+          <span class="services__num">01</span>
+          <div class="services__content">
+            <h3 class="services__name">Desarrollo Web</h3>
+            <p class="services__desc">Portales, e-commerce, sistemas de reservas, pagos integrados y recordatorios automáticos vía WhatsApp y email.</p>
+          </div>
+          <div class="services__tags">
+            <span>E-Commerce</span>
+            <span>Reservas</span>
+            <span>Pagos</span>
+          </div>
+          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="services__item" role="listitem">
+          <span class="services__num">02</span>
+          <div class="services__content">
+            <h3 class="services__name">Branding & Identidad Visual</h3>
+            <p class="services__desc">Logo, sistema tipográfico, paleta, voz de marca. Package design que se vende solo en el anaquel.</p>
+          </div>
+          <div class="services__tags">
+            <span>Logo</span>
+            <span>Packaging</span>
+            <span>Sistema</span>
+          </div>
+          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="services__item" role="listitem">
+          <span class="services__num">03</span>
+          <div class="services__content">
+            <h3 class="services__name">Meta Ads & Marketing Digital</h3>
+            <p class="services__desc">Campañas de performance con creativos de alta costura. Gestión completa de redes sociales y contenido.</p>
+          </div>
+          <div class="services__tags">
+            <span>Meta Ads</span>
+            <span>Social Media</span>
+            <span>Video</span>
+          </div>
+          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="services__item" role="listitem">
+          <span class="services__num">04</span>
+          <div class="services__content">
+            <h3 class="services__name">Automatizaciones & IA</h3>
+            <p class="services__desc">Flujos que trabajan por ti las 24 horas. IA implementada para tu sector específico. CRMs, chatbots, reportes.</p>
+          </div>
+          <div class="services__tags">
+            <span>Make</span>
+            <span>OpenAI</span>
+            <span>CRM</span>
+          </div>
+          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="services__item services__item--rescue" role="listitem">
+          <span class="services__num">05</span>
+          <div class="services__content">
+            <h3 class="services__name">Rescate de Proyectos</h3>
+            <p class="services__desc">¿Tu agencia anterior desapareció con el dinero? Auditamos lo que tienes, salvamos lo salvable y lo terminamos bien.</p>
+          </div>
+          <div class="services__tags">
+            <span>Auditoría</span>
+            <span>Rediseño</span>
+            <span>Rescate</span>
+          </div>
+          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── METHODOLOGY ───────────────────────────────────────── -->
+    <section id="methodology" class="methodology" aria-labelledby="method-title">
+      <div class="methodology__header">
+        <span class="section-label">05 — Proceso</span>
+        <h2 class="methodology__title" id="method-title">
+          Cómo lo<br/><em>hacemos</em>.
+        </h2>
+        <p class="methodology__sub">Sin sorpresas. Sin desaparecer. Sin excusas.</p>
+      </div>
+
+      <div class="methodology__steps">
+
+        <div class="methodology__step" data-step="1">
+          <div class="methodology__step-marker">
+            <span class="methodology__step-num">01</span>
+            <div class="methodology__step-line"></div>
+          </div>
+          <div class="methodology__step-body">
+            <span class="methodology__step-word">Entender</span>
+            <h3>Comprender tu negocio</h3>
+            <p>No asumimos. Escuchamos. Analizamos tu mercado, competidores y cliente ideal antes de proponer cualquier solución.</p>
+            <span class="methodology__step-time">Semana 1</span>
+          </div>
+        </div>
+
+        <div class="methodology__step" data-step="2">
+          <div class="methodology__step-marker">
+            <span class="methodology__step-num">02</span>
+            <div class="methodology__step-line"></div>
+          </div>
+          <div class="methodology__step-body">
+            <span class="methodology__step-word">Estrategia</span>
+            <h3>Diseñar la solución correcta</h3>
+            <p>Con los datos en mano, diseñamos la arquitectura exacta que necesitas. Cada decisión tiene un porqué comercial medible.</p>
+            <span class="methodology__step-time">Semanas 2–3</span>
+          </div>
+        </div>
+
+        <div class="methodology__step" data-step="3">
+          <div class="methodology__step-marker">
+            <span class="methodology__step-num">03</span>
+            <div class="methodology__step-line"></div>
+          </div>
+          <div class="methodology__step-body">
+            <span class="methodology__step-word">Activar</span>
+            <h3>Poner en marcha con precisión</h3>
+            <p>Ejecutamos en sprints visibles. Ves el progreso cada semana. Sin sorpresas, sin desapariciones, sin excusas.</p>
+            <span class="methodology__step-time">Semanas 4–8</span>
+          </div>
+        </div>
+
+        <div class="methodology__step" data-step="4">
+          <div class="methodology__step-marker">
+            <span class="methodology__step-num">04</span>
+          </div>
+          <div class="methodology__step-body">
+            <span class="methodology__step-word">Crecer</span>
+            <h3>Mejora continua. Nunca termina.</h3>
+            <p>Lanzamos, medimos y optimizamos. No somos un proveedor puntual — somos tu equipo digital permanente.</p>
+            <span class="methodology__step-time">Mes 3+</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Values bar -->
+      <div class="methodology__values" aria-label="Valores de la empresa">
+        <span>Honestidad</span>
+        <span class="methodology__values-sep">·</span>
+        <span>Confianza</span>
+        <span class="methodology__values-sep">·</span>
+        <span>Responsabilidad</span>
+        <span class="methodology__values-sep">·</span>
+        <span>Atención al detalle</span>
+        <span class="methodology__values-sep">·</span>
+        <span>Cercanía humana</span>
+        <span class="methodology__values-sep">·</span>
+        <span>Innovación real</span>
+      </div>
+    </section>
+
+    <!-- ── TRUST BAR ─────────────────────────────────────────── -->
+    <div class="trust-bar" aria-label="Tecnologías y partners">
+      <span class="trust-bar__label">Tecnologías que dominamos</span>
+      <div class="trust-bar__items" aria-hidden="true">
+        <span>Next.js</span>
+        <span>Three.js</span>
+        <span>Shopify Plus</span>
+        <span>GSAP</span>
+        <span>Figma</span>
+        <span>OpenAI</span>
+        <span>Vercel</span>
+        <span>Stripe</span>
+      </div>
+    </div>
+
+    <!-- ── CONTACT ───────────────────────────────────────────── -->
+    <section id="contact" class="contact" aria-labelledby="contact-title">
+      <div class="contact__layout">
+
+        <div class="contact__left">
+          <span class="section-label">06 — Contacto</span>
+          <h2 class="contact__title" id="contact-title">
+            Tu proyecto<br/>empieza<br/><em>hoy</em>.
+          </h2>
+          <p class="contact__body">
+            Primera consulta sin costo. Te decimos honestamente
+            qué necesitas y qué no. Sin ventas de humo.
+          </p>
+          <div class="contact__info">
+            <a href="mailto:hola@project4.mx" class="contact__link">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 4h14l-7 7-7-7zM3 4v12h14V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              hola@project4.mx
+            </a>
+            <a href="https://wa.me/5215500000000" class="contact__link">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2C5.58 2 2 5.58 2 10c0 1.54.42 2.98 1.14 4.22L2 18l3.86-1.12A7.94 7.94 0 0010 18c4.42 0 8-3.58 8-8s-3.58-8-8-8z" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M7.5 7.5s.5 1 1.5 2 2 1.5 2 1.5l1.5-1.5s-.5-1-1-1.5-1-.5-1-.5L9 9s-.5-1-1.5-1.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+              WhatsApp directo
+            </a>
+          </div>
+        </div>
+
+        <div class="contact__right">
+          <form class="contact__form" id="contactForm" novalidate>
+            <div class="form__group">
+              <label class="form__label" for="name">Nombre</label>
+              <input class="form__input" type="text" id="name" name="name" placeholder="Tu nombre completo" required autocomplete="name" />
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="email">Email</label>
+              <input class="form__input" type="email" id="email" name="email" placeholder="tu@empresa.com" required autocomplete="email" />
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="company">Empresa</label>
+              <input class="form__input" type="text" id="company" name="company" placeholder="Nombre de tu empresa" autocomplete="organization" />
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="message">¿Qué necesitas?</label>
+              <textarea class="form__input form__textarea" id="message" name="message" placeholder="Cuéntanos tu proyecto..." required rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">
+              Enviar mensaje
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <p class="form__note">Respondemos en menos de 24 horas.</p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__layout">
+      <div class="footer__brand">
+        <a href="#hero" class="footer__logo" aria-label="Project 4 - inicio">
+          <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+            <path d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
+            <path d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
+          </svg>
+          PROJECT 4
+        </a>
+        <p class="footer__tagline">Ecosistemas digitales premium.</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer navegación">
+        <ul role="list">
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#world">Proyectos</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <li><a href="#methodology">Proceso</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram" class="footer__social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn" class="footer__social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Behance" class="footer__social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h7.5C12.5 6 14 7.5 14 9.5S12.5 13 10.5 13H3V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M3 13h8.5C14 13 16 14.5 16 16.5S14 20 11.5 20H3V13z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M17 8h5M19.5 11c-2.5 0-4-1.5-4-4s1.5-4 4-4 4 1.5 4 4h-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 Project 4. Todos los derechos reservados.</span>
+      <span class="footer__mono">CDMX · MX</span>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ───────────────────────────────────────────── -->
+  <script src="js/cursor.js" defer></script>
+  <script src="js/globe.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+</body>
+</html>
