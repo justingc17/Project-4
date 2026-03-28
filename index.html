@@ -22,7 +22,7 @@
 <div id="splash">
   <div class="splash__inner">
     <div class="splash__logo">
-      <img src="assets/logo letras blancas.png" alt="Project 4"/>
+      <img src="assets/logo oficial.png" alt="Project 4"/>
     </div>
     <div class="splash__bar"><div class="splash__fill" id="splashFill"></div></div>
     <span class="splash__pct" id="splashPct">0%</span>
@@ -353,10 +353,17 @@
     <!-- Case study panel -->
     <div class="world__case" id="worldCase">
       <div class="world__case-inner">
-        <div class="world__case-tabs">
+        <!-- Hidden tabs keep JS state; dots are the visible indicator -->
+        <div class="world__case-tabs" aria-hidden="true" style="display:none">
           <button class="world__tab world__tab--active" data-case="0">Bitso · MX</button>
           <button class="world__tab" data-case="1">Gymshark · UK</button>
           <button class="world__tab" data-case="2">Nude Project · ES</button>
+        </div>
+        <div class="world__scroll-dots" aria-hidden="true">
+          <span class="world__dot world__dot--active" data-case="0"></span>
+          <span class="world__dot" data-case="1"></span>
+          <span class="world__dot" data-case="2"></span>
+          <span class="world__dot-label">scroll para explorar</span>
         </div>
         <div class="world__case-content" id="caseContent">
           <span class="world__case-country" id="caseCountry">🇲🇽 México</span>
@@ -379,14 +386,18 @@
     <h2 class="methodology__title">Cómo lo<br/><em>hacemos</em>.</h2>
     <div class="method-graph" id="methodGraph" aria-label="Proceso de trabajo">
       <svg class="method-svg" viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Connector paths -->
-        <path class="method-path" id="path01" d="M 160 150 C 230 150 280 150 320 150" stroke="rgba(49,149,255,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <path class="method-path" id="path12" d="M 420 150 C 490 150 540 150 580 150" stroke="rgba(234,51,63,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <path class="method-path" id="path23" d="M 680 150 C 750 150 800 150 840 150" stroke="rgba(92,225,230,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <!-- Animated dots on paths -->
-        <circle class="method-dot" r="4" fill="#3195ff"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#path01"/></animateMotion></circle>
-        <circle class="method-dot" r="4" fill="#ea333f"><animateMotion dur="3s" begin="0.75s" repeatCount="indefinite"><mpath href="#path12"/></animateMotion></circle>
-        <circle class="method-dot" r="4" fill="#5ce1e6"><animateMotion dur="3s" begin="1.5s" repeatCount="indefinite"><mpath href="#path23"/></animateMotion></circle>
+        <!-- Background dashed tracks -->
+        <path d="M 160 150 C 230 150 280 150 320 150" stroke="rgba(49,149,255,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 420 150 C 490 150 540 150 580 150" stroke="rgba(234,51,63,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 680 150 C 750 150 800 150 840 150" stroke="rgba(92,225,230,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <!-- Progress fill lines (JS-animated via dashoffset) -->
+        <path id="prog01" d="M 160 150 C 230 150 280 150 320 150" stroke="#3195ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path id="prog12" d="M 420 150 C 490 150 540 150 580 150" stroke="#ea333f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path id="prog23" d="M 680 150 C 750 150 800 150 840 150" stroke="#5ce1e6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Glow dot at path start (activated by JS) -->
+        <circle id="glow01" cx="320" cy="150" r="4" fill="#3195ff" opacity="0"/>
+        <circle id="glow12" cx="580" cy="150" r="4" fill="#ea333f" opacity="0"/>
+        <circle id="glow23" cx="840" cy="150" r="4" fill="#5ce1e6" opacity="0"/>
       </svg>
       <!-- Nodes -->
       <div class="method-nodes">
@@ -474,16 +485,23 @@
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer__marquee" aria-hidden="true">
-    <div class="footer__marquee-track">
-      <span class="footer__word footer__word--fill">PROJECT 4</span>
-      <span class="footer__word footer__word--outline">PROJECT 4</span>
-      <span class="footer__word footer__word--fill">PROJECT 4</span>
-      <span class="footer__word footer__word--outline">PROJECT 4</span>
-      <span class="footer__word footer__word--fill">PROJECT 4</span>
-      <span class="footer__word footer__word--outline">PROJECT 4</span>
-      <span class="footer__word footer__word--fill">PROJECT 4</span>
-      <span class="footer__word footer__word--outline">PROJECT 4</span>
+  <!-- Mirror footer statement -->
+  <div class="footer__mirror" aria-hidden="true">
+    <!-- Top reflection: inverted, fading up -->
+    <div class="footer__mirror-ref footer__mirror-ref--top">
+      <span class="footer__mirror-text">PROJECT 4</span>
+    </div>
+    <!-- Mirror axis line -->
+    <div class="footer__mirror-axis"></div>
+    <!-- Main text -->
+    <div class="footer__mirror-main">
+      <span class="footer__mirror-text">PROJECT 4</span>
+    </div>
+    <!-- Mirror axis line -->
+    <div class="footer__mirror-axis"></div>
+    <!-- Bottom reflection: inverted, fading down -->
+    <div class="footer__mirror-ref footer__mirror-ref--bot">
+      <span class="footer__mirror-text">PROJECT 4</span>
     </div>
   </div>
   <div class="footer__bottom">

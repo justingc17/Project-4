@@ -162,6 +162,18 @@ overlay && overlay.querySelectorAll('.nav-link').forEach(a=>{
   a.addEventListener('click', closeMenu);
 });
 
+/* Enhanced nav link hover — x-slide + glow */
+overlay && overlay.querySelectorAll('.nav-link').forEach(link=>{
+  const text = link.querySelector('.nav-link__text');
+  if(!text) return;
+  link.addEventListener('mouseenter',()=>{
+    gsap.to(text,{ color:'var(--blue)', x:14, duration:.3, ease:'power2.out', overwrite:'auto' });
+  });
+  link.addEventListener('mouseleave',()=>{
+    gsap.to(text,{ color:'var(--white)', x:0, duration:.35, ease:'power2.inOut', overwrite:'auto' });
+  });
+});
+
 /* ── SECTION REVEAL ──────────────────────────────────────── */
 const revealSections = document.querySelectorAll('.reveal-section');
 const io = new IntersectionObserver((entries)=>{
@@ -203,6 +215,44 @@ const nodeIO = new IntersectionObserver((entries)=>{
   });
 },{ threshold:.15 });
 document.querySelectorAll('.reveal-node').forEach(n=> nodeIO.observe(n));
+
+/* ── METHODOLOGY CONNECTOR DRAW ──────────────────────────── */
+window.addEventListener('load',()=>{
+  const progIds = ['#prog01','#prog12','#prog23'];
+  const glowIds = ['#glow01','#glow12','#glow23'];
+  const progPaths = progIds.map(id=>document.querySelector(id)).filter(Boolean);
+  if(!progPaths.length) return;
+
+  /* Init dashoffset to full path length (invisible) */
+  progPaths.forEach(p=>{
+    const len = p.getTotalLength();
+    p.style.strokeDasharray  = len;
+    p.style.strokeDashoffset = len;
+  });
+
+  /* GSAP timeline: draw each segment then pop the glow dot */
+  const connTL = gsap.timeline({ paused:true });
+  progPaths.forEach((p,i)=>{
+    const len   = p.getTotalLength();
+    const glow  = document.querySelector(glowIds[i]);
+    connTL
+      .to(p,    { strokeDashoffset:0, duration:1, ease:'none' })
+      .fromTo(glow,
+        { opacity:0, attr:{ r:4 } },
+        { opacity:1, attr:{ r:6 }, duration:.2, ease:'power2.out',
+          onComplete(){ gsap.to(glow,{ attr:{r:4}, opacity:.8, duration:.4 }); }
+        }, '<+=.9'
+      );
+  });
+
+  ScrollTrigger.create({
+    trigger:'#methodology',
+    start:'top 65%',
+    end:'bottom 35%',
+    scrub:1.4,
+    animation:connTL
+  });
+});
 
 /* ── SERVICES DRUM + DECK ────────────────────────────────── */
 const SVC_DATA = [
@@ -332,6 +382,21 @@ const pfItems   = document.querySelectorAll('.pf-item');
 const pfPreview = document.getElementById('pfPreview');
 const pfImg     = document.getElementById('pfImg');
 let pfTimeout   = null;
+
+/* Mouse-follow loop */
+let pfMX = window.innerWidth/2, pfMY = window.innerHeight/2;
+let pfCX = pfMX, pfCY = pfMY;
+document.addEventListener('mousemove', e=>{ pfMX=e.clientX; pfMY=e.clientY; });
+(function pfLoop(){
+  pfCX += (pfMX - pfCX) * .20;
+  pfCY += (pfMY - pfCY) * .20;
+  if(pfPreview){
+    pfPreview.style.left = pfCX + 'px';
+    pfPreview.style.top  = pfCY + 'px';
+  }
+  requestAnimationFrame(pfLoop);
+})();
+
 pfItems.forEach(item=>{
   item.addEventListener('mouseenter',()=>{
     const imgUrl = item.dataset.img;
@@ -361,9 +426,47 @@ ScrollTrigger.create({
   }
 });
 
-/* ── GLOBE SCROLL ─────────────────────────────────────────── */
+/* ── GLOBE SCROLL — scroll-driven case switching ─────────── */
 window.addEventListener('load',()=>{
-  if(typeof window.initGlobeScroll === 'function') window.initGlobeScroll();
+  /* Globe rotation targets per case */
+  const GLOBE_POS = [
+    { rotY:-1.2, rotX:0.25 },   /* 0: CDMX / México */
+    { rotY: 0.02, rotX:0.30 },  /* 1: London / UK   */
+    { rotY:-0.18, rotX:0.26 },  /* 2: Madrid / Spain */
+  ];
+
+  if(window.globeState) window.globeState.autoRot = false;
+
+  let activeCaseScroll = -1;
+
+  function rotateTo(i){
+    if(!window.globeState) return;
+    const pos = GLOBE_POS[i];
+    gsap.to(window.globeState,{
+      rotY: pos.rotY, rotX: pos.rotX,
+      duration:1.8, ease:'power3.inOut', overwrite:'auto'
+    });
+  }
+
+  ScrollTrigger.create({
+    trigger:'#world',
+    start:'top top',
+    end:`+=${window.innerHeight * 2.2}`,
+    pin:true,
+    onUpdate(self){
+      const p   = self.progress;
+      const idx = p < 0.34 ? 0 : p < 0.67 ? 1 : 2;
+      if(idx !== activeCaseScroll){
+        activeCaseScroll = idx;
+        setCase(idx);
+        rotateTo(idx);
+        /* Sync scroll dots */
+        document.querySelectorAll('.world__dot').forEach((d,j)=>{
+          d.classList.toggle('world__dot--active', j===idx);
+        });
+      }
+    }
+  });
 });
 
 /* ── WORLD CASE STUDIES ──────────────────────────────────── */
@@ -395,6 +498,12 @@ function applyCaseData(c){
   if(caseUnit)    caseUnit.textContent    = c.unit;
 }
 
+function syncDots(i){
+  document.querySelectorAll('.world__dot').forEach((d,j)=>{
+    d.classList.toggle('world__dot--active', j===i);
+  });
+}
+
 function initCase(i){
   caseTabs.forEach((t,j)=> t.classList.toggle('world__tab--active', j===i));
   applyCaseData(CASES[i]);
@@ -402,6 +511,7 @@ function initCase(i){
     p.style.zIndex   = j===i ? 5 : 1;
     p.style.opacity  = j===i ? 1  : .5;
   });
+  syncDots(i);
 }
 
 function setCase(i){
@@ -419,6 +529,7 @@ function setCase(i){
     gsap.to(p,{ opacity: j===i ? 1 : .5, duration:.4 });
     p.style.zIndex = j===i ? 5 : 1;
   });
+  syncDots(i);
 }
 
 caseTabs.forEach((btn,i)=> btn.addEventListener('click',()=> setCase(i)));

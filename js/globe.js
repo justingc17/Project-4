@@ -50,6 +50,8 @@ let mCount=3, showGlow=true, autoRot=true;
     set rotX(v){ rotX = v; },
     get rotY(){ return rotY; },
     set rotY(v){ rotY = v; },
+    get autoRot(){ return autoRot; },
+    set autoRot(v){ autoRot = v; },
   };
 
   // ── MATH ────────────────────────────────────────────────────
