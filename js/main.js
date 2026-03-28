@@ -26,18 +26,31 @@ const splashInt = setInterval(()=>{
   }
 },40);
 
+/* ── TYPEWRITER ──────────────────────────────────────────── */
+function typewriter(el, text, speed, onDone){
+  let i = 0;
+  el.textContent = '';
+  const t = setInterval(()=>{
+    el.textContent += text[i];
+    i++;
+    if(i >= text.length){ clearInterval(t); if(onDone) onDone(); }
+  }, speed);
+}
+
 /* ── HERO ENTER ──────────────────────────────────────────── */
 function enterHero(){
   const video   = document.getElementById('heroVideo');
   const content = document.getElementById('heroContent');
   const scroll  = document.querySelector('.hero__scroll');
+  const twEl    = document.getElementById('heroTypewriter');
   if(!video) return;
-  const tl = gsap.timeline();
-  tl.to(video,   { filter:'blur(0px)', scale:1, duration:2.8, ease:'power2.inOut' }, 0)
-    .to(content,  { opacity:1, y:0, duration:1.2 }, 1.2)
-    .to(scroll,   { opacity:1, duration:.8 }, 2.2);
   gsap.set(content, { opacity:0, y:30 });
   gsap.set(scroll,  { opacity:0 });
+  const tl = gsap.timeline();
+  tl.to(video,   { filter:'blur(0px)', scale:1, duration:2.8, ease:'power2.inOut' }, 0)
+    .to(content,  { opacity:1, y:0, duration:1 }, 1.2)
+    .add(()=>{ if(twEl) typewriter(twEl, 'PROJECT 4', 90); }, 1.6)
+    .to(scroll,   { opacity:1, duration:.8 }, 2.6);
 
   /* Blur on scroll */
   ScrollTrigger.create({
@@ -74,23 +87,24 @@ function openMenu(){
   overlay.setAttribute('aria-hidden','false');
   gsap.set(overlay, { display:'block', pointerEvents:'auto' });
   if(menuTL) menuTL.kill();
-  /* Text swap */
-  const btnTexts = menuBtn.querySelectorAll('span');
-  gsap.to(btnTexts, { yPercent:-100, stagger:.15 });
-  menuBtn.querySelector('.nav-btn__icon').style.transform = 'rotate(315deg)';
+
+  const btnSpans = menuBtn.querySelectorAll('.nav-btn__text span');
+  const btnIcon  = menuBtn.querySelector('.nav-btn__icon svg');
 
   menuTL = gsap.timeline();
   menuTL
-    .to(navBg,   { autoAlpha:1, duration:.4 }, 0)
-    .fromTo(panels, { xPercent:105 }, { xPercent:0, stagger:.1, duration:.55, ease:'power3.inOut' }, 0)
-    .fromTo(links, { yPercent:130, rotate:8 }, { yPercent:0, rotate:0, stagger:.06 }, 0.3);
+    .to(btnSpans,  { yPercent:-100, stagger:.12, duration:.45, ease:'power2.inOut' }, 0)
+    .to(btnIcon,   { rotate:315, duration:.55, ease:'power2.inOut' }, 0)
+    .to(navBg,     { autoAlpha:1, duration:.4 }, 0)
+    .fromTo(panels,{ xPercent:105 }, { xPercent:0, stagger:.1, duration:.55, ease:'power3.inOut' }, 0)
+    .to(links,     { yPercent:0, rotate:0, autoAlpha:1, stagger:.07, duration:.6, ease:'power3.out' }, 0.3);
 }
 function closeMenu(){
   menuOpen = false;
   menuBtn.setAttribute('aria-expanded','false');
-  const btnTexts = menuBtn.querySelectorAll('span');
-  gsap.to(btnTexts, { yPercent:0, stagger:.1 });
-  menuBtn.querySelector('.nav-btn__icon').style.transform = 'rotate(0deg)';
+
+  const btnSpans = menuBtn.querySelectorAll('.nav-btn__text span');
+  const btnIcon  = menuBtn.querySelector('.nav-btn__icon svg');
 
   if(menuTL) menuTL.kill();
   menuTL = gsap.timeline({ onComplete:()=>{
@@ -99,10 +113,15 @@ function closeMenu(){
     gsap.set(overlay, { display:'none', pointerEvents:'none' });
   }});
   menuTL
-    .to(links,  { yPercent:120, rotate:6, stagger:.04 }, 0)
-    .to(panels, { xPercent:105, stagger:.08, duration:.45 }, 0.1)
-    .to(navBg,  { autoAlpha:0, duration:.3 }, 0);
+    .to(btnSpans,  { yPercent:0, stagger:.1, duration:.4, ease:'power2.inOut' }, 0)
+    .to(btnIcon,   { rotate:0, duration:.45, ease:'power2.inOut' }, 0)
+    .to(links,     { yPercent:120, rotate:8, autoAlpha:0, stagger:.04, duration:.4 }, 0)
+    .to(panels,    { xPercent:105, stagger:.08, duration:.45 }, 0.15)
+    .to(navBg,     { autoAlpha:0, duration:.3 }, 0.1);
 }
+/* Set nav links hidden state via JS (not CSS) so GSAP owns it */
+if(links.length) gsap.set(links, { yPercent:130, rotate:8, autoAlpha:0 });
+
 if(menuBtn){
   menuBtn.addEventListener('click', ()=> menuOpen ? closeMenu() : openMenu());
 }
@@ -152,66 +171,128 @@ const nodeIO = new IntersectionObserver((entries)=>{
 },{ threshold:.15 });
 document.querySelectorAll('.reveal-node').forEach(n=> nodeIO.observe(n));
 
-/* ── SERVICES DRUM ───────────────────────────────────────── */
+/* ── SERVICES DRUM + DECK ────────────────────────────────── */
 const SVC_DATA = [
-  { name:'Desarrollo Web', badge:'DESARROLLO WEB', num:'01', color:'#3195ff',
-    desc:'Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura que vende mientras duermes.',
-    img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80' },
-  { name:'Branding & Identidad', badge:'BRANDING', num:'02', color:'#ea333f',
+  { name:'Automatizaciones & IA', badge:'AUTOMATIZACIÓN', num:'01', color:'#5ce1e6',
+    desc:'Flujos que trabajan las 24 horas. IA implementada para tu sector: CRMs, chatbots, reportes automáticos y pipelines inteligentes.',
+    img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80' },
+  { name:'Meta Ads & Marketing', badge:'PERFORMANCE', num:'02', color:'#3195ff',
+    desc:'Campañas con creativos de alta costura. Gestión completa de redes sociales, contenido y video que para el scroll.',
+    img:'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80' },
+  { name:'Branding & Identidad', badge:'BRANDING', num:'03', color:'#ea333f',
     desc:'Logo, sistema tipográfico, paleta, voz de marca y package design que se vende solo en el anaquel.',
     img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80' },
-  { name:'Meta Ads & Marketing', badge:'PERFORMANCE', num:'03', color:'#5ce1e6',
-    desc:'Campañas con creativos de alta costura. Gestión completa de redes sociales, contenido y video.',
-    img:'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80' },
-  { name:'Automatizaciones & IA', badge:'AUTOMATIZACIÓN', num:'04', color:'#113c41',
-    desc:'Flujos que trabajan las 24 horas. IA implementada para tu sector: CRMs, chatbots, reportes.',
-    img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80' },
-  { name:'Rescate de Proyectos', badge:'RESCATE', num:'05', color:'#e67111',
-    desc:'¿Tu agencia anterior desapareció? Auditamos lo que tienes, salvamos lo salvable y lo terminamos bien.',
-    img:'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80' },
+  { name:'Desarrollo Web', badge:'DESARROLLO', num:'04', color:'#3195ff',
+    desc:'Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura que vende mientras duermes.',
+    img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80' },
 ];
 
-const drum      = document.getElementById('drumTrack');
-const svcImg    = document.getElementById('svcImg');
-const svcBadge  = document.getElementById('svcBadgeText');
-const svcNum    = document.getElementById('svcNum');
-const svcName   = document.getElementById('svcName');
-const svcDesc   = document.getElementById('svcDesc');
-const svcDot    = document.querySelector('.svc-card__dot');
+const drumTrack = document.getElementById('drumTrack');
+const deckFrontImg  = document.getElementById('deckFrontImg');
+const deckLeftImg   = document.getElementById('deckLeftImg');
+const deckRightImg  = document.getElementById('deckRightImg');
+const deckBadgeText = document.getElementById('deckBadgeText');
+const deckNum       = document.getElementById('deckNum');
+const deckName      = document.getElementById('deckName');
+const deckDesc      = document.getElementById('deckDesc');
+const deckDot       = document.getElementById('deckDot');
+const deckFront     = document.getElementById('deckFront');
+const deckLeft      = document.getElementById('deckLeft');
+const deckRight     = document.getElementById('deckRight');
+const svcMore       = document.getElementById('svcMore');
 let activeIdx = 0;
+let isAnimating = false;
 
-function setService(i){
-  if(i < 0 || i >= SVC_DATA.length) return;
-  const items = drum ? drum.querySelectorAll('.drum__item') : [];
-  items.forEach((el,j)=> el.classList.toggle('active', j===i));
-  if(drum) drum.style.transform = `translateY(calc(-${i} * 64px + 128px))`;
+function getDeckImg(i){
   const d = SVC_DATA[i];
-  if(svcImg)   svcImg.style.backgroundImage = `url('${d.img}')`;
-  if(svcBadge) svcBadge.textContent = d.badge;
-  if(svcNum)   svcNum.textContent   = d.num;
-  if(svcName)  svcName.textContent  = d.name;
-  if(svcDesc)  svcDesc.textContent  = d.desc;
-  if(svcDot)   svcDot.style.background = d.color;
+  return d ? `url('${d.img}')` : '';
+}
+
+function updateDeckContent(i){
+  const d = SVC_DATA[i];
+  if(!d) return;
+  if(deckFrontImg)  deckFrontImg.style.backgroundImage  = `url('${d.img}')`;
+  if(deckBadgeText) deckBadgeText.textContent = d.badge;
+  if(deckNum)       deckNum.textContent       = d.num;
+  if(deckName)      deckName.textContent      = d.name;
+  if(deckDesc)      deckDesc.textContent      = d.desc;
+  if(deckDot)       deckDot.style.background  = d.color;
+  /* Side cards */
+  const prev = SVC_DATA[(i - 1 + SVC_DATA.length) % SVC_DATA.length];
+  const next = SVC_DATA[(i + 1) % SVC_DATA.length];
+  if(deckLeftImg)  deckLeftImg.style.backgroundImage  = `url('${prev.img}')`;
+  if(deckRightImg) deckRightImg.style.backgroundImage = `url('${next.img}')`;
+}
+
+function setService(i, direction){
+  if(i < 0) i = SVC_DATA.length - 1;
+  if(i >= SVC_DATA.length){
+    /* "más servicios" slot */
+    if(svcMore) svcMore.style.display = 'flex';
+    const items = drumTrack ? drumTrack.querySelectorAll('.drum__item') : [];
+    items.forEach((el,j)=> el.classList.toggle('active', j === SVC_DATA.length));
+    if(drumTrack) drumTrack.style.transform = `translateY(calc(-${SVC_DATA.length} * 64px + 128px))`;
+    activeIdx = SVC_DATA.length;
+    return;
+  }
+  if(svcMore) svcMore.style.display = 'none';
+  if(isAnimating) return;
+  isAnimating = true;
+
+  const items = drumTrack ? drumTrack.querySelectorAll('.drum__item') : [];
+  items.forEach((el,j)=> el.classList.toggle('active', j===i));
+  if(drumTrack) drumTrack.style.transform = `translateY(calc(-${i} * 64px + 128px))`;
+
+  const dir = direction === 'up' ? 1 : -1;
+  /* Front card exits to the side */
+  gsap.to(deckFront, {
+    x: dir * -120+'%', scale:.8, opacity:0, rotate: dir * -6,
+    duration:.45, ease:'power2.in',
+    onComplete(){
+      updateDeckContent(i);
+      /* Snap back to center, animate from opposite side */
+      gsap.fromTo(deckFront,
+        { x: dir * 80+'%', scale:.85, opacity:0, rotate: dir * 5 },
+        { x:0, scale:1, opacity:1, rotate:0, duration:.5, ease:'power3.out',
+          onComplete(){ isAnimating = false; }
+        }
+      );
+    }
+  });
+  /* Back cards breathe */
+  gsap.fromTo([deckLeft, deckRight],
+    { scale:.85 },
+    { scale:.88, duration:.3, yoyo:true, repeat:1, ease:'power1.inOut' }
+  );
   activeIdx = i;
 }
-setService(0);
 
-drum && drum.querySelectorAll('.drum__item').forEach((el,i)=>{
-  el.addEventListener('click',()=> setService(i));
-});
+updateDeckContent(0);
+if(drumTrack){
+  drumTrack.querySelectorAll('.drum__item').forEach((el,i)=>{
+    el.addEventListener('click',()=> setService(i, i > activeIdx ? 'up':'down'));
+  });
+}
 
 /* Wheel on drum */
 const drumWrap = document.getElementById('drum');
 if(drumWrap){
-  let wheelThrottle = false;
+  let wt = false;
   drumWrap.addEventListener('wheel',e=>{
     e.preventDefault();
-    if(wheelThrottle) return;
-    wheelThrottle = true;
-    setTimeout(()=> wheelThrottle=false, 350);
-    setService(activeIdx + (e.deltaY > 0 ? 1 : -1));
+    if(wt) return; wt=true; setTimeout(()=>wt=false,380);
+    const dir = e.deltaY > 0 ? 'up' : 'down';
+    setService(activeIdx + (e.deltaY > 0 ? 1 : -1), dir);
   },{ passive:false });
 }
+
+/* Touch swipe on deck */
+let touchStartY = 0;
+deckFront && deckFront.addEventListener('touchstart', e=>{ touchStartY = e.touches[0].clientY; },{ passive:true });
+deckFront && deckFront.addEventListener('touchend', e=>{
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if(Math.abs(dy) > 40) setService(activeIdx + (dy > 0 ? 1 : -1), dy > 0 ? 'up':'down');
+},{ passive:true });
 
 /* ── PORTFOLIO HOVER ─────────────────────────────────────── */
 const pfItems   = document.querySelectorAll('.pf-item');

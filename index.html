@@ -33,7 +33,7 @@
 <header class="header" id="header">
   <div class="header__inner">
     <a href="#hero" class="header__logo" aria-label="Project 4">
-      <img src="assets/logo letras blancas.png" alt="Project 4" height="28"/>
+      <img src="assets/logo oficial.png" alt="Project 4" height="38"/>
     </a>
     <div class="header__right">
       <span class="header__hint">click me</span>
@@ -128,9 +128,12 @@
   </div>
   <div class="hero__content" id="heroContent">
     <p class="hero__eyebrow">Agencia Digital · Chihuahua, MX</p>
-    <h1 class="hero__title">PROJECT<br/><em>FOUR</em></h1>
+    <h1 class="hero__title"><span id="heroTypewriter" aria-label="PROJECT 4"></span><span class="hero__cursor" aria-hidden="true">|</span></h1>
     <p class="hero__sub">Ecosistemas digitales que transforman marcas.<br/>ROI real. Sin excusas.</p>
-    <a href="#about" class="btn-primary">Descubre más</a>
+    <a href="#about" class="btn-conocenos">
+      <span class="btn-conocenos__text">Conócenos</span>
+      <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </div>
   <div class="hero__scroll" aria-hidden="true">
     <div class="hero__scroll-line"><div class="hero__scroll-dot"></div></div>
@@ -158,27 +161,29 @@
 
 <!-- ABOUT -->
 <section id="about" class="about reveal-section">
+  <!-- Mexico map dot-matrix background -->
+  <div class="about__map-bg" aria-hidden="true">
+    <img src="assets/globe-chihuahua-cdmx.svg" alt=""/>
+  </div>
   <div class="about__inner">
     <div class="about__text">
       <span class="label">01 — Nosotros</span>
-      <h2 class="about__title">Nacimos con<br/>internet. <em>Entendemos</em><br/>cada etapa.</h2>
-      <p class="about__body">Somos la agencia que no desaparece después del pago. Chihuahua nos vio nacer, el mundo nos ve crecer. Construimos ecosistemas digitales completos con un solo objetivo: <strong>transformar tu negocio con resultados medibles.</strong></p>
-      <p class="about__body">No vendemos páginas web. Aportamos valor antes de cobrar. Nuestro compromiso no termina en la entrega — empieza ahí.</p>
+      <h2 class="about__title">Dominamos el<br/>mercado digital.<br/><em>Desde adentro.</em></h2>
+      <p class="about__body">No somos recién llegados. Llevamos años construyendo en digital cuando todavía no era negocio. Eso nos da una ventaja que ninguna agencia nueva puede comprar: <strong>experiencia real en cada etapa del ecosistema.</strong></p>
+      <p class="about__body">Somos la agencia que no desaparece después del pago. Aportamos valor antes de cobrar y nuestro compromiso no termina en la entrega — empieza ahí.</p>
       <div class="about__values">
         <span>Honestidad</span><span>Confianza</span><span>Responsabilidad</span><span>Cercanía</span><span>Innovación</span>
       </div>
     </div>
-    <div class="about__map">
-      <span class="label">Origen</span>
-      <div class="about__map-wrap">
-        <img src="assets/globe-chihuahua-cdmx.svg" alt="México — Chihuahua" class="about__map-svg"/>
+    <div class="about__right">
+      <div class="about__origin">
         <div class="about__map-pin">
           <div class="about__map-pulse"></div>
-          <span>Chihuahua, MX</span>
+          <span class="label">Chihuahua, MX</span>
         </div>
       </div>
       <div class="about__stats">
-        <div class="about__stat"><span class="num">8+</span><span>Años</span></div>
+        <div class="about__stat"><span class="num">8+</span><span>Años operando</span></div>
         <div class="about__stat"><span class="num">120+</span><span>Proyectos</span></div>
         <div class="about__stat"><span class="num">12</span><span>Países</span></div>
       </div>
@@ -195,45 +200,53 @@
       <!-- Drum roll picker -->
       <div class="drum" id="drum" role="listbox" aria-label="Servicios">
         <div class="drum__track" id="drumTrack">
-          <div class="drum__item" data-index="0" role="option" aria-selected="true">
+          <div class="drum__item active" data-index="0" role="option" aria-selected="true">
             <span class="drum__num">01</span>
-            <span class="drum__name">Desarrollo Web</span>
+            <span class="drum__name">Automatizaciones & IA</span>
           </div>
           <div class="drum__item" data-index="1" role="option">
             <span class="drum__num">02</span>
-            <span class="drum__name">Branding & Identidad</span>
+            <span class="drum__name">Meta Ads & Marketing</span>
           </div>
           <div class="drum__item" data-index="2" role="option">
             <span class="drum__num">03</span>
-            <span class="drum__name">Meta Ads & Marketing</span>
+            <span class="drum__name">Branding & Identidad</span>
           </div>
           <div class="drum__item" data-index="3" role="option">
             <span class="drum__num">04</span>
-            <span class="drum__name">Automatizaciones & IA</span>
+            <span class="drum__name">Desarrollo Web</span>
           </div>
-          <div class="drum__item" data-index="4" role="option">
-            <span class="drum__num">05</span>
-            <span class="drum__name">Rescate de Proyectos</span>
+          <div class="drum__item drum__item--more" data-index="4" role="option">
+            <span class="drum__num">+</span>
+            <span class="drum__name">¿Necesitas algo más?</span>
           </div>
         </div>
       </div>
-      <!-- Phone card -->
-      <div class="svc-card-wrap">
-        <div class="svc-card-prev" aria-hidden="true"></div>
-        <div class="svc-card" id="svcCard">
-          <div class="svc-card__img" id="svcImg"></div>
-          <div class="svc-card__body">
-            <div class="svc-card__badge" id="svcBadge">
-              <span class="svc-card__dot"></span>
-              <span id="svcBadgeText">DESARROLLO WEB</span>
+      <!-- Card deck: 3 cards stacked -->
+      <div class="deck" id="deck">
+        <div class="deck__card deck__card--back-left"  id="deckLeft"  aria-hidden="true"><div class="deck__card-img" id="deckLeftImg"></div></div>
+        <div class="deck__card deck__card--back-right" id="deckRight" aria-hidden="true"><div class="deck__card-img" id="deckRightImg"></div></div>
+        <div class="deck__card deck__card--front"      id="deckFront">
+          <div class="deck__card-img" id="deckFrontImg"></div>
+          <div class="deck__card-body">
+            <div class="deck__badge">
+              <span class="deck__dot" id="deckDot"></span>
+              <span id="deckBadgeText">AUTOMATIZACIONES</span>
             </div>
-            <p class="svc-card__num" id="svcNum">01</p>
-            <h3 class="svc-card__name" id="svcName">Desarrollo Web</h3>
-            <p class="svc-card__desc" id="svcDesc">Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura que vende mientras duermes.</p>
+            <p class="deck__num" id="deckNum">01</p>
+            <h3 class="deck__name" id="deckName">Automatizaciones & IA</h3>
+            <p class="deck__desc" id="deckDesc">Flujos que trabajan las 24 horas. IA implementada para tu sector: CRMs, chatbots, reportes automáticos y pipelines inteligentes.</p>
           </div>
         </div>
-        <div class="svc-card-next" aria-hidden="true"></div>
       </div>
+    </div>
+    <!-- More services CTA -->
+    <div class="services__more" id="svcMore" style="display:none">
+      <p class="services__more-text">También hacemos <strong>creación de contenido</strong>, <strong>fotografía & video</strong>, <strong>gestión de redes</strong>, <strong>package design</strong> y mucho más.</p>
+      <a href="#contact" class="btn-conocenos">
+        <span class="btn-conocenos__text">Cuéntanos tu proyecto</span>
+        <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 </section>
