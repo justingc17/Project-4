@@ -123,7 +123,16 @@ function closeMenu(){
 if(links.length) gsap.set(links, { yPercent:130, rotate:8, autoAlpha:0 });
 
 if(menuBtn){
-  menuBtn.addEventListener('click', ()=> menuOpen ? closeMenu() : openMenu());
+  menuBtn.addEventListener('click', ()=>{
+    /* Dismiss "click me" hint on first interaction */
+    const hint = document.querySelector('.header__hint');
+    if(hint && hint.offsetParent !== null){
+      gsap.to(hint,{ opacity:0, x:6, duration:.35, ease:'power2.in',
+        onComplete:()=>{ hint.style.display='none'; }
+      });
+    }
+    menuOpen ? closeMenu() : openMenu();
+  });
 }
 navBg && navBg.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'&&menuOpen) closeMenu(); });
@@ -159,6 +168,30 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
 },{ threshold:.1, rootMargin:'0px 0px -60px 0px' });
 revealSections.forEach(s=> io.observe(s));
+
+/* ── ABOUT STATS COUNTER ─────────────────────────────────── */
+const statNums = document.querySelectorAll('.about__stat .num');
+const statsIO  = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    statsIO.unobserve(e.target);
+    const el  = e.target;
+    const raw = el.textContent.trim();
+    const num = parseInt(raw, 10);
+    const suf = raw.replace(/[0-9]/g, '');
+    if(isNaN(num)) return;
+    const dur   = 1400;
+    const start = performance.now();
+    const tick  = (now)=>{
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * num) + suf;
+      if(p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+},{ threshold:.6 });
+statNums.forEach(n=> statsIO.observe(n));
 
 /* ── METHOD NODES ────────────────────────────────────────── */
 const nodeIO = new IntersectionObserver((entries)=>{
@@ -298,15 +331,34 @@ deckFront && deckFront.addEventListener('touchend', e=>{
 const pfItems   = document.querySelectorAll('.pf-item');
 const pfPreview = document.getElementById('pfPreview');
 const pfImg     = document.getElementById('pfImg');
+let pfTimeout   = null;
 pfItems.forEach(item=>{
   item.addEventListener('mouseenter',()=>{
     const imgUrl = item.dataset.img;
-    if(pfImg && imgUrl){ pfImg.style.backgroundImage = `url('${imgUrl}')`; }
+    if(pfImg && imgUrl){
+      clearTimeout(pfTimeout);
+      pfImg.style.opacity = '0';
+      pfTimeout = setTimeout(()=>{
+        pfImg.style.backgroundImage = `url('${imgUrl}')`;
+        pfImg.style.opacity = '1';
+      }, 180);
+    }
     pfPreview && pfPreview.classList.add('visible');
   });
   item.addEventListener('mouseleave',()=>{
     pfPreview && pfPreview.classList.remove('visible');
   });
+});
+
+/* Staggered portfolio list reveal */
+gsap.set('.pf-item', { opacity:0, y:24 });
+ScrollTrigger.create({
+  trigger:'#pfList',
+  start:'top 82%',
+  once:true,
+  onEnter:()=>{
+    gsap.to('.pf-item',{ opacity:1, y:0, stagger:.1, duration:.65, ease:'power3.out' });
+  }
 });
 
 /* ── GLOBE SCROLL ─────────────────────────────────────────── */
@@ -333,23 +385,44 @@ const caseName    = document.getElementById('caseName');
 const caseDesc    = document.getElementById('caseDesc');
 const caseNum     = document.getElementById('caseNum');
 const caseUnit    = document.getElementById('caseUnit');
+const caseContent = document.getElementById('caseContent');
 
-function setCase(i){
-  caseTabs.forEach((t,j)=> t.classList.toggle('world__tab--active', j===i));
-  const c = CASES[i];
+function applyCaseData(c){
   if(caseCountry) caseCountry.textContent = c.country;
   if(caseName)    caseName.textContent    = c.name;
   if(caseDesc)    caseDesc.textContent    = c.desc;
   if(caseNum)     caseNum.textContent     = c.num;
   if(caseUnit)    caseUnit.textContent    = c.unit;
-  /* Activate corresponding polaroid */
+}
+
+function initCase(i){
+  caseTabs.forEach((t,j)=> t.classList.toggle('world__tab--active', j===i));
+  applyCaseData(CASES[i]);
   document.querySelectorAll('.polaroid').forEach((p,j)=>{
-    p.style.zIndex = j===i ? 5 : 1;
-    p.style.opacity = j===i ? 1 : .6;
+    p.style.zIndex   = j===i ? 5 : 1;
+    p.style.opacity  = j===i ? 1  : .5;
   });
 }
+
+function setCase(i){
+  caseTabs.forEach((t,j)=> t.classList.toggle('world__tab--active', j===i));
+  const c = CASES[i];
+  if(caseContent){
+    gsap.to(caseContent,{ opacity:0, y:8, duration:.25, ease:'power2.in',
+      onComplete(){
+        applyCaseData(c);
+        gsap.to(caseContent,{ opacity:1, y:0, duration:.35, ease:'power3.out' });
+      }
+    });
+  } else { applyCaseData(c); }
+  document.querySelectorAll('.polaroid').forEach((p,j)=>{
+    gsap.to(p,{ opacity: j===i ? 1 : .5, duration:.4 });
+    p.style.zIndex = j===i ? 5 : 1;
+  });
+}
+
 caseTabs.forEach((btn,i)=> btn.addEventListener('click',()=> setCase(i)));
-setCase(0);
+initCase(0);
 
 /* ── CONTACT FORM ────────────────────────────────────────── */
 const form = document.getElementById('contactForm');
