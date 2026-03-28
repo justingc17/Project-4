@@ -1,688 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Project 4 — Agencia digital premium. Ecosistemas corporativos que transforman marcas mediante arquitectura digital escalable." />
-  <title>Project 4 — Digital Ecosystems</title>
-
-  <!-- Fonts: Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- GSAP CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js" defer></script>
-
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-
-  <link rel="stylesheet" href="css/main.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Project 4 — Agencia digital premium. Ecosistemas corporativos que transforman marcas."/>
+<title>Project 4 — Digital Ecosystems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+<link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
 
-  <!-- ─── CURSOR ─────────────────────────────────────────────── -->
-  <div class="cursor" id="cursor" aria-hidden="true">
-    <div class="cursor__dot"></div>
-    <div class="cursor__ring"></div>
-  </div>
+<!-- CURSOR -->
+<div id="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
 
-  <!-- ─── SPLASH ────────────────────────────────────────────── -->
-  <section id="splash" aria-hidden="true" role="presentation">
-    <div class="splash__inner">
-      <div class="splash__logo">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash__mark">
-          <rect x="0" y="0" width="80" height="80" rx="4" fill="none"/>
-          <path class="splash__p4-path" d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
-          <path class="splash__p4-path" d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
-        </svg>
-        <span class="splash__wordmark">PROJECT<em>4</em></span>
-      </div>
-      <div class="splash__tagline">
-        <span class="splash__tag-line1">ECOSISTEMAS</span>
-        <span class="splash__tag-line2">DIGITALES</span>
-        <span class="splash__tag-line3">PREMIUM</span>
-      </div>
-      <div class="splash__progress">
-        <div class="splash__progress-bar" id="splashBar"></div>
-      </div>
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash__inner">
+    <div class="splash__logo">
+      <img src="assets/logo letras blancas.png" alt="Project 4"/>
     </div>
-  </section>
+    <div class="splash__bar"><div class="splash__fill" id="splashFill"></div></div>
+    <span class="splash__pct" id="splashPct">0%</span>
+  </div>
+</div>
 
-  <!-- ─── NAV ───────────────────────────────────────────────── -->
-  <nav class="nav" id="mainNav" role="navigation" aria-label="Navegación principal">
-    <div class="nav__pill">
-      <a href="#hero" class="nav__logo" aria-label="Project 4 inicio">
-        <svg width="28" height="28" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
-          <path d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
-        </svg>
-        <span>P4</span>
-      </a>
-      <ul class="nav__links" role="list">
-        <li><a href="#about" class="nav__link">Nosotros</a></li>
-        <li><a href="#world" class="nav__link">Proyectos</a></li>
-        <li><a href="#services" class="nav__link">Servicios</a></li>
-        <li><a href="#contact" class="nav__link nav__link--cta">Hablemos</a></li>
-      </ul>
-      <button class="nav__menu-toggle" aria-label="Abrir menú" aria-expanded="false" id="menuToggle">
-        <span></span><span></span>
+<!-- NAV -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#hero" class="header__logo" aria-label="Project 4">
+      <img src="assets/logo letras blancas.png" alt="Project 4" height="28"/>
+    </a>
+    <div class="header__right">
+      <span class="header__hint">click me</span>
+      <button class="nav-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">
+        <div class="nav-btn__text">
+          <span>Menú</span>
+          <span>Cerrar</span>
+        </div>
+        <div class="nav-btn__icon">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.33 16V0h1.34v16H7.33z" fill="currentColor"/>
+            <path d="M16 8.667H0V7.333h16v1.334z" fill="currentColor"/>
+            <path d="M6 7.333h1.333V6A1.333 1.333 0 016 7.333z" fill="currentColor"/>
+            <path d="M10 7.333H8.667V6A1.333 1.333 0 0110 7.333z" fill="currentColor"/>
+            <path d="M6 8.667h1.333V10A1.333 1.333 0 016 8.667z" fill="currentColor"/>
+            <path d="M10 8.667H8.667V10A1.333 1.333 0 0010 8.667z" fill="currentColor"/>
+          </svg>
+        </div>
       </button>
     </div>
-  </nav>
-
-  <!-- ─── MOBILE MENU ──────────────────────────────────────── -->
-  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
-    <ul class="mobile-menu__links" role="list">
-      <li><a href="#about" class="mobile-menu__link">Nosotros</a></li>
-      <li><a href="#world" class="mobile-menu__link">Proyectos</a></li>
-      <li><a href="#services" class="mobile-menu__link">Servicios</a></li>
-      <li><a href="#methodology" class="mobile-menu__link">Metodología</a></li>
-      <li><a href="#contact" class="mobile-menu__link">Contacto</a></li>
-    </ul>
   </div>
+</header>
 
-  <!-- ─── MAIN ─────────────────────────────────────────────── -->
-  <main id="main">
-
-    <!-- ── HERO ─────────────────────────────────────────────── -->
-    <section id="hero" class="hero" aria-labelledby="hero-title">
-      <div class="hero__layout">
-
-        <!-- Left column: editorial type -->
-        <div class="hero__left">
-          <span class="hero__eyebrow">
-            <span class="hero__eyebrow-line"></span>
-            Agencia Digital Premium
-          </span>
-          <h1 class="hero__title" id="hero-title">
-            <span class="hero__title-line hero__title-line--1">Ecosistemas</span>
-            <span class="hero__title-line hero__title-line--2">
-              <em>digitales</em>
-            </span>
-            <span class="hero__title-line hero__title-line--3">que escalan.</span>
-          </h1>
-          <p class="hero__sub">
-            No vendemos páginas web.<br/>
-            Construimos la infraestructura digital<br/>
-            que tu negocio necesita para crecer.
-          </p>
-          <div class="hero__actions">
-            <a href="#world" class="btn btn--primary">
-              Ver proyectos
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-            <a href="#contact" class="btn btn--ghost">Agendar llamada</a>
-          </div>
-        </div>
-
-        <!-- Right column: floating metric cards + accent -->
-        <div class="hero__right" aria-hidden="true">
-          <div class="hero__visual">
-            <div class="hero__glow"></div>
-
-            <!-- Metrics floating cards -->
-            <div class="hero__card hero__card--1">
-              <span class="hero__card-num">+340%</span>
-              <span class="hero__card-label">ROI Promedio</span>
-            </div>
-
-            <div class="hero__card hero__card--2">
-              <span class="hero__card-num">47</span>
-              <span class="hero__card-label">Proyectos activos</span>
-            </div>
-
-            <div class="hero__card hero__card--3">
-              <div class="hero__card-dot"></div>
-              <span class="hero__card-label">Operando en 12 países</span>
-            </div>
-
-            <!-- Large background number -->
-            <span class="hero__bg-num" aria-hidden="true">P4</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="hero__scroll" aria-hidden="true">
-        <span class="hero__scroll-text">Scroll</span>
-        <div class="hero__scroll-line">
-          <div class="hero__scroll-progress"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── MARQUEE ────────────────────────────────────────────── -->
-    <div class="marquee" aria-hidden="true" role="presentation">
-      <div class="marquee__track">
-        <span>Diseño Web Inmersivo</span>
-        <span class="marquee__sep">◆</span>
-        <span>E-Commerce Premium</span>
-        <span class="marquee__sep">◆</span>
-        <span>Branding Estratégico</span>
-        <span class="marquee__sep">◆</span>
-        <span>Automatización IA</span>
-        <span class="marquee__sep">◆</span>
-        <span>Marketing Visual</span>
-        <span class="marquee__sep">◆</span>
-        <span>Diseño Web Inmersivo</span>
-        <span class="marquee__sep">◆</span>
-        <span>E-Commerce Premium</span>
-        <span class="marquee__sep">◆</span>
-        <span>Branding Estratégico</span>
-        <span class="marquee__sep">◆</span>
-        <span>Automatización IA</span>
-        <span class="marquee__sep">◆</span>
-        <span>Marketing Visual</span>
-        <span class="marquee__sep">◆</span>
+<!-- KINETIC FULLSCREEN NAV -->
+<div class="nav-overlay" id="navOverlay" data-state="closed" aria-hidden="true">
+  <div class="nav-overlay__bg" id="navBg"></div>
+  <nav class="nav-menu">
+    <div class="nav-menu__panels">
+      <div class="nav-panel nav-panel--1"></div>
+      <div class="nav-panel nav-panel--2"></div>
+      <div class="nav-panel nav-panel--3"></div>
+    </div>
+    <div class="nav-menu__shapes" id="navShapes">
+      <!-- Shape per link, brand colors -->
+      <svg class="nav-shape nav-shape--1" viewBox="0 0 500 500" fill="none">
+        <circle class="shape-el" cx="100" cy="150" r="80" fill="rgba(49,149,255,.12)"/>
+        <circle class="shape-el" cx="380" cy="100" r="120" fill="rgba(49,149,255,.08)"/>
+        <circle class="shape-el" cx="250" cy="380" r="100" fill="rgba(92,225,230,.07)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--2" viewBox="0 0 500 500" fill="none">
+        <path class="shape-el" d="M0 250 Q125 100 250 250 T 500 250" stroke="rgba(234,51,63,.18)" stroke-width="80" fill="none"/>
+        <path class="shape-el" d="M0 350 Q125 200 250 350 T 500 350" stroke="rgba(234,51,63,.1)" stroke-width="50" fill="none"/>
+      </svg>
+      <svg class="nav-shape nav-shape--3" viewBox="0 0 500 500" fill="none">
+        <circle class="shape-el" cx="80" cy="80" r="14" fill="rgba(17,60,65,.6)"/>
+        <circle class="shape-el" cx="200" cy="80" r="14" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="320" cy="80" r="14" fill="rgba(17,60,65,.6)"/>
+        <circle class="shape-el" cx="440" cy="80" r="14" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="140" cy="200" r="20" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="260" cy="200" r="20" fill="rgba(92,225,230,.3)"/>
+        <circle class="shape-el" cx="380" cy="200" r="20" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="80" cy="340" r="16" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="200" cy="340" r="16" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="350" cy="340" r="16" fill="rgba(92,225,230,.3)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--4" viewBox="0 0 500 500" fill="none">
+        <path class="shape-el" d="M120 120 Q170 60 220 120 Q270 180 220 240 Q170 300 120 240 Q70 180 120 120" fill="rgba(230,113,17,.1)"/>
+        <path class="shape-el" d="M300 250 Q360 180 420 250 Q480 320 420 390 Q360 430 300 390 Q240 320 300 250" fill="rgba(230,113,17,.07)"/>
+        <circle class="shape-el" cx="170" cy="380" r="60" fill="rgba(230,113,17,.06)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--5" viewBox="0 0 500 500" fill="none">
+        <line class="shape-el" x1="0" y1="150" x2="400" y2="500" stroke="rgba(49,149,255,.15)" stroke-width="50"/>
+        <line class="shape-el" x1="150" y1="0" x2="500" y2="350" stroke="rgba(234,51,63,.1)" stroke-width="40"/>
+        <line class="shape-el" x1="280" y1="0" x2="500" y2="220" stroke="rgba(92,225,230,.08)" stroke-width="30"/>
+      </svg>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li class="nav-links__item" data-shape="1"><a href="#about" class="nav-link"><span class="nav-link__text">Nosotros</span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="2"><a href="#services" class="nav-link"><span class="nav-link__text">Servicios</span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="3"><a href="#portfolio" class="nav-link"><span class="nav-link__text">Portafolio</span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="4"><a href="#world" class="nav-link"><span class="nav-link__text">El Mundo</span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="5"><a href="#contact" class="nav-link"><span class="nav-link__text">Contacto</span><div class="nav-link__bg"></div></a></li>
+    </ul>
+    <div class="nav-menu__footer">
+      <span>Chihuahua, México</span>
+      <div class="nav-menu__socials">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="LinkedIn">LI</a>
+        <a href="#" aria-label="Behance">BE</a>
       </div>
     </div>
+  </nav>
+</div>
 
-    <!-- ── ABOUT ──────────────────────────────────────────────── -->
-    <section id="about" class="about" aria-labelledby="about-title">
-      <div class="about__layout">
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero__media">
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline>
+      <source src="https://res.cloudinary.com/degisx2oq/video/upload/v1773968303/0318_1_1_imwrz4.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero__overlay"></div>
+  </div>
+  <div class="hero__content" id="heroContent">
+    <p class="hero__eyebrow">Agencia Digital · Chihuahua, MX</p>
+    <h1 class="hero__title">PROJECT<br/><em>FOUR</em></h1>
+    <p class="hero__sub">Ecosistemas digitales que transforman marcas.<br/>ROI real. Sin excusas.</p>
+    <a href="#about" class="btn-primary">Descubre más</a>
+  </div>
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-line"><div class="hero__scroll-dot"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
 
-        <div class="about__left">
-          <span class="section-label">01 — Quiénes somos</span>
-          <h2 class="about__title" id="about-title">
-            Transformamos<br/>
-            marcas. No<br/>
-            <em>prometemos</em>.<br/>
-            Mostramos.
-          </h2>
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Diseño Web Inmersivo</span><span class="sep">◆</span>
+    <span>E-Commerce Premium</span><span class="sep">◆</span>
+    <span>Branding Estratégico</span><span class="sep">◆</span>
+    <span>Automatización IA</span><span class="sep">◆</span>
+    <span>Meta Ads</span><span class="sep">◆</span>
+    <span>Rescate de Proyectos</span><span class="sep">◆</span>
+    <span>Diseño Web Inmersivo</span><span class="sep">◆</span>
+    <span>E-Commerce Premium</span><span class="sep">◆</span>
+    <span>Branding Estratégico</span><span class="sep">◆</span>
+    <span>Automatización IA</span><span class="sep">◆</span>
+    <span>Meta Ads</span><span class="sep">◆</span>
+    <span>Rescate de Proyectos</span><span class="sep">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about reveal-section">
+  <div class="about__inner">
+    <div class="about__text">
+      <span class="label">01 — Nosotros</span>
+      <h2 class="about__title">Nacimos con<br/>internet. <em>Entendemos</em><br/>cada etapa.</h2>
+      <p class="about__body">Somos la agencia que no desaparece después del pago. Chihuahua nos vio nacer, el mundo nos ve crecer. Construimos ecosistemas digitales completos con un solo objetivo: <strong>transformar tu negocio con resultados medibles.</strong></p>
+      <p class="about__body">No vendemos páginas web. Aportamos valor antes de cobrar. Nuestro compromiso no termina en la entrega — empieza ahí.</p>
+      <div class="about__values">
+        <span>Honestidad</span><span>Confianza</span><span>Responsabilidad</span><span>Cercanía</span><span>Innovación</span>
+      </div>
+    </div>
+    <div class="about__map">
+      <span class="label">Origen</span>
+      <div class="about__map-wrap">
+        <img src="assets/globe-chihuahua-cdmx.svg" alt="México — Chihuahua" class="about__map-svg"/>
+        <div class="about__map-pin">
+          <div class="about__map-pulse"></div>
+          <span>Chihuahua, MX</span>
         </div>
+      </div>
+      <div class="about__stats">
+        <div class="about__stat"><span class="num">8+</span><span>Años</span></div>
+        <div class="about__stat"><span class="num">120+</span><span>Proyectos</span></div>
+        <div class="about__stat"><span class="num">12</span><span>Países</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="about__right">
-          <p class="about__body">
-            Somos la agencia que no desaparece después del pago.
-            Construimos ecosistemas digitales completos — desde la
-            identidad visual hasta la infraestructura técnica — con
-            un solo objetivo: <strong>ROI real y medible</strong>.
-          </p>
-          <p class="about__body">
-            Cada pixel, cada línea de código, cada automatización
-            existe para que tu marca crezca. No para ganar premios
-            de diseño — aunque los ganamos de todos modos.
-          </p>
-
-          <div class="about__stats">
-            <div class="about__stat">
-              <span class="about__stat-num">8+</span>
-              <span class="about__stat-label">Años en el mercado</span>
-            </div>
-            <div class="about__stat">
-              <span class="about__stat-num">120+</span>
-              <span class="about__stat-label">Marcas transformadas</span>
-            </div>
-            <div class="about__stat">
-              <span class="about__stat-num">12</span>
-              <span class="about__stat-label">Países</span>
-            </div>
+<!-- SERVICES -->
+<section id="services" class="services reveal-section">
+  <div class="services__inner">
+    <span class="label">02 — Servicios</span>
+    <h2 class="services__title">Lo que<br/><em>construimos</em>.</h2>
+    <div class="services__layout">
+      <!-- Drum roll picker -->
+      <div class="drum" id="drum" role="listbox" aria-label="Servicios">
+        <div class="drum__track" id="drumTrack">
+          <div class="drum__item" data-index="0" role="option" aria-selected="true">
+            <span class="drum__num">01</span>
+            <span class="drum__name">Desarrollo Web</span>
           </div>
+          <div class="drum__item" data-index="1" role="option">
+            <span class="drum__num">02</span>
+            <span class="drum__name">Branding & Identidad</span>
+          </div>
+          <div class="drum__item" data-index="2" role="option">
+            <span class="drum__num">03</span>
+            <span class="drum__name">Meta Ads & Marketing</span>
+          </div>
+          <div class="drum__item" data-index="3" role="option">
+            <span class="drum__num">04</span>
+            <span class="drum__name">Automatizaciones & IA</span>
+          </div>
+          <div class="drum__item" data-index="4" role="option">
+            <span class="drum__num">05</span>
+            <span class="drum__name">Rescate de Proyectos</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phone card -->
+      <div class="svc-card-wrap">
+        <div class="svc-card-prev" aria-hidden="true"></div>
+        <div class="svc-card" id="svcCard">
+          <div class="svc-card__img" id="svcImg"></div>
+          <div class="svc-card__body">
+            <div class="svc-card__badge" id="svcBadge">
+              <span class="svc-card__dot"></span>
+              <span id="svcBadgeText">DESARROLLO WEB</span>
+            </div>
+            <p class="svc-card__num" id="svcNum">01</p>
+            <h3 class="svc-card__name" id="svcName">Desarrollo Web</h3>
+            <p class="svc-card__desc" id="svcDesc">Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura que vende mientras duermes.</p>
+          </div>
+        </div>
+        <div class="svc-card-next" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-          <a href="#world" class="about__link">
-            Ver casos de éxito
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+<!-- PORTFOLIO -->
+<section id="portfolio" class="portfolio reveal-section">
+  <div class="portfolio__inner">
+    <div class="portfolio__header">
+      <span class="label">03 — Portafolio</span>
+      <h2 class="portfolio__title">Trabajo<br/><em>selecto</em>.</h2>
+    </div>
+    <div class="portfolio__layout">
+      <ul class="pf-list" id="pfList">
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80">
+          <a href="https://www.algoritso.com" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">SaaS · Tecnología</span>
+              <span class="pf-item__year">2024</span>
+            </div>
+            <div class="pf-item__name">Algoritso<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
           </a>
-        </div>
-
-      </div>
-
-      <!-- Philosophy card -->
-      <div class="about__philosophy">
-        <span class="about__philosophy-label">Filosofía</span>
-        <blockquote class="about__quote">
-          "Show, Don't Tell"
-        </blockquote>
-        <p class="about__quote-sub">
-          La autoridad se demuestra con resultados, no con palabras.
-        </p>
-      </div>
-    </section>
-
-    <!-- ── WORLD / GLOBE ─────────────────────────────────────── -->
-    <section id="world" class="world" aria-labelledby="world-title">
-      <div class="world__header">
-        <span class="section-label">02 — Impacto Global</span>
-        <h2 class="world__title" id="world-title">
-          Donde operan<br/>nuestros<br/><em>clientes</em>.
-        </h2>
-      </div>
-
-      <!-- Globe canvas container -->
-      <div class="world__globe-wrap" id="globeWrap" aria-hidden="true">
-        <canvas id="globeCanvas"></canvas>
-
-        <!-- Floating case study cards -->
-        <div class="world__case world__case--mx" id="caseMX" aria-label="Caso: Mercado México">
-          <div class="world__case-inner">
-            <span class="world__case-tag">México · Fashion</span>
-            <h3 class="world__case-name">Nude Project MX</h3>
-            <p class="world__case-stat">+280% ventas online</p>
-            <div class="world__case-bar"><div class="world__case-fill" style="--fill:78%"></div></div>
-          </div>
-        </div>
-
-        <div class="world__case world__case--eu" id="caseEU" aria-label="Caso: Mercado Europa">
-          <div class="world__case-inner">
-            <span class="world__case-tag">UK · Fitness</span>
-            <h3 class="world__case-name">Gymshark</h3>
-            <p class="world__case-stat">+190% conversión</p>
-            <div class="world__case-bar"><div class="world__case-fill" style="--fill:65%"></div></div>
-          </div>
-        </div>
-
-        <div class="world__case world__case--global" id="caseGlobal" aria-label="Caso: Expansión Global">
-          <div class="world__case-inner">
-            <span class="world__case-tag">Global · B2B</span>
-            <h3 class="world__case-name">12 mercados</h3>
-            <p class="world__case-stat">Presencia simultánea</p>
-            <div class="world__case-bar"><div class="world__case-fill" style="--fill:92%"></div></div>
-          </div>
-        </div>
-
-        <!-- Globe navigation dots -->
-        <div class="world__nav" aria-label="Navegación del globo">
-          <button class="world__nav-dot world__nav-dot--active" data-region="americas" aria-label="Américas">AM</button>
-          <button class="world__nav-dot" data-region="europe" aria-label="Europa">EU</button>
-          <button class="world__nav-dot" data-region="global" aria-label="Global">GL</button>
-        </div>
-      </div>
-
-      <div class="world__copy">
-        <p>De México a Europa. De startups a corporativos globales. Llevamos marcas al siguiente nivel sin importar la latitud.</p>
-      </div>
-    </section>
-
-    <!-- ── PORTFOLIO ─────────────────────────────────────────── -->
-    <section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
-      <div class="portfolio__header">
-        <span class="section-label">03 — Portafolio</span>
-        <h2 class="portfolio__title" id="portfolio-title">
-          Trabajo<br/><em>selecto</em>.
-        </h2>
-      </div>
-
-      <div class="portfolio__grid">
-
-        <article class="portfolio__item portfolio__item--lg" data-cursor="Ver proyecto">
-          <div class="portfolio__img portfolio__img--1">
-            <div class="portfolio__img-overlay"></div>
-          </div>
-          <div class="portfolio__meta">
-            <span class="portfolio__cat">E-Commerce · Fashion</span>
-            <h3 class="portfolio__name">Nude Project MX</h3>
-            <span class="portfolio__year">2024</span>
-          </div>
-          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Nude Project MX">Ver proyecto</a>
-        </article>
-
-        <article class="portfolio__item portfolio__item--sm" data-cursor="Ver proyecto">
-          <div class="portfolio__img portfolio__img--2">
-            <div class="portfolio__img-overlay"></div>
-          </div>
-          <div class="portfolio__meta">
-            <span class="portfolio__cat">Branding · Fitness</span>
-            <h3 class="portfolio__name">Gymshark Platform</h3>
-            <span class="portfolio__year">2024</span>
-          </div>
-          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Gymshark">Ver proyecto</a>
-        </article>
-
-        <article class="portfolio__item portfolio__item--sm" data-cursor="Ver proyecto">
-          <div class="portfolio__img portfolio__img--3">
-            <div class="portfolio__img-overlay"></div>
-          </div>
-          <div class="portfolio__meta">
-            <span class="portfolio__cat">Automatización · SaaS</span>
-            <h3 class="portfolio__name">Plataforma CRM IA</h3>
-            <span class="portfolio__year">2023</span>
-          </div>
-          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto CRM IA">Ver proyecto</a>
-        </article>
-
-        <article class="portfolio__item portfolio__item--lg portfolio__item--diag" data-cursor="Ver proyecto">
-          <div class="portfolio__img portfolio__img--4">
-            <div class="portfolio__img-overlay"></div>
-          </div>
-          <div class="portfolio__meta">
-            <span class="portfolio__cat">Web Inmersiva · Luxury</span>
-            <h3 class="portfolio__name">Estudio Arquitectura</h3>
-            <span class="portfolio__year">2023</span>
-          </div>
-          <a href="#contact" class="portfolio__link" aria-label="Ver proyecto Estudio Arquitectura">Ver proyecto</a>
-        </article>
-
-      </div>
-
-      <div class="portfolio__footer">
-        <a href="#contact" class="btn btn--outline">
-          Ver todos los proyectos
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-    </section>
-
-    <!-- ── SERVICES ──────────────────────────────────────────── -->
-    <section id="services" class="services" aria-labelledby="services-title">
-      <div class="services__header">
-        <span class="section-label">04 — Servicios</span>
-        <h2 class="services__title" id="services-title">
-          Lo que<br/><em>construimos</em><br/>para ti.
-        </h2>
-      </div>
-
-      <div class="services__list" role="list">
-
-        <div class="services__item" role="listitem">
-          <span class="services__num">01</span>
-          <div class="services__content">
-            <h3 class="services__name">Desarrollo Web</h3>
-            <p class="services__desc">Portales, e-commerce, sistemas de reservas, pagos integrados y recordatorios automáticos vía WhatsApp y email.</p>
-          </div>
-          <div class="services__tags">
-            <span>E-Commerce</span>
-            <span>Reservas</span>
-            <span>Pagos</span>
-          </div>
-          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="services__item" role="listitem">
-          <span class="services__num">02</span>
-          <div class="services__content">
-            <h3 class="services__name">Branding & Identidad Visual</h3>
-            <p class="services__desc">Logo, sistema tipográfico, paleta, voz de marca. Package design que se vende solo en el anaquel.</p>
-          </div>
-          <div class="services__tags">
-            <span>Logo</span>
-            <span>Packaging</span>
-            <span>Sistema</span>
-          </div>
-          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="services__item" role="listitem">
-          <span class="services__num">03</span>
-          <div class="services__content">
-            <h3 class="services__name">Meta Ads & Marketing Digital</h3>
-            <p class="services__desc">Campañas de performance con creativos de alta costura. Gestión completa de redes sociales y contenido.</p>
-          </div>
-          <div class="services__tags">
-            <span>Meta Ads</span>
-            <span>Social Media</span>
-            <span>Video</span>
-          </div>
-          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="services__item" role="listitem">
-          <span class="services__num">04</span>
-          <div class="services__content">
-            <h3 class="services__name">Automatizaciones & IA</h3>
-            <p class="services__desc">Flujos que trabajan por ti las 24 horas. IA implementada para tu sector específico. CRMs, chatbots, reportes.</p>
-          </div>
-          <div class="services__tags">
-            <span>Make</span>
-            <span>OpenAI</span>
-            <span>CRM</span>
-          </div>
-          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="services__item services__item--rescue" role="listitem">
-          <span class="services__num">05</span>
-          <div class="services__content">
-            <h3 class="services__name">Rescate de Proyectos</h3>
-            <p class="services__desc">¿Tu agencia anterior desapareció con el dinero? Auditamos lo que tienes, salvamos lo salvable y lo terminamos bien.</p>
-          </div>
-          <div class="services__tags">
-            <span>Auditoría</span>
-            <span>Rediseño</span>
-            <span>Rescate</span>
-          </div>
-          <svg class="services__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── METHODOLOGY ───────────────────────────────────────── -->
-    <section id="methodology" class="methodology" aria-labelledby="method-title">
-      <div class="methodology__header">
-        <span class="section-label">05 — Proceso</span>
-        <h2 class="methodology__title" id="method-title">
-          Cómo lo<br/><em>hacemos</em>.
-        </h2>
-        <p class="methodology__sub">Sin sorpresas. Sin desaparecer. Sin excusas.</p>
-      </div>
-
-      <div class="methodology__steps">
-
-        <div class="methodology__step" data-step="1">
-          <div class="methodology__step-marker">
-            <span class="methodology__step-num">01</span>
-            <div class="methodology__step-line"></div>
-          </div>
-          <div class="methodology__step-body">
-            <span class="methodology__step-word">Entender</span>
-            <h3>Comprender tu negocio</h3>
-            <p>No asumimos. Escuchamos. Analizamos tu mercado, competidores y cliente ideal antes de proponer cualquier solución.</p>
-            <span class="methodology__step-time">Semana 1</span>
-          </div>
-        </div>
-
-        <div class="methodology__step" data-step="2">
-          <div class="methodology__step-marker">
-            <span class="methodology__step-num">02</span>
-            <div class="methodology__step-line"></div>
-          </div>
-          <div class="methodology__step-body">
-            <span class="methodology__step-word">Estrategia</span>
-            <h3>Diseñar la solución correcta</h3>
-            <p>Con los datos en mano, diseñamos la arquitectura exacta que necesitas. Cada decisión tiene un porqué comercial medible.</p>
-            <span class="methodology__step-time">Semanas 2–3</span>
-          </div>
-        </div>
-
-        <div class="methodology__step" data-step="3">
-          <div class="methodology__step-marker">
-            <span class="methodology__step-num">03</span>
-            <div class="methodology__step-line"></div>
-          </div>
-          <div class="methodology__step-body">
-            <span class="methodology__step-word">Activar</span>
-            <h3>Poner en marcha con precisión</h3>
-            <p>Ejecutamos en sprints visibles. Ves el progreso cada semana. Sin sorpresas, sin desapariciones, sin excusas.</p>
-            <span class="methodology__step-time">Semanas 4–8</span>
-          </div>
-        </div>
-
-        <div class="methodology__step" data-step="4">
-          <div class="methodology__step-marker">
-            <span class="methodology__step-num">04</span>
-          </div>
-          <div class="methodology__step-body">
-            <span class="methodology__step-word">Crecer</span>
-            <h3>Mejora continua. Nunca termina.</h3>
-            <p>Lanzamos, medimos y optimizamos. No somos un proveedor puntual — somos tu equipo digital permanente.</p>
-            <span class="methodology__step-time">Mes 3+</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Values bar -->
-      <div class="methodology__values" aria-label="Valores de la empresa">
-        <span>Honestidad</span>
-        <span class="methodology__values-sep">·</span>
-        <span>Confianza</span>
-        <span class="methodology__values-sep">·</span>
-        <span>Responsabilidad</span>
-        <span class="methodology__values-sep">·</span>
-        <span>Atención al detalle</span>
-        <span class="methodology__values-sep">·</span>
-        <span>Cercanía humana</span>
-        <span class="methodology__values-sep">·</span>
-        <span>Innovación real</span>
-      </div>
-    </section>
-
-    <!-- ── TRUST BAR ─────────────────────────────────────────── -->
-    <div class="trust-bar" aria-label="Tecnologías y partners">
-      <span class="trust-bar__label">Tecnologías que dominamos</span>
-      <div class="trust-bar__items" aria-hidden="true">
-        <span>Next.js</span>
-        <span>Three.js</span>
-        <span>Shopify Plus</span>
-        <span>GSAP</span>
-        <span>Figma</span>
-        <span>OpenAI</span>
-        <span>Vercel</span>
-        <span>Stripe</span>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80">
+          <a href="https://hotyogacuu.com.mx" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Wellness · Reservas</span>
+              <span class="pf-item__year">2024</span>
+            </div>
+            <div class="pf-item__name">Hot Yoga CUU<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80">
+          <a href="https://reinventacapacitacion.com.mx" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Consultoría · Educación</span>
+              <span class="pf-item__year">2023</span>
+            </div>
+            <div class="pf-item__name">Reinventa<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80">
+          <a href="#contact" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Constructora · Corporativo</span>
+              <span class="pf-item__year">2023</span>
+            </div>
+            <div class="pf-item__name">Herrcava<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1?w=600&q=80">
+          <a href="https://gallery2020mx.netlify.app" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Arte · Galería</span>
+              <span class="pf-item__year">2022</span>
+            </div>
+            <div class="pf-item__name">Gallery 2020<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+      </ul>
+      <div class="pf-preview" id="pfPreview" aria-hidden="true">
+        <div class="pf-preview__img" id="pfImg"></div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- ── CONTACT ───────────────────────────────────────────── -->
-    <section id="contact" class="contact" aria-labelledby="contact-title">
-      <div class="contact__layout">
-
-        <div class="contact__left">
-          <span class="section-label">06 — Contacto</span>
-          <h2 class="contact__title" id="contact-title">
-            Tu proyecto<br/>empieza<br/><em>hoy</em>.
-          </h2>
-          <p class="contact__body">
-            Primera consulta sin costo. Te decimos honestamente
-            qué necesitas y qué no. Sin ventas de humo.
-          </p>
-          <div class="contact__info">
-            <a href="mailto:hola@project4.mx" class="contact__link">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M3 4h14l-7 7-7-7zM3 4v12h14V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              hola@project4.mx
-            </a>
-            <a href="https://wa.me/5215500000000" class="contact__link">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2C5.58 2 2 5.58 2 10c0 1.54.42 2.98 1.14 4.22L2 18l3.86-1.12A7.94 7.94 0 0010 18c4.42 0 8-3.58 8-8s-3.58-8-8-8z" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M7.5 7.5s.5 1 1.5 2 2 1.5 2 1.5l1.5-1.5s-.5-1-1-1.5-1-.5-1-.5L9 9s-.5-1-1.5-1.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-              WhatsApp directo
-            </a>
+<!-- WORLD / GLOBE -->
+<section id="world" class="world reveal-section">
+  <div class="world__header">
+    <span class="label">04 — Impacto Global</span>
+    <h2 class="world__title">Marcas que<br/>rompieron<br/><em>límites</em>.</h2>
+  </div>
+  <div class="world__stage">
+    <div class="world__globe-wrap">
+      <canvas id="globeCanvas"></canvas>
+      <!-- Polaroid cards -->
+      <div class="polaroid polaroid--mx" id="polMX" data-case="0">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>México · CDMX</span>
+        </div>
+      </div>
+      <div class="polaroid polaroid--uk" id="polUK" data-case="1">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>United Kingdom</span>
+        </div>
+      </div>
+      <div class="polaroid polaroid--es" id="polES" data-case="2">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>España</span>
+        </div>
+      </div>
+    </div>
+    <!-- Case study panel -->
+    <div class="world__case" id="worldCase">
+      <div class="world__case-inner">
+        <div class="world__case-tabs">
+          <button class="world__tab world__tab--active" data-case="0">Bitso · MX</button>
+          <button class="world__tab" data-case="1">Gymshark · UK</button>
+          <button class="world__tab" data-case="2">Nude Project · ES</button>
+        </div>
+        <div class="world__case-content" id="caseContent">
+          <span class="world__case-country" id="caseCountry">🇲🇽 México</span>
+          <h3 class="world__case-name" id="caseName">Bitso</h3>
+          <p class="world__case-desc" id="caseDesc">La primera plataforma cripto de México escaló de startup regional a procesar más de $1B USD anuales. Sin una sola sucursal física. Solo tecnología, confianza y una experiencia digital impecable que convirtió a millones de mexicanos en sus primeros usuarios de crypto.</p>
+          <div class="world__case-metric">
+            <span class="world__case-num" id="caseNum">$1B+</span>
+            <span class="world__case-unit" id="caseUnit">USD procesados / año</span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="contact__right">
-          <form class="contact__form" id="contactForm" novalidate>
-            <div class="form__group">
-              <label class="form__label" for="name">Nombre</label>
-              <input class="form__input" type="text" id="name" name="name" placeholder="Tu nombre completo" required autocomplete="name" />
-            </div>
-            <div class="form__group">
-              <label class="form__label" for="email">Email</label>
-              <input class="form__input" type="email" id="email" name="email" placeholder="tu@empresa.com" required autocomplete="email" />
-            </div>
-            <div class="form__group">
-              <label class="form__label" for="company">Empresa</label>
-              <input class="form__input" type="text" id="company" name="company" placeholder="Nombre de tu empresa" autocomplete="organization" />
-            </div>
-            <div class="form__group">
-              <label class="form__label" for="message">¿Qué necesitas?</label>
-              <textarea class="form__input form__textarea" id="message" name="message" placeholder="Cuéntanos tu proyecto..." required rows="4"></textarea>
-            </div>
-            <button type="submit" class="btn btn--primary btn--full">
-              Enviar mensaje
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <p class="form__note">Respondemos en menos de 24 horas.</p>
-          </form>
+<!-- METHODOLOGY -->
+<section id="methodology" class="methodology reveal-section">
+  <div class="methodology__inner">
+    <span class="label">05 — Proceso</span>
+    <h2 class="methodology__title">Cómo lo<br/><em>hacemos</em>.</h2>
+    <div class="method-graph" id="methodGraph" aria-label="Proceso de trabajo">
+      <svg class="method-svg" viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Connector paths -->
+        <path class="method-path" id="path01" d="M 160 150 C 230 150 280 150 320 150" stroke="rgba(49,149,255,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <path class="method-path" id="path12" d="M 420 150 C 490 150 540 150 580 150" stroke="rgba(234,51,63,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <path class="method-path" id="path23" d="M 680 150 C 750 150 800 150 840 150" stroke="rgba(92,225,230,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <!-- Animated dots on paths -->
+        <circle class="method-dot" r="4" fill="#3195ff"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#path01"/></animateMotion></circle>
+        <circle class="method-dot" r="4" fill="#ea333f"><animateMotion dur="3s" begin="0.75s" repeatCount="indefinite"><mpath href="#path12"/></animateMotion></circle>
+        <circle class="method-dot" r="4" fill="#5ce1e6"><animateMotion dur="3s" begin="1.5s" repeatCount="indefinite"><mpath href="#path23"/></animateMotion></circle>
+      </svg>
+      <!-- Nodes -->
+      <div class="method-nodes">
+        <div class="method-node reveal-node" data-delay="0">
+          <div class="method-node__icon" style="--c:#3195ff">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <span class="method-node__word">Entender</span>
+          <p class="method-node__desc">Escuchamos. No asumimos. Mapeamos tu negocio desde adentro.</p>
         </div>
-
+        <div class="method-node reveal-node" data-delay="0.2">
+          <div class="method-node__icon" style="--c:#ea333f">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+          </div>
+          <span class="method-node__word">Estrategia</span>
+          <p class="method-node__desc">Diseñamos la solución exacta. Cada decisión tiene ROI medible.</p>
+        </div>
+        <div class="method-node reveal-node" data-delay="0.4">
+          <div class="method-node__icon" style="--c:#5ce1e6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="method-node__word">Activar</span>
+          <p class="method-node__desc">Sprints visibles. Ves el progreso cada semana. Sin sorpresas.</p>
+        </div>
+        <div class="method-node reveal-node" data-delay="0.6">
+          <div class="method-node__icon" style="--c:#e67111">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+          <span class="method-node__word">Crecer</span>
+          <p class="method-node__desc">Mejora continua. Somos tu equipo digital permanente.</p>
+        </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-  </main>
-
-  <!-- ─── FOOTER ────────────────────────────────────────────── -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer__layout">
-      <div class="footer__brand">
-        <a href="#hero" class="footer__logo" aria-label="Project 4 - inicio">
-          <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
-            <path d="M12 16 L12 64 L22 64 L22 46 L38 46 C50 46 58 39 58 32 C58 24 50 16 38 16 Z M22 26 L37 26 C43 26 47 29 47 32 C47 35 43 37 37 37 L22 37 Z" fill="#f0ece4"/>
-            <path d="M52 64 L62 64 L62 46 L72 46 L72 36 L62 36 L62 16 L52 16 L52 36 L38 36 L38 46 L52 46 Z" fill="#3195ff"/>
-          </svg>
-          PROJECT 4
+<!-- CONTACT -->
+<section id="contact" class="contact reveal-section">
+  <div class="contact__inner">
+    <div class="contact__left">
+      <span class="label">06 — Contacto</span>
+      <h2 class="contact__title">Tu proyecto<br/>empieza<br/><em>hoy</em>.</h2>
+      <p class="contact__sub">Primera consulta sin costo. Te decimos honestamente qué necesitas — sin ventas de humo.</p>
+      <div class="contact__links">
+        <a href="mailto:hola@project4.mx" class="contact__link">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M2 4h16l-8 8-8-8zm0 0v12h16V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          hola@project4.mx
         </a>
-        <p class="footer__tagline">Ecosistemas digitales premium.</p>
-      </div>
-
-      <nav class="footer__nav" aria-label="Footer navegación">
-        <ul role="list">
-          <li><a href="#about">Nosotros</a></li>
-          <li><a href="#world">Proyectos</a></li>
-          <li><a href="#services">Servicios</a></li>
-          <li><a href="#methodology">Proceso</a></li>
-          <li><a href="#contact">Contacto</a></li>
-        </ul>
-      </nav>
-
-      <div class="footer__social">
-        <a href="#" aria-label="Instagram" class="footer__social-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-          </svg>
-        </a>
-        <a href="#" aria-label="LinkedIn" class="footer__social-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </a>
-        <a href="#" aria-label="Behance" class="footer__social-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M3 6h7.5C12.5 6 14 7.5 14 9.5S12.5 13 10.5 13H3V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M3 13h8.5C14 13 16 14.5 16 16.5S14 20 11.5 20H3V13z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M17 8h5M19.5 11c-2.5 0-4-1.5-4-4s1.5-4 4-4 4 1.5 4 4h-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+        <a href="https://wa.me/5216141000000" class="contact__link">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.54.42 2.98 1.14 4.22L2 18l3.86-1.12A7.94 7.94 0 0010 18c4.42 0 8-3.58 8-8s-3.58-8-8-8z" stroke="currentColor" stroke-width="1.4"/></svg>
+          WhatsApp directo
         </a>
       </div>
     </div>
-
-    <div class="footer__bottom">
-      <span>© 2026 Project 4. Todos los derechos reservados.</span>
-      <span class="footer__mono">CDMX · MX</span>
+    <div class="contact__right">
+      <div class="glass-card" id="contactCard">
+        <div class="glass-card__border" aria-hidden="true"></div>
+        <form class="contact-form" id="contactForm" novalidate>
+          <h3 class="contact-form__title">Solicitar propuesta</h3>
+          <div class="form-group">
+            <label for="fname">NOMBRE COMPLETO *</label>
+            <input type="text" id="fname" name="name" placeholder="Ej. Carlos Mendoza" required autocomplete="name"/>
+          </div>
+          <div class="form-group">
+            <label for="femail">CORREO CORPORATIVO *</label>
+            <input type="email" id="femail" name="email" placeholder="tu@empresa.com" required autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label for="fmsg">ÁREA DE INTERÉS O RETO *</label>
+            <textarea id="fmsg" name="message" placeholder="Describe qué necesitas..." rows="4" required></textarea>
+          </div>
+          <label class="form-check">
+            <input type="checkbox" required/>
+            <span>He leído y acepto la <a href="#">política de privacidad</a></span>
+          </label>
+          <button type="submit" class="btn-send">
+            Enviar solicitud <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="form-note">Respondemos en menos de 24 horas.</p>
+        </form>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- ─── SCRIPTS ───────────────────────────────────────────── -->
-  <script src="js/cursor.js" defer></script>
-  <script src="js/globe.js" defer></script>
-  <script src="js/main.js" defer></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__marquee" aria-hidden="true">
+    <div class="footer__marquee-track">
+      <span class="footer__word footer__word--fill">PROJECT 4</span>
+      <span class="footer__word footer__word--outline">PROJECT 4</span>
+      <span class="footer__word footer__word--fill">PROJECT 4</span>
+      <span class="footer__word footer__word--outline">PROJECT 4</span>
+      <span class="footer__word footer__word--fill">PROJECT 4</span>
+      <span class="footer__word footer__word--outline">PROJECT 4</span>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Project 4. Chihuahua, México.</span>
+    <div class="footer__nav">
+      <a href="#about">Nosotros</a>
+      <a href="#services">Servicios</a>
+      <a href="#portfolio">Portafolio</a>
+      <a href="#contact">Contacto</a>
+    </div>
+  </div>
+</footer>
 
+<script src="js/globe.js" defer></script>
+<script src="js/cursor.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
