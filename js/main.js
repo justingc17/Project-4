@@ -49,56 +49,62 @@ function enterHero(){
   const video   = document.getElementById('heroVideo');
   const content = document.getElementById('heroContent');
   const scroll  = document.querySelector('.hero__scroll');
-  const titleEl = document.getElementById('heroTitle');
+  const wordEl  = document.getElementById('heroWord');
+  const numEl   = document.getElementById('heroNum');
   const accent  = document.getElementById('heroAccent');
   const eyebrow = document.querySelector('.hero__eyebrow');
   const sub     = document.querySelector('.hero__sub');
   const ctaRow  = document.querySelector('.hero__cta-row');
   if(!video) return;
 
-  /* Split title chars */
-  const chars = titleEl ? splitIntoChars(titleEl) : [];
+  /* Split "PROJECT" into chars for cascade; "4" animates as a whole */
+  const wordChars = wordEl ? splitIntoChars(wordEl) : [];
 
-  /* Set initial states */
-  gsap.set(chars,   { yPercent:110, rotation:4 });
-  gsap.set(eyebrow, { opacity:0, y:12 });
-  gsap.set(accent,  { scaleX:0, transformOrigin:'left center' });
-  gsap.set(sub,     { opacity:0, y:14 });
-  gsap.set(ctaRow,  { opacity:0, y:14 });
-  gsap.set(scroll,  { opacity:0 });
+  /* Initial states */
+  gsap.set(wordChars, { yPercent:115, rotation:5 });
+  gsap.set(numEl,     { scale:.3, opacity:0, filter:'blur(30px)', y:24 });
+  gsap.set(eyebrow,   { opacity:0, y:10 });
+  gsap.set(accent,    { scaleX:0, transformOrigin:'left center' });
+  gsap.set(sub,       { opacity:0, y:16 });
+  gsap.set(ctaRow,    { opacity:0, y:16 });
+  gsap.set(scroll,    { opacity:0 });
 
   const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
 
   tl
-    /* 1. Video unblur */
-    .to(video, { filter:'blur(0px)', scale:1, duration:2.6, ease:'power2.inOut' }, 0)
+    /* 1 — Video focus in from blurry */
+    .to(video, { filter:'blur(0px)', scale:1, duration:2.8, ease:'power2.inOut' }, 0)
 
-    /* 2. Eyebrow fades in */
-    .to(eyebrow, { opacity:1, y:0, duration:.7 }, 1.0)
+    /* 2 — Eyebrow */
+    .to(eyebrow, { opacity:1, y:0, duration:.65 }, .95)
 
-    /* 3. Title chars cascade up */
-    .to(chars, {
-      yPercent:0, rotation:0, duration:.9,
-      stagger:{ amount:.55, ease:'power2.out' }
-    }, 1.3)
+    /* 3 — "PROJECT": chars cascade up with slight rotation */
+    .to(wordChars, {
+      yPercent:0, rotation:0, duration:.8,
+      stagger:{ amount:.42, ease:'power2.out' }
+    }, 1.15)
 
-    /* 4. Red accent line extends */
-    .to(accent, { scaleX:1, duration:.7, ease:'power3.inOut' }, 1.85)
+    /* 4 — "4": pulse in blurry → snap clear (bomb-in) */
+    .to(numEl, { scale:1.1, opacity:.7, filter:'blur(8px)', y:0, duration:.38, ease:'power2.in' }, 1.3)
+    .to(numEl, { scale:1, opacity:1, filter:'blur(0px)', duration:.55, ease:'back.out(1.6)' }, 1.68)
 
-    /* 5. Subtitle + CTA fade up */
-    .to(sub,    { opacity:1, y:0, duration:.65 }, 2.0)
-    .to(ctaRow, { opacity:1, y:0, duration:.65 }, 2.2)
+    /* 5 — Red accent line draws */
+    .to(accent, { scaleX:1, duration:.65, ease:'power3.inOut' }, 1.78)
 
-    /* 6. Scroll indicator */
-    .to(scroll, { opacity:1, duration:.6 }, 2.6);
+    /* 6 — Sub + CTA */
+    .to(sub,    { opacity:1, y:0, duration:.6 }, 2.0)
+    .to(ctaRow, { opacity:1, y:0, duration:.6 }, 2.18)
 
-  /* Parallax blur on scroll */
+    /* 7 — Scroll indicator */
+    .to(scroll, { opacity:1, duration:.5 }, 2.55);
+
+  /* Scroll parallax + blur-out */
   ScrollTrigger.create({
     trigger:'#hero', start:'top top', end:'bottom top', scrub:true,
     onUpdate(self){
-      video.style.filter  = `blur(${self.progress * 18}px)`;
-      video.style.opacity = 1 - self.progress * .5;
-      if(content) content.style.transform = `translateY(${self.progress * -40}px)`;
+      video.style.filter  = `blur(${self.progress * 20}px)`;
+      video.style.opacity = 1 - self.progress * .55;
+      if(content) content.style.transform = `translateY(${self.progress * -48}px)`;
     }
   });
 }
@@ -220,22 +226,35 @@ const statsIO  = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(!e.isIntersecting) return;
     statsIO.unobserve(e.target);
-    const el  = e.target;
-    const raw = el.textContent.trim();
-    const num = parseInt(raw, 10);
-    const suf = raw.replace(/[0-9]/g, '');
+    const numEl = e.target;
+    /* The number text may include suffix spans — read only text nodes */
+    const rawText = numEl.childNodes[0] ? numEl.childNodes[0].textContent.trim() : '';
+    const num = parseInt(rawText, 10);
     if(isNaN(num)) return;
-    const dur   = 1400;
+    const dur   = 1600;
     const start = performance.now();
-    const tick  = (now)=>{
+    const suffixEl = numEl.querySelector('.num__suf');
+    const tick = (now)=>{
       const p = Math.min((now - start) / dur, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(ease * num) + suf;
-      if(p < 1) requestAnimationFrame(tick);
+      const eased = 1 - Math.pow(1 - p, 3);
+      numEl.childNodes[0].textContent = Math.round(eased * num);
+      if(p < 1){
+        requestAnimationFrame(tick);
+      } else {
+        /* Slam: scale up + glow on completion */
+        const stat = numEl.closest('.about__stat');
+        if(stat){
+          stat.classList.add('counted');
+          gsap.fromTo(numEl,
+            { scale:1.18 },
+            { scale:1, duration:.55, ease:'elastic.out(1,0.45)' }
+          );
+        }
+      }
     };
     requestAnimationFrame(tick);
   });
-},{ threshold:.6 });
+},{ threshold:.5 });
 statNums.forEach(n=> statsIO.observe(n));
 
 /* ── METHODOLOGY CONNECTOR DRAW ──────────────────────────── */
