@@ -26,15 +26,22 @@ const splashInt = setInterval(()=>{
   }
 },40);
 
-/* ── TYPEWRITER ──────────────────────────────────────────── */
-function typewriter(el, text, speed, onDone){
-  let i = 0;
+/* ── SPLIT TITLE INTO CHARS ──────────────────────────────── */
+function splitIntoChars(el){
+  const text = el.textContent.trim();
   el.textContent = '';
-  const t = setInterval(()=>{
-    el.textContent += text[i];
-    i++;
-    if(i >= text.length){ clearInterval(t); if(onDone) onDone(); }
-  }, speed);
+  el.setAttribute('aria-label', text);
+  text.split('').forEach(ch => {
+    if(ch === ' '){ el.appendChild(document.createTextNode('\u00A0')); return; }
+    const wrap  = document.createElement('span');
+    wrap.className = 'char-wrap';
+    const inner = document.createElement('span');
+    inner.className = 'char-inner';
+    inner.textContent = ch;
+    wrap.appendChild(inner);
+    el.appendChild(wrap);
+  });
+  return el.querySelectorAll('.char-inner');
 }
 
 /* ── HERO ENTER ──────────────────────────────────────────── */
@@ -42,23 +49,56 @@ function enterHero(){
   const video   = document.getElementById('heroVideo');
   const content = document.getElementById('heroContent');
   const scroll  = document.querySelector('.hero__scroll');
-  const twEl    = document.getElementById('heroTypewriter');
+  const titleEl = document.getElementById('heroTitle');
+  const accent  = document.getElementById('heroAccent');
+  const eyebrow = document.querySelector('.hero__eyebrow');
+  const sub     = document.querySelector('.hero__sub');
+  const ctaRow  = document.querySelector('.hero__cta-row');
   if(!video) return;
-  gsap.set(content, { opacity:0, y:30 });
-  gsap.set(scroll,  { opacity:0 });
-  const tl = gsap.timeline();
-  tl.to(video,   { filter:'blur(0px)', scale:1, duration:2.8, ease:'power2.inOut' }, 0)
-    .to(content,  { opacity:1, y:0, duration:1 }, 1.2)
-    .add(()=>{ if(twEl) typewriter(twEl, 'PROJECT 4', 90); }, 1.6)
-    .to(scroll,   { opacity:1, duration:.8 }, 2.6);
 
-  /* Blur on scroll */
+  /* Split title chars */
+  const chars = titleEl ? splitIntoChars(titleEl) : [];
+
+  /* Set initial states */
+  gsap.set(chars,   { yPercent:110, rotation:4 });
+  gsap.set(eyebrow, { opacity:0, y:12 });
+  gsap.set(accent,  { scaleX:0, transformOrigin:'left center' });
+  gsap.set(sub,     { opacity:0, y:14 });
+  gsap.set(ctaRow,  { opacity:0, y:14 });
+  gsap.set(scroll,  { opacity:0 });
+
+  const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+
+  tl
+    /* 1. Video unblur */
+    .to(video, { filter:'blur(0px)', scale:1, duration:2.6, ease:'power2.inOut' }, 0)
+
+    /* 2. Eyebrow fades in */
+    .to(eyebrow, { opacity:1, y:0, duration:.7 }, 1.0)
+
+    /* 3. Title chars cascade up */
+    .to(chars, {
+      yPercent:0, rotation:0, duration:.9,
+      stagger:{ amount:.55, ease:'power2.out' }
+    }, 1.3)
+
+    /* 4. Red accent line extends */
+    .to(accent, { scaleX:1, duration:.7, ease:'power3.inOut' }, 1.85)
+
+    /* 5. Subtitle + CTA fade up */
+    .to(sub,    { opacity:1, y:0, duration:.65 }, 2.0)
+    .to(ctaRow, { opacity:1, y:0, duration:.65 }, 2.2)
+
+    /* 6. Scroll indicator */
+    .to(scroll, { opacity:1, duration:.6 }, 2.6);
+
+  /* Parallax blur on scroll */
   ScrollTrigger.create({
     trigger:'#hero', start:'top top', end:'bottom top', scrub:true,
     onUpdate(self){
-      const b = self.progress * 20;
-      video.style.filter = `blur(${b}px)`;
-      video.style.opacity = 1 - self.progress*.5;
+      video.style.filter  = `blur(${self.progress * 18}px)`;
+      video.style.opacity = 1 - self.progress * .5;
+      if(content) content.style.transform = `translateY(${self.progress * -40}px)`;
     }
   });
 }
@@ -162,12 +202,12 @@ overlay && overlay.querySelectorAll('.nav-link').forEach(a=>{
   a.addEventListener('click', closeMenu);
 });
 
-/* Enhanced nav link hover — x-slide + glow */
+/* Enhanced nav link hover — x-slide + red glow */
 overlay && overlay.querySelectorAll('.nav-link').forEach(link=>{
   const text = link.querySelector('.nav-link__text');
   if(!text) return;
   link.addEventListener('mouseenter',()=>{
-    gsap.to(text,{ color:'var(--blue)', x:14, duration:.3, ease:'power2.out', overwrite:'auto' });
+    gsap.to(text,{ color:'var(--red)', x:14, duration:.3, ease:'power2.out', overwrite:'auto' });
   });
   link.addEventListener('mouseleave',()=>{
     gsap.to(text,{ color:'var(--white)', x:0, duration:.35, ease:'power2.inOut', overwrite:'auto' });
@@ -254,128 +294,92 @@ window.addEventListener('load',()=>{
   });
 });
 
-/* ── SERVICES DRUM + DECK ────────────────────────────────── */
-const SVC_DATA = [
-  { name:'Automatizaciones & IA', badge:'AUTOMATIZACIÓN', num:'01', color:'#5ce1e6',
-    desc:'Flujos que trabajan las 24 horas. IA implementada para tu sector: CRMs, chatbots, reportes automáticos y pipelines inteligentes.',
-    img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80' },
-  { name:'Meta Ads & Marketing', badge:'PERFORMANCE', num:'02', color:'#3195ff',
-    desc:'Campañas con creativos de alta costura. Gestión completa de redes sociales, contenido y video que para el scroll.',
-    img:'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80' },
-  { name:'Branding & Identidad', badge:'BRANDING', num:'03', color:'#ea333f',
-    desc:'Logo, sistema tipográfico, paleta, voz de marca y package design que se vende solo en el anaquel.',
-    img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80' },
-  { name:'Desarrollo Web', badge:'DESARROLLO', num:'04', color:'#3195ff',
-    desc:'Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura que vende mientras duermes.',
-    img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80' },
-];
+/* ── SERVICES TABS ───────────────────────────────────────── */
+const svcTabs  = document.querySelectorAll('.svc-tab');
+const svcCards = document.querySelectorAll('.svc-card');
+let activeSvc  = 0;
+let svcAnimating = false;
 
-const drumTrack = document.getElementById('drumTrack');
-const deckFrontImg  = document.getElementById('deckFrontImg');
-const deckLeftImg   = document.getElementById('deckLeftImg');
-const deckRightImg  = document.getElementById('deckRightImg');
-const deckBadgeText = document.getElementById('deckBadgeText');
-const deckNum       = document.getElementById('deckNum');
-const deckName      = document.getElementById('deckName');
-const deckDesc      = document.getElementById('deckDesc');
-const deckDot       = document.getElementById('deckDot');
-const deckFront     = document.getElementById('deckFront');
-const deckLeft      = document.getElementById('deckLeft');
-const deckRight     = document.getElementById('deckRight');
-const svcMore       = document.getElementById('svcMore');
-let activeIdx = 0;
-let isAnimating = false;
+function showSvc(i){
+  if(i === activeSvc || svcAnimating) return;
+  svcAnimating = true;
 
-function getDeckImg(i){
-  const d = SVC_DATA[i];
-  return d ? `url('${d.img}')` : '';
-}
+  const prevCard = document.querySelector(`.svc-card[data-svc="${activeSvc}"]`);
+  const nextCard = document.querySelector(`.svc-card[data-svc="${i}"]`);
 
-function updateDeckContent(i){
-  const d = SVC_DATA[i];
-  if(!d) return;
-  if(deckFrontImg)  deckFrontImg.style.backgroundImage  = `url('${d.img}')`;
-  if(deckBadgeText) deckBadgeText.textContent = d.badge;
-  if(deckNum)       deckNum.textContent       = d.num;
-  if(deckName)      deckName.textContent      = d.name;
-  if(deckDesc)      deckDesc.textContent      = d.desc;
-  if(deckDot)       deckDot.style.background  = d.color;
-  /* Side cards */
-  const prev = SVC_DATA[(i - 1 + SVC_DATA.length) % SVC_DATA.length];
-  const next = SVC_DATA[(i + 1) % SVC_DATA.length];
-  if(deckLeftImg)  deckLeftImg.style.backgroundImage  = `url('${prev.img}')`;
-  if(deckRightImg) deckRightImg.style.backgroundImage = `url('${next.img}')`;
-}
+  /* Update tabs */
+  svcTabs.forEach((t,j)=>{
+    t.classList.toggle('active', j===i);
+    t.setAttribute('aria-selected', j===i ? 'true':'false');
+  });
 
-function setService(i, direction){
-  if(i < 0) i = SVC_DATA.length - 1;
-  if(i >= SVC_DATA.length){
-    /* "más servicios" slot */
-    if(svcMore) svcMore.style.display = 'flex';
-    const items = drumTrack ? drumTrack.querySelectorAll('.drum__item') : [];
-    items.forEach((el,j)=> el.classList.toggle('active', j === SVC_DATA.length));
-    if(drumTrack) drumTrack.style.transform = `translateY(calc(-${SVC_DATA.length} * 64px + 128px))`;
-    activeIdx = SVC_DATA.length;
-    return;
-  }
-  if(svcMore) svcMore.style.display = 'none';
-  if(isAnimating) return;
-  isAnimating = true;
+  /* Animate out current, animate in next */
+  if(prevCard){
+    gsap.to(prevCard, {
+      opacity:0, y:-12, duration:.28, ease:'power2.in',
+      onComplete(){
+        prevCard.classList.remove('active');
+        prevCard.hidden = true;
+        prevCard.style.opacity = '';
+        prevCard.style.transform = '';
 
-  const items = drumTrack ? drumTrack.querySelectorAll('.drum__item') : [];
-  items.forEach((el,j)=> el.classList.toggle('active', j===i));
-  if(drumTrack) drumTrack.style.transform = `translateY(calc(-${i} * 64px + 128px))`;
-
-  const dir = direction === 'up' ? 1 : -1;
-  /* Front card exits to the side */
-  gsap.to(deckFront, {
-    x: dir * -120+'%', scale:.8, opacity:0, rotate: dir * -6,
-    duration:.45, ease:'power2.in',
-    onComplete(){
-      updateDeckContent(i);
-      /* Snap back to center, animate from opposite side */
-      gsap.fromTo(deckFront,
-        { x: dir * 80+'%', scale:.85, opacity:0, rotate: dir * 5 },
-        { x:0, scale:1, opacity:1, rotate:0, duration:.5, ease:'power3.out',
-          onComplete(){ isAnimating = false; }
-        }
-      );
+        if(nextCard){
+          nextCard.hidden = false;
+          nextCard.classList.add('active');
+          gsap.fromTo(nextCard,
+            { opacity:0, y:20 },
+            { opacity:1, y:0, duration:.4, ease:'power3.out',
+              onComplete(){ svcAnimating = false; }
+            }
+          );
+        } else { svcAnimating = false; }
+      }
+    });
+  } else {
+    if(nextCard){
+      nextCard.hidden = false;
+      nextCard.classList.add('active');
+      svcAnimating = false;
     }
-  });
-  /* Back cards breathe */
-  gsap.fromTo([deckLeft, deckRight],
-    { scale:.85 },
-    { scale:.88, duration:.3, yoyo:true, repeat:1, ease:'power1.inOut' }
-  );
-  activeIdx = i;
+  }
+
+  activeSvc = i;
 }
 
-updateDeckContent(0);
-if(drumTrack){
-  drumTrack.querySelectorAll('.drum__item').forEach((el,i)=>{
-    el.addEventListener('click',()=> setService(i, i > activeIdx ? 'up':'down'));
-  });
+svcTabs.forEach((btn,i)=>{
+  btn.addEventListener('click',()=> showSvc(i));
+});
+
+/* Touch swipe on svc-cards area */
+let svcTouchX = 0;
+const svcArea = document.getElementById('svcCards');
+if(svcArea){
+  svcArea.addEventListener('touchstart', e=>{ svcTouchX = e.touches[0].clientX; },{ passive:true });
+  svcArea.addEventListener('touchend', e=>{
+    const dx = svcTouchX - e.changedTouches[0].clientX;
+    if(Math.abs(dx) > 50){
+      const next = activeSvc + (dx > 0 ? 1 : -1);
+      if(next >= 0 && next < svcTabs.length) showSvc(next);
+    }
+  },{ passive:true });
 }
 
-/* Wheel on drum */
-const drumWrap = document.getElementById('drum');
-if(drumWrap){
-  let wt = false;
-  drumWrap.addEventListener('wheel',e=>{
-    e.preventDefault();
-    if(wt) return; wt=true; setTimeout(()=>wt=false,380);
-    const dir = e.deltaY > 0 ? 'up' : 'down';
-    setService(activeIdx + (e.deltaY > 0 ? 1 : -1), dir);
-  },{ passive:false });
-}
-
-/* Touch swipe on deck */
-let touchStartY = 0;
-deckFront && deckFront.addEventListener('touchstart', e=>{ touchStartY = e.touches[0].clientY; },{ passive:true });
-deckFront && deckFront.addEventListener('touchend', e=>{
-  const dy = touchStartY - e.changedTouches[0].clientY;
-  if(Math.abs(dy) > 40) setService(activeIdx + (dy > 0 ? 1 : -1), dy > 0 ? 'up':'down');
-},{ passive:true });
+/* Staggered reveal of svc section */
+ScrollTrigger.create({
+  trigger:'#services',
+  start:'top 75%',
+  once:true,
+  onEnter(){
+    gsap.fromTo('.svc-tab',
+      { opacity:0, y:16 },
+      { opacity:1, y:0, stagger:.08, duration:.5, ease:'power3.out' }
+    );
+    gsap.fromTo('.svc-card.active',
+      { opacity:0, y:28 },
+      { opacity:1, y:0, duration:.65, ease:'power3.out', delay:.25 }
+    );
+  }
+});
 
 /* ── PORTFOLIO HOVER ─────────────────────────────────────── */
 const pfItems   = document.querySelectorAll('.pf-item');
@@ -541,8 +545,8 @@ if(form){
   form.addEventListener('submit',e=>{
     e.preventDefault();
     const btn = form.querySelector('.btn-send');
-    btn.textContent = '¡Enviado! Te contactamos pronto.';
-    btn.style.background = '#113c41';
+    btn.textContent = '✓ ¡Enviado! Te contactamos pronto.';
+    btn.style.background = 'var(--green)';
     setTimeout(()=>{
       btn.textContent = 'Enviar solicitud →';
       btn.style.background = '';
