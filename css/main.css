@@ -390,8 +390,7 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 .method-svg{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);pointer-events:none;height:80px}
 @media(max-width:768px){.method-svg{display:none}}
 .method-nodes{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,40px);position:relative;z-index:2}
-.method-node{display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
-.method-node.visible{opacity:1;transform:none}
+.method-node{display:flex;flex-direction:column;align-items:center;text-align:center}
 .method-node__icon{width:64px;height:64px;border-radius:50%;border:1px solid var(--c,var(--blue));display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--c,var(--blue));position:relative;background:rgba(6,6,8,.8)}
 .method-node__icon::before{content:'';position:absolute;inset:-1px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,transparent 70%);opacity:.08}
 .method-node__icon svg{width:26px;height:26px}
@@ -510,9 +509,12 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 .footer__nav a{font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-text);transition:color .3s}
 .footer__nav a:hover{color:var(--white)}
 
-/* ── SCROLL REVEAL ──────────────────────────────────────────── */
-.reveal-section{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
-.reveal-section.visible{opacity:1;transform:none}
+/* ── SCROLL REVEAL — initial hidden state, GSAP owns the animation ── */
+.reveal-section{opacity:0}
+/* Titles need overflow:hidden for the clipPath wipe-up effect */
+.about__title,.portfolio__title,.world__title,.methodology__title,.contact__title,.services__title{
+  overflow:hidden;display:block;
+}
 
 /* ── MOBILE GLOBAL ──────────────────────────────────────────── */
 @media(max-width:768px){
@@ -617,12 +619,25 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 /* Contact: darkest */
 #contact{background:var(--bg2)}
 
-/* ── SECTION GLOW ACCENTS ───────────────────────────────────── */
-/* Red glow line at top of each major section */
-#about::before,#portfolio::before,#contact::before{
-  content:'';display:block;height:1px;
-  background:linear-gradient(90deg,transparent,var(--red-glow),transparent);
-  margin-bottom:0;
+/* ── SECTION TRANSITION BRIDGES ────────────────────────────── */
+/* Each section has a gradient top-fade that blends it into the previous section */
+#about,#services,#portfolio,#world,#methodology,#contact{
+  position:relative;
+}
+/* Top gradient fade */
+#about::before,#services::before,#portfolio::before,
+#world::before,#methodology::before,#contact::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:clamp(60px,8vw,100px);
+  background:linear-gradient(to bottom,var(--bg),transparent);
+  pointer-events:none;z-index:2;
+}
+/* Subtle red hairline at section top (identity accent) */
+#about::after,#portfolio::after,#contact::after{
+  content:'';display:block;position:absolute;top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--red-glow) 50%,transparent);
+  pointer-events:none;z-index:3;
 }
 
 /* ── NAV OVERLAY SECTION TONES ──────────────────────────────── */

@@ -214,13 +214,6 @@ overlay && overlay.querySelectorAll('.nav-link').forEach(link=>{
   });
 });
 
-/* ── SECTION REVEAL ──────────────────────────────────────── */
-const revealSections = document.querySelectorAll('.reveal-section');
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{ threshold:.1, rootMargin:'0px 0px -60px 0px' });
-revealSections.forEach(s=> io.observe(s));
-
 /* ── ABOUT STATS COUNTER ─────────────────────────────────── */
 const statNums = document.querySelectorAll('.about__stat .num');
 const statsIO  = new IntersectionObserver((entries)=>{
@@ -244,17 +237,6 @@ const statsIO  = new IntersectionObserver((entries)=>{
   });
 },{ threshold:.6 });
 statNums.forEach(n=> statsIO.observe(n));
-
-/* ── METHOD NODES ────────────────────────────────────────── */
-const nodeIO = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const delay = parseFloat(e.target.dataset.delay)||0;
-      setTimeout(()=> e.target.classList.add('visible'), delay*1000);
-    }
-  });
-},{ threshold:.15 });
-document.querySelectorAll('.reveal-node').forEach(n=> nodeIO.observe(n));
 
 /* ── METHODOLOGY CONNECTOR DRAW ──────────────────────────── */
 window.addEventListener('load',()=>{
@@ -538,6 +520,240 @@ function setCase(i){
 
 caseTabs.forEach((btn,i)=> btn.addEventListener('click',()=> setCase(i)));
 initCase(0);
+
+/* ── CINEMATIC SECTION ENTRANCES ─────────────────────────── */
+window.addEventListener('load', ()=>{
+
+  /* Make sections visible immediately — GSAP owns inner elements */
+  document.querySelectorAll('.reveal-section').forEach(s=>{
+    s.style.opacity  = '1';
+    s.style.transform= 'none';
+    s.style.transition='none';
+  });
+
+  /* ─── ABOUT ──────────────────────────────────────────── */
+  (()=>{
+    const sec    = document.querySelector('#about');
+    if(!sec) return;
+    const mapImg = sec.querySelector('.about__map-bg img');
+    const lbl    = sec.querySelector('.label');
+    const ttl    = sec.querySelector('.about__title');
+    const bodies = sec.querySelectorAll('.about__body');
+    const stats  = sec.querySelectorAll('.about__stat');
+    const vals   = sec.querySelectorAll('.about__values span');
+
+    mapImg && gsap.set(mapImg, { scale:1.65, opacity:0, filter:'blur(28px)' });
+    gsap.set([lbl, bodies], { opacity:0, y:18 });
+    gsap.set(ttl,  { opacity:0, clipPath:'inset(105% 0 -5% 0)' });
+    gsap.set(stats, { scale:0, opacity:0, rotation:-8 });
+    gsap.set(vals,  { scale:.5, opacity:0, y:12,
+      rotation: function(i){ return i%2 ? 8:-8; } });
+
+    ScrollTrigger.create({
+      trigger:sec, start:'top 72%', once:true,
+      onEnter(){
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+
+        /* 1. Map zooms in from big+blurry → small+clear (like focusing a lens) */
+        mapImg && tl.to(mapImg,
+          { scale:1, opacity:.06, filter:'blur(0px)', duration:1.9, ease:'power2.out' }, 0);
+
+        /* 2. Label drops in */
+        tl.to(lbl, { opacity:1, y:0, duration:.5 }, 0.2);
+
+        /* 3. Title wipes up from below (curtain lift) */
+        tl.to(ttl,
+          { opacity:1, clipPath:'inset(0% 0 -5% 0)', duration:.85, ease:'power3.out' }, 0.4);
+
+        /* 4. Body lines cascade */
+        tl.to(bodies, { opacity:1, y:0, stagger:.2, duration:.65 }, 0.78);
+
+        /* 5. Stats: elastic bomb-in */
+        tl.to(stats,
+          { scale:1, opacity:1, rotation:0, stagger:.14, duration:.62,
+            ease:'back.out(2.4)' }, 0.92);
+
+        /* 6. Values: scatter → gather */
+        tl.to(vals,
+          { scale:1, opacity:1, y:0, rotation:0, stagger:.07, duration:.48,
+            ease:'back.out(1.8)' }, 1.2);
+      }
+    });
+  })();
+
+  /* ─── SERVICES reveal already in svc tab ScrollTrigger ── */
+
+  /* ─── PORTFOLIO ──────────────────────────────────────── */
+  (()=>{
+    const hdr   = document.querySelector('.portfolio__header');
+    if(!hdr) return;
+    const lbl   = hdr.querySelector('.label');
+    const ttl   = hdr.querySelector('.portfolio__title');
+    const items = document.querySelectorAll('.pf-item');
+
+    gsap.set(lbl,   { opacity:0, y:14 });
+    gsap.set(ttl,   { opacity:0, clipPath:'inset(105% 0 -5% 0)' });
+    gsap.set(items, { opacity:0, y:24 });
+
+    ScrollTrigger.create({
+      trigger:'#portfolio', start:'top 72%', once:true,
+      onEnter(){
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+        tl.to(lbl,   { opacity:1, y:0, duration:.45 }, 0);
+        tl.to(ttl,   { opacity:1, clipPath:'inset(0% 0 -5% 0)', duration:.78 }, 0.18);
+        /* Items slide up staggered */
+        tl.to(items, { opacity:1, y:0, stagger:.09, duration:.55 }, 0.5);
+      }
+    });
+  })();
+
+  /* ─── WORLD / GLOBE ──────────────────────────────────── */
+  (()=>{
+    const canvas  = document.getElementById('globeCanvas');
+    const hdr     = document.querySelector('.world__header');
+    const caseBox = document.getElementById('worldCase');
+    const pols    = document.querySelectorAll('.polaroid');
+    if(!canvas) return;
+
+    /* Globe starts tiny + foggy */
+    gsap.set(canvas, { scale:.28, opacity:0, filter:'blur(24px)' });
+    if(hdr){
+      gsap.set(hdr.querySelector('.label'),        { opacity:0, y:14 });
+      gsap.set(hdr.querySelector('.world__title'), { opacity:0, clipPath:'inset(105% 0 -5% 0)' });
+    }
+    caseBox && gsap.set(caseBox, { opacity:0, y:32 });
+    const polOffsets = [[-75,-30,-18],[75,-45,22],[35,45,-12]];
+    pols.forEach((p,i)=>{
+      const [ox,oy,rot] = polOffsets[i]||[0,0,0];
+      gsap.set(p, { scale:0, opacity:0, x:ox, y:oy, rotation:rot });
+    });
+
+    ScrollTrigger.create({
+      trigger:'#world', start:'top 74%', once:true,
+      onEnter(){
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+
+        /* Globe: first pulse big + blurry, then snap clear (bomb-in) */
+        tl.to(canvas,
+          { scale:1.15, opacity:.8, filter:'blur(8px)', duration:.45, ease:'power2.in' }, 0);
+        tl.to(canvas,
+          { scale:1, opacity:1, filter:'blur(0px)', duration:.75, ease:'back.out(1.4)' }, 0.45);
+
+        /* Header wipe */
+        if(hdr){
+          tl.to(hdr.querySelector('.label'),
+            { opacity:1, y:0, duration:.45 }, 0.28);
+          tl.to(hdr.querySelector('.world__title'),
+            { opacity:1, clipPath:'inset(0% 0 -5% 0)', duration:.75 }, 0.46);
+        }
+        caseBox && tl.to(caseBox, { opacity:1, y:0, duration:.65 }, 0.42);
+
+        /* Polaroids fly in from their offset positions */
+        pols.forEach((p,i)=>{
+          tl.to(p,
+            { scale:1, opacity: i===0?1:.6, x:0, y:0, rotation:0,
+              duration:.72, ease:'back.out(1.9)' },
+            0.55 + i * .18
+          );
+        });
+      }
+    });
+  })();
+
+  /* ─── METHODOLOGY ────────────────────────────────────── */
+  (()=>{
+    const nodes = document.querySelectorAll('.method-node');
+    const lbl   = document.querySelector('#methodology .label');
+    const ttl   = document.querySelector('.methodology__title');
+    if(!nodes.length) return;
+
+    lbl && gsap.set(lbl, { opacity:0, y:14 });
+    ttl && gsap.set(ttl, { opacity:0, clipPath:'inset(105% 0 -5% 0)' });
+
+    nodes.forEach(n=>{
+      const icon = n.querySelector('.method-node__icon');
+      const word = n.querySelector('.method-node__word');
+      const desc = n.querySelector('.method-node__desc');
+      icon && gsap.set(icon, { scale:0, opacity:0, rotation:-24 });
+      word && gsap.set(word, { opacity:0, y:18 });
+      desc && gsap.set(desc, { opacity:0, y:10 });
+    });
+
+    ScrollTrigger.create({
+      trigger:'#methodology', start:'top 72%', once:true,
+      onEnter(){
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+
+        lbl && tl.to(lbl, { opacity:1, y:0, duration:.45 }, 0);
+        ttl && tl.to(ttl,
+          { opacity:1, clipPath:'inset(0% 0 -5% 0)', duration:.78 }, 0.18);
+
+        nodes.forEach((node,i)=>{
+          const icon = node.querySelector('.method-node__icon');
+          const word = node.querySelector('.method-node__word');
+          const desc = node.querySelector('.method-node__desc');
+          const t = 0.52 + i * 0.24;
+
+          /* ICON: zoom-bomb → overshoot → settle — exactly what user described */
+          icon && tl.to(icon,
+            { scale:1.35, rotation:7, opacity:1,
+              duration:.32, ease:'back.out(3.5)' }, t);
+          icon && tl.to(icon,
+            { scale:1, rotation:0, duration:.3, ease:'power2.inOut' }, t + .32);
+
+          /* WORD: rises up from behind the icon */
+          word && tl.to(word,
+            { opacity:1, y:0, duration:.4, ease:'power3.out' }, t + .28);
+
+          /* DESCRIPTION: fades in after word */
+          desc && tl.to(desc,
+            { opacity:1, y:0, duration:.4, ease:'power2.out' }, t + .5);
+
+          /* Trigger CSS breathing animation */
+          tl.add(()=> node.classList.add('visible'), t + .65);
+        });
+      }
+    });
+  })();
+
+  /* ─── CONTACT ────────────────────────────────────────── */
+  (()=>{
+    const sec  = document.querySelector('#contact');
+    if(!sec) return;
+    const lbl  = sec.querySelector('.label');
+    const ttl  = sec.querySelector('.contact__title');
+    const sub  = sec.querySelector('.contact__sub');
+    const lnks = sec.querySelectorAll('.contact__link');
+    const card = document.getElementById('contactCard');
+
+    lbl  && gsap.set(lbl,  { opacity:0, y:14 });
+    ttl  && gsap.set(ttl,  { opacity:0, clipPath:'inset(105% 0 -5% 0)' });
+    sub  && gsap.set(sub,  { opacity:0, y:16 });
+    gsap.set(lnks, { opacity:0, x:-16 });
+    card && gsap.set(card, { scale:.9, opacity:0, filter:'blur(16px)' });
+
+    ScrollTrigger.create({
+      trigger:sec, start:'top 72%', once:true,
+      onEnter(){
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+
+        lbl  && tl.to(lbl,  { opacity:1, y:0, duration:.45 }, 0);
+        ttl  && tl.to(ttl,
+          { opacity:1, clipPath:'inset(0% 0 -5% 0)', duration:.78 }, 0.18);
+
+        /* Card: blurs in from center — like a portal opening */
+        card && tl.to(card,
+          { scale:1, opacity:1, filter:'blur(0px)',
+            duration:.9, ease:'back.out(1.2)' }, 0.25);
+
+        sub  && tl.to(sub,  { opacity:1, y:0, duration:.55 }, 0.62);
+        lnks.length && tl.to(lnks,
+          { opacity:1, x:0, stagger:.12, duration:.5 }, 0.78);
+      }
+    });
+  })();
+
+});
 
 /* ── CONTACT FORM ────────────────────────────────────────── */
 const form = document.getElementById('contactForm');
