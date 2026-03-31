@@ -215,90 +215,14 @@
   <div class="services__inner">
     <span class="label">02 — Servicios</span>
     <h2 class="services__title">Lo que<br/><em>construimos</em>.</h2>
-    <!-- Service tab nav -->
-    <div class="svc-tabs" role="tablist" aria-label="Servicios">
-      <button class="svc-tab active" data-svc="0" role="tab" aria-selected="true">
-        <span class="svc-tab__num">01</span>
-        <span class="svc-tab__name">IA & Auto</span>
-      </button>
-      <button class="svc-tab" data-svc="1" role="tab">
-        <span class="svc-tab__num">02</span>
-        <span class="svc-tab__name">Marketing</span>
-      </button>
-      <button class="svc-tab" data-svc="2" role="tab">
-        <span class="svc-tab__num">03</span>
-        <span class="svc-tab__name">Branding</span>
-      </button>
-      <button class="svc-tab" data-svc="3" role="tab">
-        <span class="svc-tab__num">04</span>
-        <span class="svc-tab__name">Desarrollo</span>
-      </button>
-    </div>
 
-    <!-- Service cards -->
-    <div class="svc-cards" id="svcCards" aria-live="polite">
-      <div class="svc-card active" data-svc="0" role="tabpanel">
-        <div class="svc-card__media">
-          <div class="svc-card__img" style="background-image:url('https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80')"></div>
-          <span class="svc-card__num-bg" aria-hidden="true">01</span>
-        </div>
-        <div class="svc-card__body">
-          <span class="svc-card__badge">IA & AUTOMATIZACIÓN</span>
-          <h3 class="svc-card__title">Automatizaciones & IA</h3>
-          <p class="svc-card__desc">Flujos que trabajan las 24 horas. IA implementada para tu sector: CRMs, chatbots, reportes automáticos y pipelines inteligentes que multiplican tu equipo sin multiplicar tu nómina.</p>
-          <a href="#contact" class="svc-card__cta">
-            Iniciar proyecto
-            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
+    <!-- Feature Carousel — pills left, card stack right -->
+    <div class="svc-carousel" id="svcCarousel">
+      <div class="svc-carousel__left">
+        <div class="svc-left__track" id="svcTrack"><!-- pills injected by JS --></div>
       </div>
-
-      <div class="svc-card" data-svc="1" role="tabpanel" hidden>
-        <div class="svc-card__media">
-          <div class="svc-card__img" style="background-image:url('https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&q=80')"></div>
-          <span class="svc-card__num-bg" aria-hidden="true">02</span>
-        </div>
-        <div class="svc-card__body">
-          <span class="svc-card__badge">PERFORMANCE</span>
-          <h3 class="svc-card__title">Meta Ads & Marketing</h3>
-          <p class="svc-card__desc">Campañas con creativos de alta costura. Gestión completa de redes sociales, contenido y video que para el scroll. ROAS medido, presupuesto sin desperdicios.</p>
-          <a href="#contact" class="svc-card__cta">
-            Iniciar proyecto
-            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="svc-card" data-svc="2" role="tabpanel" hidden>
-        <div class="svc-card__media">
-          <div class="svc-card__img" style="background-image:url('https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80')"></div>
-          <span class="svc-card__num-bg" aria-hidden="true">03</span>
-        </div>
-        <div class="svc-card__body">
-          <span class="svc-card__badge">IDENTIDAD</span>
-          <h3 class="svc-card__title">Branding & Identidad</h3>
-          <p class="svc-card__desc">Logo, sistema tipográfico, paleta, voz de marca y package design que se vende solo en el anaquel. Una identidad que te diferencia antes de que el cliente lea una sola palabra.</p>
-          <a href="#contact" class="svc-card__cta">
-            Iniciar proyecto
-            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="svc-card" data-svc="3" role="tabpanel" hidden>
-        <div class="svc-card__media">
-          <div class="svc-card__img" style="background-image:url('https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80')"></div>
-          <span class="svc-card__num-bg" aria-hidden="true">04</span>
-        </div>
-        <div class="svc-card__body">
-          <span class="svc-card__badge">DESARROLLO</span>
-          <h3 class="svc-card__title">Desarrollo Web</h3>
-          <p class="svc-card__desc">Portales, e-commerce, reservas, pagos y recordatorios automáticos. Infraestructura digital que vende mientras duermes. Código limpio, velocidad máxima, SEO desde el día uno.</p>
-          <a href="#contact" class="svc-card__cta">
-            Iniciar proyecto
-            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
+      <div class="svc-carousel__right">
+        <div class="svc-stack" id="svcStack"><!-- cards injected by JS --></div>
       </div>
     </div>
 

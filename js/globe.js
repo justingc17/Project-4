@@ -176,6 +176,39 @@ let mCount=3, showGlow=true, autoRot=true;
     spec.addColorStop(1,'rgba(255,255,255,0)');
     ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
     ctx.fillStyle=spec;ctx.fill();
+    // Pin polaroid cards to their geo-locations
+    pinPolaroids();
+  }
+
+  // ── POLAROID PINS ──────────────────────────────────────────
+  const PINS=[
+    {id:'polMX',lat:19.43,lng:-99.13,r:-6},  // CDMX
+    {id:'polUK',lat:51.51,lng:-0.13, r: 5},  // London
+    {id:'polES',lat:40.42,lng:-3.70, r:-3},  // Madrid
+  ];
+  const _pinEls=PINS.map(p=>({...p,el:document.getElementById(p.id)}));
+
+  function pinPolaroids(){
+    const ox=canvas.offsetLeft;
+    const oy=canvas.offsetTop;
+    for(const pin of _pinEls){
+      const el=pin.el; if(!el) continue;
+      const rv=rot(ll2xyz(pin.lat,pin.lng),rotX,rotY);
+      const vis=rv[2];
+      const opacity=Math.max(0,Math.min(1,(vis+0.08)*6));
+      if(opacity<0.01){
+        el.style.opacity='0';
+        el.style.pointerEvents='none';
+        continue;
+      }
+      const p=proj(rv);
+      el.style.left  =(ox+p.px)+'px';
+      el.style.top   =(oy+p.py)+'px';
+      el.style.opacity=opacity.toFixed(3);
+      el.style.transform=`translate(-50%,-115%) rotate(${pin.r}deg)`;
+      el.style.pointerEvents=vis>0.25?'auto':'none';
+      el.style.zIndex=Math.round(vis*10);
+    }
   }
 
   // ── HELPER ──────────────────────────────────────────────────

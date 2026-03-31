@@ -276,73 +276,118 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 .services__title{font-family:var(--font-display);font-size:clamp(36px,4.5vw,64px);line-height:1.05;text-transform:uppercase;letter-spacing:.02em;margin-bottom:clamp(32px,4vw,56px)}
 .services__title em{font-style:normal;color:var(--red)}
 
-/* Tab nav */
-.svc-tabs{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:clamp(24px,3vw,40px);border-bottom:1px solid var(--gray2)}
-.svc-tabs::-webkit-scrollbar{display:none}
-.svc-tab{
-  flex-shrink:0;
-  display:flex;flex-direction:column;gap:4px;
-  padding:14px 20px;background:none;border:none;
-  border-bottom:2px solid transparent;
-  color:var(--gray-text);cursor:pointer;
-  transition:color .3s,border-color .3s;
-  font-family:var(--font-body);
-  text-align:left;
+/* ── FEATURE CAROUSEL ───────────────────────────────────────── */
+.svc-carousel{
+  display:flex;flex-direction:column;
+  border-radius:clamp(16px,3vw,40px);overflow:hidden;
+  border:1px solid var(--gray2);
+  margin-bottom:clamp(28px,4vw,48px);
+  min-height:560px;
 }
-.svc-tab:hover{color:var(--white)}
-.svc-tab.active{color:var(--white);border-bottom-color:var(--red)}
-.svc-tab__num{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:inherit;opacity:.6}
-.svc-tab__name{font-family:var(--font-display);font-size:clamp(11px,1.1vw,14px);letter-spacing:.08em;text-transform:uppercase}
-.svc-tab.active .svc-tab__num{color:var(--red);opacity:1}
+@media(min-width:900px){
+  .svc-carousel{flex-direction:row;aspect-ratio:16/9;min-height:unset}
+}
 
-/* Service cards */
-.svc-cards{position:relative}
-.svc-card{display:none;grid-template-columns:1fr;gap:0;border-radius:12px;overflow:hidden;background:var(--bg2);border:1px solid var(--gray2);box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.svc-card.active{display:grid}
-.svc-card__media{position:relative;aspect-ratio:16/9;overflow:hidden}
-@media(min-width:700px){.svc-card{grid-template-columns:1fr 1fr}.svc-card__media{aspect-ratio:auto;min-height:320px}}
-@media(max-width:699px){.svc-card__media{aspect-ratio:4/3}}
-.svc-card__img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s var(--ease-out)}
-.svc-card:hover .svc-card__img{transform:scale(1.04)}
-.svc-card__img::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,transparent 40%,rgba(8,9,11,.85))}
-.svc-card__num-bg{
-  position:absolute;bottom:-8px;right:12px;
-  font-family:var(--font-display);font-size:clamp(80px,14vw,160px);
-  line-height:1;color:transparent;
-  -webkit-text-stroke:1px rgba(240,236,228,.07);
-  pointer-events:none;user-select:none;
-  letter-spacing:-.02em;
+/* Left panel – pill list */
+.svc-carousel__left{
+  position:relative;width:100%;background:var(--navy);
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  min-height:260px;
 }
-.svc-card__body{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(28px,4vw,48px);
+@media(min-width:900px){
+  .svc-carousel__left{width:42%;min-height:unset;height:100%}
 }
-.svc-card__badge{
-  display:inline-block;
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--red);border:1px solid var(--red-dim);
-  padding:5px 10px;border-radius:2px;margin-bottom:20px;
-  background:var(--red-dim);
+.svc-carousel__left::before,.svc-carousel__left::after{
+  content:'';position:absolute;left:0;right:0;
+  height:clamp(60px,10%,90px);z-index:5;pointer-events:none;
 }
-.svc-card__title{
-  font-family:var(--font-display);font-size:clamp(22px,2.5vw,34px);
-  letter-spacing:.04em;text-transform:uppercase;
-  color:var(--white);line-height:1.1;margin-bottom:16px;
-}
-.svc-card__desc{font-size:clamp(13px,1vw,15px);line-height:1.8;color:var(--gray-text);margin-bottom:28px;flex:1}
-.svc-card__cta{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--white);padding-bottom:4px;border-bottom:1px solid rgba(240,236,228,.25);
-  transition:color .3s,border-color .3s,gap .3s;
-  align-self:flex-start;
-}
-.svc-card__cta:hover{color:var(--red);border-color:var(--red);gap:14px}
-.svc-card__cta svg{width:14px;height:14px;flex-shrink:0}
+.svc-carousel__left::before{top:0;background:linear-gradient(to bottom,var(--navy),transparent)}
+.svc-carousel__left::after{bottom:0;background:linear-gradient(to top,var(--navy),transparent)}
 
-/* Animate card in */
-@keyframes svcCardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.svc-card.active{animation:svcCardIn .4s var(--ease-out) forwards}
+/* Track – the single centered slot where pills stack via GSAP y */
+.svc-left__track{
+  position:relative;width:100%;height:65px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Pills */
+.svc-pill{
+  position:absolute;
+  display:flex;align-items:center;gap:14px;
+  padding:13px clamp(18px,3vw,34px);
+  border-radius:100px;border:1px solid rgba(240,236,228,.2);
+  background:transparent;color:rgba(240,236,228,.5);
+  cursor:pointer;
+  font-family:var(--font-display);font-size:clamp(10px,.9vw,13px);
+  letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  will-change:transform,opacity;transition:border-color .3s;
+}
+.svc-pill.active{background:var(--white);color:var(--navy);border-color:var(--white)}
+.svc-pill__icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.svc-pill.active .svc-pill__icon{opacity:1}
+
+/* Right panel – card stack */
+.svc-carousel__right{
+  flex:1;position:relative;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(24px,4vw,52px);
+  border-top:1px solid var(--gray2);
+  overflow:hidden;min-height:400px;
+}
+@media(min-width:900px){
+  .svc-carousel__right{border-top:none;border-left:1px solid var(--gray2);min-height:unset}
+}
+.svc-stack{position:relative;width:100%;max-width:340px;aspect-ratio:4/5}
+
+/* Individual cards */
+.svc-icard{
+  position:absolute;inset:0;
+  border-radius:clamp(16px,2.5vw,28px);overflow:hidden;
+  border:4px solid var(--bg);background:var(--bg3);
+  will-change:transform,opacity;
+}
+.svc-icard__img{
+  width:100%;height:100%;object-fit:cover;
+  transition:filter .5s,transform .7s var(--ease-out);
+}
+.svc-icard.inactive .svc-icard__img{filter:grayscale(1) blur(2px) brightness(.7)}
+
+/* Overlay */
+.svc-icard__overlay{
+  position:absolute;inset-x:0;bottom:0;
+  padding:clamp(18px,3vw,34px);padding-top:80px;
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.35) 65%,transparent 100%);
+  pointer-events:none;
+}
+.svc-icard__badge{
+  display:inline-block;background:var(--bg);color:var(--white);
+  border:1px solid rgba(240,236,228,.2);
+  padding:4px 12px;border-radius:100px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.svc-icard__desc{
+  color:var(--white);font-size:clamp(14px,1.5vw,19px);line-height:1.4;
+}
+
+/* Live indicator */
+.svc-icard__live{
+  position:absolute;
+  top:clamp(14px,2vw,24px);left:clamp(14px,2vw,24px);
+  display:flex;align-items:center;gap:8px;
+  opacity:0;transition:opacity .4s;
+}
+.svc-icard.active .svc-icard__live{opacity:1}
+.svc-icard__live-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 8px var(--red);
+  animation:livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.35}}
+.svc-icard__live-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
+  text-transform:uppercase;color:rgba(240,236,228,.7);
+}
 
 /* More services */
 .services__more{margin-top:clamp(28px,4vw,48px);padding:clamp(20px,3vw,32px);border:1px solid var(--gray2);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg3)}
@@ -392,12 +437,16 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 .world__globe-wrap{position:relative;display:flex;align-items:center;justify-content:center}
 #globeCanvas{display:block;cursor:grab}
 #globeCanvas:active{cursor:grabbing}
-/* Polaroids */
-.polaroid{position:absolute;width:130px;background:#fff;padding:8px 8px 28px;border-radius:2px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:rotate(-4deg);transition:transform .4s var(--ease-out),opacity .5s}
-.polaroid--mx{top:15%;left:-5%;transform:rotate(-6deg)}
-.polaroid--uk{top:8%;right:0%;transform:rotate(5deg)}
-.polaroid--es{bottom:15%;right:-2%;transform:rotate(-3deg)}
-.polaroid:hover{transform:rotate(0) scale(1.05)!important;z-index:10}
+/* Polaroids — positions handled by globe.js pinPolaroids() each frame */
+.polaroid{
+  position:absolute;width:130px;background:#fff;
+  padding:8px 8px 28px;border-radius:2px;
+  box-shadow:0 8px 32px rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;
+  will-change:transform,opacity;
+  transition:scale .3s var(--ease-out);
+}
+.polaroid:hover{scale:1.08;z-index:10!important}
 .polaroid__img{width:100%;aspect-ratio:1;background-size:cover;background-position:center;margin-bottom:6px}
 .polaroid__label{display:flex;align-items:center;gap:5px;font-size:9px;color:#111;font-family:var(--font-mono)}
 .polaroid__pin{width:8px;height:8px;background:var(--red);border-radius:50%;flex-shrink:0}
@@ -624,14 +673,13 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 /* ── MOBILE SERVICES ────────────────────────────────────────── */
 @media(max-width:768px){
   .services__title{font-size:clamp(30px,8vw,44px)}
-  .svc-tabs{border-bottom:1px solid var(--gray2);padding-bottom:0}
-  .svc-tab{padding:12px 16px}
-  .svc-tab__num{font-size:9px}
-  .svc-tab__name{font-size:10px;letter-spacing:.06em}
-  .svc-card__body{padding:22px 20px 26px}
-  .svc-card__title{font-size:clamp(18px,5vw,24px)}
-  .svc-card__desc{font-size:13px;line-height:1.7}
-  .svc-card__num-bg{font-size:clamp(70px,22vw,110px);bottom:-4px}
+  .svc-carousel{border-radius:20px;min-height:unset}
+  .svc-carousel__left{min-height:200px}
+  .svc-left__track{height:56px}
+  .svc-pill{font-size:9px;padding:10px 16px;gap:8px}
+  .svc-pill__icon{width:13px;height:13px}
+  .svc-carousel__right{min-height:320px;padding:20px}
+  .svc-stack{max-width:240px}
   .services__more{padding:18px 20px;gap:16px}
 }
 

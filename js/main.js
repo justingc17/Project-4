@@ -295,92 +295,169 @@ window.addEventListener('load',()=>{
   });
 });
 
-/* ── SERVICES TABS ───────────────────────────────────────── */
-const svcTabs  = document.querySelectorAll('.svc-tab');
-const svcCards = document.querySelectorAll('.svc-card');
-let activeSvc  = 0;
-let svcAnimating = false;
+/* ── SERVICES CAROUSEL ───────────────────────────────────── */
+(function svcCarousel(){
+  const ITEM_H = 65;
+  const SVCS = [
+    { label:'IA & Automatización', badge:'IA & AUTO',
+      img:'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80',
+      desc:'Flujos que trabajan las 24 horas. Pipelines inteligentes que multiplican tu equipo sin multiplicar tu nómina.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>' },
+    { label:'Meta Ads & Marketing', badge:'PERFORMANCE',
+      img:'https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&q=80',
+      desc:'Campañas con creativos de alta costura. ROAS medido, presupuesto sin desperdicios.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>' },
+    { label:'Branding & Identidad', badge:'IDENTIDAD',
+      img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',
+      desc:'Una identidad que te diferencia antes de que el cliente lea una sola palabra.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>' },
+    { label:'Desarrollo Web', badge:'DESARROLLO',
+      img:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80',
+      desc:'Portales, e-commerce, pagos automáticos. Código limpio, velocidad máxima, SEO desde el día uno.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+    { label:'E-Commerce Premium', badge:'E-COMMERCE',
+      img:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80',
+      desc:'Tiendas que venden mientras duermes. Integración de pagos, inventario y automatización.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>' },
+    { label:'Creación de Contenido', badge:'CONTENIDO',
+      img:'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80',
+      desc:'Video, fotografía y creativos que paran el scroll. Contenido que convierte, no solo que gusta.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>' },
+  ];
 
-function showSvc(i){
-  if(i === activeSvc || svcAnimating) return;
-  svcAnimating = true;
+  const N = SVCS.length;
+  let current = 0, paused = false;
+  const track = document.getElementById('svcTrack');
+  const stack = document.getElementById('svcStack');
+  if(!track || !stack) return;
 
-  const prevCard = document.querySelector(`.svc-card[data-svc="${activeSvc}"]`);
-  const nextCard = document.querySelector(`.svc-card[data-svc="${i}"]`);
+  const wrap  = v => ((v % N) + N) % N;
+  const wdist = (from, to) => {
+    let d = to - from;
+    if(d > N/2) d -= N;
+    if(d < -N/2) d += N;
+    return d;
+  };
 
-  /* Update tabs */
-  svcTabs.forEach((t,j)=>{
-    t.classList.toggle('active', j===i);
-    t.setAttribute('aria-selected', j===i ? 'true':'false');
+  /* Build pills */
+  const pills = SVCS.map((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'svc-pill' + (i === 0 ? ' active' : '');
+    btn.setAttribute('aria-label', s.label);
+    btn.innerHTML = `<span class="svc-pill__icon">${s.icon}</span><span>${s.label}</span>`;
+    btn.addEventListener('click', () => goTo(i));
+    btn.addEventListener('mouseenter', () => { paused = true; });
+    btn.addEventListener('mouseleave', () => { paused = false; });
+    track.appendChild(btn);
+    return btn;
   });
 
-  /* Animate out current, animate in next */
-  if(prevCard){
-    gsap.to(prevCard, {
-      opacity:0, y:-12, duration:.28, ease:'power2.in',
-      onComplete(){
-        prevCard.classList.remove('active');
-        prevCard.hidden = true;
-        prevCard.style.opacity = '';
-        prevCard.style.transform = '';
+  /* Build cards */
+  const cards = SVCS.map((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'svc-icard' + (i === 0 ? ' active' : ' inactive');
+    card.innerHTML = `
+      <img class="svc-icard__img" src="${s.img}" alt="${s.label}" loading="lazy"/>
+      <div class="svc-icard__live">
+        <div class="svc-icard__live-dot"></div>
+        <span class="svc-icard__live-label">Proyecto</span>
+      </div>
+      <div class="svc-icard__overlay">
+        <div class="svc-icard__badge">${i+1} · ${s.badge}</div>
+        <p class="svc-icard__desc">${s.desc}</p>
+      </div>`;
+    stack.appendChild(card);
+    return card;
+  });
 
-        if(nextCard){
-          nextCard.hidden = false;
-          nextCard.classList.add('active');
-          gsap.fromTo(nextCard,
-            { opacity:0, y:20 },
-            { opacity:1, y:0, duration:.4, ease:'power3.out',
-              onComplete(){ svcAnimating = false; }
-            }
-          );
-        } else { svcAnimating = false; }
-      }
+  function getStatus(i, idx){
+    const d = wdist(idx, i);
+    if(d === 0)  return 'active';
+    if(d === -1) return 'prev';
+    if(d === 1)  return 'next';
+    return 'hidden';
+  }
+
+  function updatePills(idx){
+    pills.forEach((pill, i) => {
+      const d = wdist(idx, i);
+      gsap.to(pill, {
+        y: d * ITEM_H,
+        opacity: Math.max(0, 1 - Math.abs(d) * 0.26),
+        duration: .7, ease:'power3.out', overwrite:'auto'
+      });
+      pill.classList.toggle('active', d === 0);
     });
-  } else {
-    if(nextCard){
-      nextCard.hidden = false;
-      nextCard.classList.add('active');
-      svcAnimating = false;
-    }
   }
 
-  activeSvc = i;
-}
+  function updateCards(idx){
+    cards.forEach((card, i) => {
+      const st = getStatus(i, idx);
+      const isA = st === 'active';
+      const isP = st === 'prev';
+      const isN = st === 'next';
+      card.classList.toggle('inactive', !isA);
+      card.classList.toggle('active', isA);
+      gsap.to(card, {
+        x:        isA ? 0 : isP ? -115 : isN ? 115 : 0,
+        scale:    isA ? 1 : (isP||isN) ? .85 : .7,
+        opacity:  isA ? 1 : (isP||isN) ? .38 : 0,
+        rotation: isP ? -4 : isN ? 4 : 0,
+        zIndex:   isA ? 20 : (isP||isN) ? 10 : 0,
+        duration: .65, ease:'power2.out', overwrite:'auto'
+      });
+      const ov = card.querySelector('.svc-icard__overlay');
+      if(ov) gsap.to(ov, isA
+        ? { opacity:1, y:0, duration:.5, ease:'power2.out', delay:.15, overwrite:'auto' }
+        : { opacity:0, y:12, duration:.28, ease:'power2.in', overwrite:'auto' });
+    });
+  }
 
-svcTabs.forEach((btn,i)=>{
-  btn.addEventListener('click',()=> showSvc(i));
-});
+  function goTo(idx){
+    current = wrap(idx);
+    updatePills(current);
+    updateCards(current);
+  }
 
-/* Touch swipe on svc-cards area */
-let svcTouchX = 0;
-const svcArea = document.getElementById('svcCards');
-if(svcArea){
-  svcArea.addEventListener('touchstart', e=>{ svcTouchX = e.touches[0].clientX; },{ passive:true });
-  svcArea.addEventListener('touchend', e=>{
-    const dx = svcTouchX - e.changedTouches[0].clientX;
-    if(Math.abs(dx) > 50){
-      const next = activeSvc + (dx > 0 ? 1 : -1);
-      if(next >= 0 && next < svcTabs.length) showSvc(next);
-    }
+  /* Init positions (no animation on load) */
+  pills.forEach((pill, i) => {
+    const d = wdist(0, i);
+    gsap.set(pill, { y: d * ITEM_H, opacity: Math.max(0, 1 - Math.abs(d) * 0.26) });
+  });
+  cards.forEach((card, i) => {
+    const st = getStatus(i, 0);
+    const isP = st === 'prev', isN = st === 'next';
+    gsap.set(card, {
+      x:        st === 'active' ? 0 : isP ? -115 : isN ? 115 : 0,
+      scale:    st === 'active' ? 1 : (isP||isN) ? .85 : .7,
+      opacity:  st === 'active' ? 1 : (isP||isN) ? .38 : 0,
+      rotation: isP ? -4 : isN ? 4 : 0,
+      zIndex:   st === 'active' ? 20 : (isP||isN) ? 10 : 0,
+    });
+  });
+
+  /* Touch swipe on card stack */
+  let txStart = 0;
+  stack.addEventListener('touchstart', e=>{ txStart = e.touches[0].clientX; },{ passive:true });
+  stack.addEventListener('touchend', e=>{
+    const dx = txStart - e.changedTouches[0].clientX;
+    if(Math.abs(dx) > 50) goTo(current + (dx > 0 ? 1 : -1));
   },{ passive:true });
-}
 
-/* Staggered reveal of svc section */
-ScrollTrigger.create({
-  trigger:'#services',
-  start:'top 75%',
-  once:true,
-  onEnter(){
-    gsap.fromTo('.svc-tab',
-      { opacity:0, y:16 },
-      { opacity:1, y:0, stagger:.08, duration:.5, ease:'power3.out' }
-    );
-    gsap.fromTo('.svc-card.active',
-      { opacity:0, y:28 },
-      { opacity:1, y:0, duration:.65, ease:'power3.out', delay:.25 }
-    );
-  }
-});
+  /* Autoplay */
+  setInterval(() => { if(!paused) goTo(current + 1); }, 3200);
+
+  /* ScrollTrigger reveal */
+  ScrollTrigger.create({
+    trigger:'#services', start:'top 75%', once:true,
+    onEnter(){
+      gsap.fromTo('#svcCarousel',
+        { opacity:0, y:36 },
+        { opacity:1, y:0, duration:.85, ease:'power3.out' }
+      );
+    }
+  });
+})();
 
 /* ── PORTFOLIO HOVER ─────────────────────────────────────── */
 const pfItems   = document.querySelectorAll('.pf-item');
