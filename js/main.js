@@ -170,13 +170,6 @@ if(links.length) gsap.set(links, { yPercent:140, rotate:10, autoAlpha:0 });
 
 if(menuBtn){
   menuBtn.addEventListener('click', ()=>{
-    /* Dismiss "click me" hint on first interaction */
-    const hint = document.querySelector('.header__hint');
-    if(hint && hint.offsetParent !== null){
-      gsap.to(hint,{ opacity:0, x:6, duration:.35, ease:'power2.in',
-        onComplete:()=>{ hint.style.display='none'; }
-      });
-    }
     menuOpen ? closeMenu() : openMenu();
   });
 }
