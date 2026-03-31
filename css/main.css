@@ -164,58 +164,99 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 /* ── KINETIC NAV ────────────────────────────────────────────── */
 .nav-overlay{position:fixed;inset:0;z-index:800;display:none;pointer-events:none}
 .nav-overlay[data-state="open"]{display:block;pointer-events:auto}
-.nav-overlay__bg{position:absolute;inset:0;background:rgba(4,5,7,.55);opacity:0}
-.nav-menu{position:absolute;top:0;right:0;width:min(620px,100vw);height:100%;display:flex;flex-direction:column;justify-content:center;transform:translateX(100%)}
+.nav-overlay__bg{position:absolute;inset:0;background:rgba(4,5,7,.6);opacity:0}
+
+/* Full-screen menu panel */
+.nav-menu{
+  position:absolute;top:0;right:0;
+  width:100vw;height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  transform:translateX(100%);
+}
 .nav-menu__panels{position:absolute;inset:0;overflow:hidden}
 .nav-panel{position:absolute;inset:0;transform:translateX(105%)}
-/* Depth layers — progressively darker */
 .nav-panel--1{background:#0b0e14}
 .nav-panel--2{background:#090c11}
-/* Panel 3 = liquid glass face of the nav */
+/* Panel 3 = liquid glass face */
 .nav-panel--3{
   background:rgba(8,10,15,.52);
   backdrop-filter:blur(44px) saturate(160%) brightness(1.05);
   -webkit-backdrop-filter:blur(44px) saturate(160%) brightness(1.05);
   border-left:1px solid rgba(255,255,255,.06);
 }
-/* Glass surface highlight on nav */
 .nav-panel--3::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(
-    140deg,
-    rgba(255,255,255,.045) 0%,
-    transparent 45%,
-    rgba(255,49,49,.025) 100%
-  );
+  background:linear-gradient(140deg,rgba(255,255,255,.045) 0%,transparent 45%,rgba(255,49,49,.025) 100%);
 }
-/* Liquid shimmer across nav surface */
 .nav-panel--3::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(
-    108deg,
-    transparent 0%,
-    rgba(255,255,255,.03) 40%,
-    rgba(255,255,255,.055) 50%,
-    transparent 65%,
-    transparent 100%
-  );
+  background:linear-gradient(108deg,transparent 0%,rgba(255,255,255,.03) 40%,rgba(255,255,255,.055) 50%,transparent 65%);
   background-size:280% 100%;
-  animation:glassShimmer 10s ease-in-out 0.8s infinite;
+  animation:glassShimmer 10s ease-in-out .8s infinite;
 }
+
 .nav-menu__shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .nav-shape{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .3s}
 .nav-shape.active{opacity:1}
 .shape-el{opacity:0;transform-origin:center;transform:scale(0.5)}
-.nav-links{position:relative;z-index:2;padding:clamp(24px,5vw,60px) clamp(32px,6vw,80px)}
-.nav-links__item{overflow:hidden;border-top:1px solid rgba(255,255,255,.06)}
+
+/* ── Nav links — kinetic fullscreen typography ── */
+.nav-links{
+  position:relative;z-index:2;
+  padding:0 clamp(40px,8vw,120px);
+  display:flex;flex-direction:column;justify-content:center;
+  height:100%;
+}
+.nav-links__item{
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.06);
+}
 .nav-links__item:last-child{border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-link{display:block;position:relative;padding:clamp(14px,2vw,22px) 0;overflow:hidden}
-.nav-link__text{display:block;font-family:var(--font-display);font-size:clamp(32px,6vw,72px);letter-spacing:.02em;text-transform:uppercase;color:var(--white);transition:color .3s;will-change:transform,opacity}
-/* Initial hidden state set by JS, not CSS — avoids GSAP conflict */
-.nav-link:hover .nav-link__text{color:var(--red)}
-.nav-link__bg{position:absolute;inset:0;background:rgba(255,255,255,.03);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+
+.nav-link{
+  display:block;position:relative;
+  padding:clamp(10px,1.6vh,22px) 0;
+  overflow:hidden;
+}
+/* The giant kinetic text */
+.nav-link__text{
+  display:block;
+  font-family:var(--font-display);
+  font-size:clamp(48px,8vw,120px);
+  font-weight:400;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  color:var(--white);
+  line-height:1.05;
+  will-change:transform,opacity;
+  transition:color .25s;
+}
+/* Hover bg fill (scaleX reveal) */
+.nav-link__bg{
+  position:absolute;inset:0;
+  background:rgba(255,255,255,.04);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s var(--ease);
+}
 .nav-link:hover .nav-link__bg{transform:scaleX(1)}
-.nav-menu__footer{position:relative;z-index:2;padding:24px clamp(32px,6vw,80px);display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-text)}
+/* Red accent line left edge on hover */
+.nav-link::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;
+  background:var(--red);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .4s var(--ease);
+}
+.nav-link:hover::before{transform:scaleY(1)}
+
+.nav-menu__footer{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  padding:clamp(20px,3vh,36px) clamp(40px,8vw,120px);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-text);
+  border-top:1px solid rgba(255,255,255,.05);
+}
 .nav-menu__socials{display:flex;gap:20px}
 .nav-menu__socials a{color:var(--gray-text);transition:color .3s}
 .nav-menu__socials a:hover{color:var(--white)}
@@ -880,10 +921,12 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   pointer-events:none;z-index:3;
 }
 
-/* ── NAV OVERLAY SECTION TONES (mobile override) ────────────── */
-.nav-panel--1{background:#0b0e14}
-.nav-panel--2{background:#090c11}
-/* nav-panel--3 glass defined in main block above — no override needed */
+/* ── NAV MOBILE ─────────────────────────────────────────────── */
+@media(max-width:768px){
+  .nav-links{padding:0 clamp(24px,6vw,48px)}
+  .nav-link__text{font-size:clamp(36px,10vw,64px)}
+  .nav-menu__footer{padding:16px clamp(24px,6vw,48px)}
+}
 
 /* ── UTILS ──────────────────────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

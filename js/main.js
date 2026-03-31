@@ -139,11 +139,11 @@ function openMenu(){
 
   menuTL = gsap.timeline();
   menuTL
-    .to(btnSpans,  { yPercent:-100, stagger:.12, duration:.45, ease:'power2.inOut' }, 0)
+    .to(btnSpans,  { yPercent:-100, stagger:.18, duration:.42, ease:'power2.inOut' }, 0)
     .to(btnIcon,   { rotate:315, duration:.55, ease:'power2.inOut' }, 0)
-    .to(navBg,     { autoAlpha:1, duration:.4 }, 0)
-    .fromTo(panels,{ xPercent:105 }, { xPercent:0, stagger:.1, duration:.55, ease:'power3.inOut' }, 0)
-    .to(links,     { yPercent:0, rotate:0, autoAlpha:1, stagger:.07, duration:.6, ease:'power3.out' }, 0.3);
+    .to(navBg,     { autoAlpha:1, duration:.35 }, 0)
+    .fromTo(panels,{ xPercent:105 }, { xPercent:0, stagger:.12, duration:.575, ease:'power3.inOut' }, 0)
+    .to(links,     { yPercent:0, rotate:0, autoAlpha:1, stagger:.06, duration:.65, ease:'power3.out' }, 0.32);
 }
 function closeMenu(){
   menuOpen = false;
@@ -159,14 +159,14 @@ function closeMenu(){
     gsap.set(overlay, { display:'none', pointerEvents:'none' });
   }});
   menuTL
-    .to(btnSpans,  { yPercent:0, stagger:.1, duration:.4, ease:'power2.inOut' }, 0)
+    .to(btnSpans,  { yPercent:0, stagger:.1, duration:.38, ease:'power2.inOut' }, 0)
     .to(btnIcon,   { rotate:0, duration:.45, ease:'power2.inOut' }, 0)
-    .to(links,     { yPercent:120, rotate:8, autoAlpha:0, stagger:.04, duration:.4 }, 0)
-    .to(panels,    { xPercent:105, stagger:.08, duration:.45 }, 0.15)
-    .to(navBg,     { autoAlpha:0, duration:.3 }, 0.1);
+    .to(links,     { yPercent:140, rotate:10, autoAlpha:0, stagger:.04, duration:.38 }, 0)
+    .to(panels,    { xPercent:105, stagger:.1, duration:.48 }, 0.12)
+    .to(navBg,     { autoAlpha:0, duration:.3 }, 0.08);
 }
 /* Set nav links hidden state via JS (not CSS) so GSAP owns it */
-if(links.length) gsap.set(links, { yPercent:130, rotate:8, autoAlpha:0 });
+if(links.length) gsap.set(links, { yPercent:140, rotate:10, autoAlpha:0 });
 
 if(menuBtn){
   menuBtn.addEventListener('click', ()=>{
@@ -208,17 +208,7 @@ overlay && overlay.querySelectorAll('.nav-link').forEach(a=>{
   a.addEventListener('click', closeMenu);
 });
 
-/* Enhanced nav link hover — x-slide + red glow */
-overlay && overlay.querySelectorAll('.nav-link').forEach(link=>{
-  const text = link.querySelector('.nav-link__text');
-  if(!text) return;
-  link.addEventListener('mouseenter',()=>{
-    gsap.to(text,{ color:'var(--red)', x:14, duration:.3, ease:'power2.out', overwrite:'auto' });
-  });
-  link.addEventListener('mouseleave',()=>{
-    gsap.to(text,{ color:'var(--white)', x:0, duration:.35, ease:'power2.inOut', overwrite:'auto' });
-  });
-});
+/* Nav link hover — handled by CSS (scaleX bg + left red bar) */
 
 /* ── ABOUT STATS COUNTER ─────────────────────────────────── */
 const statNums = document.querySelectorAll('.about__stat .num');
