@@ -189,10 +189,24 @@ allNavLinks.forEach(item=>{
       { scale:.5, opacity:0, rotation:-10 },
       { scale:1, opacity:1, rotation:0, duration:.55, stagger:.07, ease:'back.out(1.7)', overwrite:'auto' }
     );
+    /* Slot machine roll: current text exits up, duplicate rolls in from below */
+    const slotA = item.querySelector('.slot-a');
+    const slotB = item.querySelector('.slot-b');
+    if(slotA && slotB){
+      gsap.to(slotA,  { yPercent:-100, duration:.42, ease:'power3.inOut', overwrite:'auto' });
+      gsap.fromTo(slotB, { yPercent:100 }, { yPercent:0, duration:.42, ease:'power3.inOut', overwrite:'auto' });
+    }
   });
   item.addEventListener('mouseleave',()=>{
     gsap.to(els,{ scale:.8, opacity:0, duration:.3, ease:'power2.in', overwrite:'auto',
       onComplete:()=> shape.classList.remove('active') });
+    /* Slot machine reset */
+    const slotA = item.querySelector('.slot-a');
+    const slotB = item.querySelector('.slot-b');
+    if(slotA && slotB){
+      gsap.to(slotA, { yPercent:0,   duration:.38, ease:'power2.inOut', overwrite:'auto' });
+      gsap.to(slotB, { yPercent:100, duration:.38, ease:'power2.inOut', overwrite:'auto' });
+    }
   });
 });
 
@@ -633,9 +647,9 @@ window.addEventListener('load', ()=>{
       onEnter(){
         const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
 
-        /* 1. Map zooms in from big+blurry → small+clear (like focusing a lens) */
+        /* 1. Map: lens-focus from blurry+big → sharp — like NatGeo depth-of-field */
         mapImg && tl.to(mapImg,
-          { scale:1, opacity:.06, filter:'blur(0px)', duration:1.9, ease:'power2.out' }, 0);
+          { scale:1, opacity:.07, filter:'blur(0px)', duration:2.2, ease:'power2.out' }, 0);
 
         /* 2. Label drops in */
         tl.to(lbl, { opacity:1, y:0, duration:.5 }, 0.2);
@@ -656,6 +670,15 @@ window.addEventListener('load', ()=>{
         tl.to(vals,
           { scale:1, opacity:1, y:0, rotation:0, stagger:.07, duration:.48,
             ease:'back.out(1.8)' }, 1.2);
+      }
+    });
+
+    /* NatGeo parallax: map drifts on its own depth plane as you scroll */
+    mapImg && ScrollTrigger.create({
+      trigger:sec, start:'top bottom', end:'bottom top', scrub:true,
+      onUpdate(self){
+        const drift = self.progress * -60; /* map moves up slower than page */
+        gsap.set(mapImg, { y: drift, overwrite:'auto' });
       }
     });
   })();
