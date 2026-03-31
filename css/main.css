@@ -75,40 +75,145 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 @keyframes splashOut{to{opacity:0;pointer-events:none}}
 
 /* ── HEADER ─────────────────────────────────────────────────── */
-.header{position:fixed;top:0;left:0;right:0;z-index:900;padding:clamp(16px,2vw,24px) clamp(20px,5vw,60px);transition:background .4s,backdrop-filter .4s}
-.header.scrolled{background:rgba(6,6,8,.7);backdrop-filter:blur(20px)}
-.header__inner{display:flex;align-items:center;justify-content:space-between}
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:clamp(14px,2vw,22px) clamp(20px,5vw,60px);
+  overflow:hidden;
+  transition:background .5s,backdrop-filter .5s,border-color .5s,box-shadow .5s;
+  border-bottom:1px solid transparent;
+}
+
+/* ── LIQUID GLASS state (after hero) ─── */
+.header.scrolled{
+  background:rgba(8,9,11,.38);
+  backdrop-filter:blur(32px) saturate(180%) brightness(1.06);
+  -webkit-backdrop-filter:blur(32px) saturate(180%) brightness(1.06);
+  border-bottom-color:rgba(255,255,255,.055);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 8px 40px rgba(0,0,0,.35);
+}
+/* Liquid shimmer — animated highlight that sweeps across the glass */
+.header.scrolled::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:linear-gradient(
+    108deg,
+    transparent 0%,
+    rgba(255,255,255,.035) 38%,
+    rgba(255,255,255,.065) 50%,
+    rgba(255,255,255,.02) 62%,
+    transparent 100%
+  );
+  background-size:260% 100%;
+  animation:glassShimmer 8s ease-in-out infinite;
+}
+/* Subtle red-glow hairline at bottom */
+.header.scrolled::after{
+  content:'';position:absolute;bottom:0;left:6%;right:6%;height:1px;pointer-events:none;
+  background:linear-gradient(to right,transparent,rgba(255,49,49,.18),transparent);
+}
+@keyframes glassShimmer{
+  0%  {background-position:200% 0}
+  50% {background-position:-200% 0}
+  100%{background-position:200% 0}
+}
+
+.header__inner{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
 .header__logo img{height:clamp(22px,2vw,30px);opacity:1}
-.header__right{display:flex;align-items:center;gap:20px}
+.header__right{display:flex;align-items:center;gap:16px}
 .header__hint{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--gray-text);text-transform:uppercase}
-.nav-btn{display:flex;align-items:center;gap:12px;color:var(--white);position:relative;overflow:hidden;height:40px}
+
+/* ── NAV BUTTON — glass pill (visible over hero video too) ───── */
+.nav-btn{
+  display:flex;align-items:center;gap:12px;
+  color:var(--white);position:relative;
+  height:40px;padding:0 18px;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:100px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+  transition:background .3s,border-color .3s,box-shadow .3s;
+  overflow:hidden;
+}
+/* Inner shimmer on the pill */
+.nav-btn::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 60%);
+  border-radius:inherit;
+}
+.nav-btn:hover{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 0 18px rgba(255,255,255,.06);
+}
+.header.scrolled .nav-btn{
+  border-color:rgba(255,49,49,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 0 rgba(255,49,49,0);
+}
+.header.scrolled .nav-btn:hover{
+  border-color:rgba(255,49,49,.45);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 24px rgba(255,49,49,.1);
+}
 .nav-btn__text{display:flex;flex-direction:column;overflow:hidden;height:1.3em;line-height:1.3}
-.nav-btn__text span{font-family:var(--font-display);font-size:clamp(13px,1.1vw,15px);letter-spacing:.08em;text-transform:uppercase;display:block;will-change:transform}
-.nav-btn__icon{width:22px;height:22px;transition:transform .7s var(--ease)}
+.nav-btn__text span{font-family:var(--font-display);font-size:clamp(12px,1vw,14px);letter-spacing:.1em;text-transform:uppercase;display:block;will-change:transform}
+.nav-btn__icon{width:20px;height:20px;transition:transform .7s var(--ease);flex-shrink:0}
 .nav-btn.active .nav-btn__icon{transform:rotate(315deg)}
 
 /* ── KINETIC NAV ────────────────────────────────────────────── */
 .nav-overlay{position:fixed;inset:0;z-index:800;display:none;pointer-events:none}
 .nav-overlay[data-state="open"]{display:block;pointer-events:auto}
-.nav-overlay__bg{position:absolute;inset:0;background:rgba(6,6,8,.5);opacity:0}
+.nav-overlay__bg{position:absolute;inset:0;background:rgba(4,5,7,.55);opacity:0}
 .nav-menu{position:absolute;top:0;right:0;width:min(620px,100vw);height:100%;display:flex;flex-direction:column;justify-content:center;transform:translateX(100%)}
 .nav-menu__panels{position:absolute;inset:0;overflow:hidden}
 .nav-panel{position:absolute;inset:0;transform:translateX(105%)}
-.nav-panel--1{background:#0d0d10}
-.nav-panel--2{background:#0a0a0d}
-.nav-panel--3{background:var(--bg2)}
+/* Depth layers — progressively darker */
+.nav-panel--1{background:#0b0e14}
+.nav-panel--2{background:#090c11}
+/* Panel 3 = liquid glass face of the nav */
+.nav-panel--3{
+  background:rgba(8,10,15,.52);
+  backdrop-filter:blur(44px) saturate(160%) brightness(1.05);
+  -webkit-backdrop-filter:blur(44px) saturate(160%) brightness(1.05);
+  border-left:1px solid rgba(255,255,255,.06);
+}
+/* Glass surface highlight on nav */
+.nav-panel--3::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(
+    140deg,
+    rgba(255,255,255,.045) 0%,
+    transparent 45%,
+    rgba(255,49,49,.025) 100%
+  );
+}
+/* Liquid shimmer across nav surface */
+.nav-panel--3::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(
+    108deg,
+    transparent 0%,
+    rgba(255,255,255,.03) 40%,
+    rgba(255,255,255,.055) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size:280% 100%;
+  animation:glassShimmer 10s ease-in-out 0.8s infinite;
+}
 .nav-menu__shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .nav-shape{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .3s}
 .nav-shape.active{opacity:1}
 .shape-el{opacity:0;transform-origin:center;transform:scale(0.5)}
 .nav-links{position:relative;z-index:2;padding:clamp(24px,5vw,60px) clamp(32px,6vw,80px)}
-.nav-links__item{overflow:hidden;border-top:1px solid var(--gray)}
-.nav-links__item:last-child{border-bottom:1px solid var(--gray)}
+.nav-links__item{overflow:hidden;border-top:1px solid rgba(255,255,255,.06)}
+.nav-links__item:last-child{border-bottom:1px solid rgba(255,255,255,.06)}
 .nav-link{display:block;position:relative;padding:clamp(14px,2vw,22px) 0;overflow:hidden}
 .nav-link__text{display:block;font-family:var(--font-display);font-size:clamp(32px,6vw,72px);letter-spacing:.02em;text-transform:uppercase;color:var(--white);transition:color .3s;will-change:transform,opacity}
 /* Initial hidden state set by JS, not CSS — avoids GSAP conflict */
 .nav-link:hover .nav-link__text{color:var(--red)}
-.nav-link__bg{position:absolute;inset:0;background:var(--gray);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.nav-link__bg{position:absolute;inset:0;background:rgba(255,255,255,.03);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
 .nav-link:hover .nav-link__bg{transform:scaleX(1)}
 .nav-menu__footer{position:relative;z-index:2;padding:24px clamp(32px,6vw,80px);display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-text)}
 .nav-menu__socials{display:flex;gap:20px}
@@ -775,10 +880,10 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   pointer-events:none;z-index:3;
 }
 
-/* ── NAV OVERLAY SECTION TONES ──────────────────────────────── */
-.nav-panel--1{background:#0b0e12}
-.nav-panel--2{background:#090c10}
-.nav-panel--3{background:#07090d}
+/* ── NAV OVERLAY SECTION TONES (mobile override) ────────────── */
+.nav-panel--1{background:#0b0e14}
+.nav-panel--2{background:#090c11}
+/* nav-panel--3 glass defined in main block above — no override needed */
 
 /* ── UTILS ──────────────────────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
