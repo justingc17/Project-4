@@ -25,10 +25,7 @@ No somos recién llegados. Llevamos años construyendo en digital cuando todaví
 | Nombre | Project 4 |
 | Tipo | Agencia digital |
 | Sede | Chihuahua, Chihuahua, México |
-| Presencia | 12 países |
-| Años operando | 8+ |
-| Proyectos entregados | 120+ |
-| Redes | Instagram · LinkedIn · Behance |
+| Redes | Instagram · facebook tiktok 
 
 ---
 
