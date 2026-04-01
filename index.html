@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Project 4 — Agencia digital premium. Ecosistemas corporativos que transforman marcas."/>
+<title>Project 4 — Digital Ecosystems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+
+<!-- GRAIN OVERLAY -->
+<div id="grain" aria-hidden="true"></div>
+
+<!-- CURSOR -->
+<div id="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash__inner">
+    <div class="splash__logo">
+      <img src="assets/logo oficial.png" alt="Project 4"/>
+    </div>
+    <div class="splash__bar"><div class="splash__fill" id="splashFill"></div></div>
+    <span class="splash__pct" id="splashPct">0%</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#hero" class="header__logo" aria-label="Project 4">
+      <img src="assets/logo oficial.png" alt="Project 4" height="38"/>
+    </a>
+    <div class="header__right">
+      <button class="nav-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">
+        <div class="nav-btn__text">
+          <span>Menu</span>
+          <span>Close</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- KINETIC FULLSCREEN NAV -->
+<div class="nav-overlay" id="navOverlay" data-state="closed" aria-hidden="true">
+  <div class="nav-overlay__bg" id="navBg"></div>
+  <nav class="nav-menu">
+    <div class="nav-menu__panels">
+      <div class="nav-panel nav-panel--1"></div>
+      <div class="nav-panel nav-panel--2"></div>
+      <div class="nav-panel nav-panel--3"></div>
+    </div>
+    <div class="nav-menu__shapes" id="navShapes">
+      <!-- Shape per link, brand colors -->
+      <svg class="nav-shape nav-shape--1" viewBox="0 0 500 500" fill="none">
+        <circle class="shape-el" cx="100" cy="150" r="80" fill="rgba(49,149,255,.12)"/>
+        <circle class="shape-el" cx="380" cy="100" r="120" fill="rgba(49,149,255,.08)"/>
+        <circle class="shape-el" cx="250" cy="380" r="100" fill="rgba(92,225,230,.07)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--2" viewBox="0 0 500 500" fill="none">
+        <path class="shape-el" d="M0 250 Q125 100 250 250 T 500 250" stroke="rgba(234,51,63,.18)" stroke-width="80" fill="none"/>
+        <path class="shape-el" d="M0 350 Q125 200 250 350 T 500 350" stroke="rgba(234,51,63,.1)" stroke-width="50" fill="none"/>
+      </svg>
+      <svg class="nav-shape nav-shape--3" viewBox="0 0 500 500" fill="none">
+        <circle class="shape-el" cx="80" cy="80" r="14" fill="rgba(17,60,65,.6)"/>
+        <circle class="shape-el" cx="200" cy="80" r="14" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="320" cy="80" r="14" fill="rgba(17,60,65,.6)"/>
+        <circle class="shape-el" cx="440" cy="80" r="14" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="140" cy="200" r="20" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="260" cy="200" r="20" fill="rgba(92,225,230,.3)"/>
+        <circle class="shape-el" cx="380" cy="200" r="20" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="80" cy="340" r="16" fill="rgba(92,225,230,.4)"/>
+        <circle class="shape-el" cx="200" cy="340" r="16" fill="rgba(17,60,65,.5)"/>
+        <circle class="shape-el" cx="350" cy="340" r="16" fill="rgba(92,225,230,.3)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--4" viewBox="0 0 500 500" fill="none">
+        <path class="shape-el" d="M120 120 Q170 60 220 120 Q270 180 220 240 Q170 300 120 240 Q70 180 120 120" fill="rgba(230,113,17,.1)"/>
+        <path class="shape-el" d="M300 250 Q360 180 420 250 Q480 320 420 390 Q360 430 300 390 Q240 320 300 250" fill="rgba(230,113,17,.07)"/>
+        <circle class="shape-el" cx="170" cy="380" r="60" fill="rgba(230,113,17,.06)"/>
+      </svg>
+      <svg class="nav-shape nav-shape--5" viewBox="0 0 500 500" fill="none">
+        <line class="shape-el" x1="0" y1="150" x2="400" y2="500" stroke="rgba(49,149,255,.15)" stroke-width="50"/>
+        <line class="shape-el" x1="150" y1="0" x2="500" y2="350" stroke="rgba(234,51,63,.1)" stroke-width="40"/>
+        <line class="shape-el" x1="280" y1="0" x2="500" y2="220" stroke="rgba(92,225,230,.08)" stroke-width="30"/>
+      </svg>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li class="nav-links__item" data-shape="1"><a href="#about" class="nav-link"><span class="nav-link__text"><span class="slot-a">Nosotros</span><span class="slot-b" aria-hidden="true">Nosotros</span></span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="2"><a href="#services" class="nav-link"><span class="nav-link__text"><span class="slot-a">Servicios</span><span class="slot-b" aria-hidden="true">Servicios</span></span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="3"><a href="#portfolio" class="nav-link"><span class="nav-link__text"><span class="slot-a">Portafolio</span><span class="slot-b" aria-hidden="true">Portafolio</span></span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="4"><a href="#methodology" class="nav-link"><span class="nav-link__text"><span class="slot-a">Metodología</span><span class="slot-b" aria-hidden="true">Metodología</span></span><div class="nav-link__bg"></div></a></li>
+      <li class="nav-links__item" data-shape="5"><a href="#contact" class="nav-link"><span class="nav-link__text"><span class="slot-a">Contacto</span><span class="slot-b" aria-hidden="true">Contacto</span></span><div class="nav-link__bg"></div></a></li>
+    </ul>
+    <div class="nav-menu__footer">
+      <span>Chihuahua, México</span>
+      <div class="nav-menu__socials">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="LinkedIn">LI</a>
+        <a href="#" aria-label="Behance">BE</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero__media">
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline>
+      <source src="https://res.cloudinary.com/degisx2oq/video/upload/v1773968303/0318_1_1_imwrz4.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero__overlay"></div>
+  </div>
+  <div class="hero__content" id="heroContent">
+    <p class="hero__eyebrow">Agencia Digital · Chihuahua, MX</p>
+    <h1 class="hero__title" aria-label="PROJECT 4">
+      <span class="hero__title-word" id="heroWord">PROJECT</span>
+      <span class="hero__title-num"  id="heroNum">4</span>
+    </h1>
+    <div class="hero__accent" id="heroAccent"></div>
+    <p class="hero__sub">Ecosistemas digitales que transforman marcas.<br/>ROI real. Sin excusas.</p>
+    <div class="hero__cta-row">
+      <a href="#about" class="btn-primary">
+        Conócenos
+        <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#contact" class="btn-ghost">Solicitar propuesta</a>
+    </div>
+  </div>
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-line"><div class="hero__scroll-dot"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Diseño Web Inmersivo</span><span class="sep">◆</span>
+    <span>E-Commerce Premium</span><span class="sep">◆</span>
+    <span>Branding Estratégico</span><span class="sep">◆</span>
+    <span>Automatización IA</span><span class="sep">◆</span>
+    <span>Meta Ads</span><span class="sep">◆</span>
+    <span>Rescate de Proyectos</span><span class="sep">◆</span>
+    <span>Diseño Web Inmersivo</span><span class="sep">◆</span>
+    <span>E-Commerce Premium</span><span class="sep">◆</span>
+    <span>Branding Estratégico</span><span class="sep">◆</span>
+    <span>Automatización IA</span><span class="sep">◆</span>
+    <span>Meta Ads</span><span class="sep">◆</span>
+    <span>Rescate de Proyectos</span><span class="sep">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about reveal-section">
+  <!-- Mexico map dot-matrix background -->
+  <div class="about__map-bg" aria-hidden="true">
+    <img src="assets/globe-chihuahua-cdmx.svg" alt=""/>
+  </div>
+  <div class="about__inner">
+    <div class="about__text">
+      <span class="label">01 — Nosotros</span>
+      <h2 class="about__title">Dominamos el<br/>mercado digital.<br/><em>Desde adentro.</em></h2>
+      <p class="about__body">No somos recién llegados. Llevamos años construyendo en digital cuando todavía no era negocio. Eso nos da una ventaja que ninguna agencia nueva puede comprar: <strong>experiencia real en cada etapa del ecosistema.</strong></p>
+      <p class="about__body">Somos la agencia que no desaparece después del pago. Aportamos valor antes de cobrar y nuestro compromiso no termina en la entrega — empieza ahí.</p>
+      <div class="about__values">
+        <span>Honestidad</span><span>Confianza</span><span>Responsabilidad</span><span>Cercanía</span><span>Innovación</span>
+      </div>
+    </div>
+    <div class="about__right">
+      <div class="about__origin">
+        <div class="about__map-pin">
+          <div class="about__map-pulse"></div>
+          <span class="label">Chihuahua, MX</span>
+        </div>
+      </div>
+      <div class="about__stats">
+        <div class="about__stat">
+          <span class="num">8<span class="num__suf">+</span></span>
+          <span class="about__stat-label">Años operando</span>
+        </div>
+        <div class="about__stat">
+          <span class="num">120<span class="num__suf">+</span></span>
+          <span class="about__stat-label">Proyectos entregados</span>
+        </div>
+        <div class="about__stat">
+          <span class="num">12</span>
+          <span class="about__stat-label">Países con presencia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services reveal-section">
+  <div class="services__inner">
+    <span class="label">02 — Servicios</span>
+    <h2 class="services__title">Lo que<br/><em>construimos</em>.</h2>
+
+    <!-- Feature Carousel — pills left, card stack right -->
+    <div class="svc-carousel" id="svcCarousel">
+      <div class="svc-carousel__left">
+        <div class="svc-left__track" id="svcTrack"><!-- pills injected by JS --></div>
+      </div>
+      <div class="svc-carousel__right">
+        <div class="svc-stack" id="svcStack"><!-- cards injected by JS --></div>
+      </div>
+    </div>
+
+    <div class="services__cta-row">
+      <a href="#contact" class="btn-primary">
+        Cuéntanos tu proyecto
+        <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="portfolio reveal-section">
+  <div class="portfolio__inner">
+    <div class="portfolio__header">
+      <span class="label">03 — Portafolio</span>
+      <h2 class="portfolio__title">Trabajo<br/><em>selecto</em><span class="portfolio__title-more"> y más</span>.</h2>
+    </div>
+    <div class="portfolio__layout">
+      <ul class="pf-list" id="pfList">
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80">
+          <a href="https://www.algoritso.com" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">SaaS · Tecnología</span>
+              <span class="pf-item__year">2024</span>
+            </div>
+            <div class="pf-item__name">Algoritso<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80">
+          <a href="https://hotyogacuu.com.mx" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Wellness · Reservas</span>
+              <span class="pf-item__year">2024</span>
+            </div>
+            <div class="pf-item__name">Hot Yoga CUU<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80">
+          <a href="#contact" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Lifestyle · E-Commerce</span>
+              <span class="pf-item__year">2024</span>
+            </div>
+            <div class="pf-item__name">Savanma<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80">
+          <a href="#contact" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Constructora · Corporativo</span>
+              <span class="pf-item__year">2023</span>
+            </div>
+            <div class="pf-item__name">Herrcava<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1?w=600&q=80">
+          <a href="https://gallery2020mx.netlify.app" target="_blank" rel="noopener" class="pf-item__link">
+            <div class="pf-item__meta">
+              <span class="pf-item__cat">Arte · Galería</span>
+              <span class="pf-item__year">2022</span>
+            </div>
+            <div class="pf-item__name">Gallery 2020<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__bar"></div>
+          </a>
+        </li>
+      </ul>
+      <div class="pf-preview" id="pfPreview" aria-hidden="true">
+        <div class="pf-preview__img" id="pfImg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLD / GLOBE -->
+<section id="world" class="world reveal-section">
+  <div class="world__header">
+    <span class="label">04 — Impacto Global</span>
+    <h2 class="world__title">Marcas que<br/>rompieron<br/><em>límites</em>.</h2>
+  </div>
+  <div class="world__stage">
+    <div class="world__globe-wrap">
+      <canvas id="globeCanvas"></canvas>
+      <!-- Polaroid cards -->
+      <div class="polaroid polaroid--mx" id="polMX" data-case="0">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>México · CDMX</span>
+        </div>
+      </div>
+      <div class="polaroid polaroid--uk" id="polUK" data-case="1">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>United Kingdom</span>
+        </div>
+      </div>
+      <div class="polaroid polaroid--es" id="polES" data-case="2">
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=300&q=80')"></div>
+        <div class="polaroid__label">
+          <span class="polaroid__pin"></span>
+          <span>Japón · Tokio</span>
+        </div>
+      </div>
+    </div>
+    <!-- Case study panel -->
+    <div class="world__case" id="worldCase">
+      <div class="world__case-inner">
+        <!-- Hidden tabs keep JS state; dots are the visible indicator -->
+        <div class="world__case-tabs" aria-hidden="true" style="display:none">
+          <button class="world__tab world__tab--active" data-case="0">Bitso · MX</button>
+          <button class="world__tab" data-case="1">Gymshark · UK</button>
+          <button class="world__tab" data-case="2">Mercari · JP</button>
+        </div>
+        <div class="world__scroll-dots" aria-hidden="true">
+          <span class="world__dot world__dot--active" data-case="0"></span>
+          <span class="world__dot" data-case="1"></span>
+          <span class="world__dot" data-case="2"></span>
+          <span class="world__dot-label">scroll para explorar</span>
+        </div>
+        <div class="world__case-content" id="caseContent">
+          <span class="world__case-country" id="caseCountry">🇲🇽 México</span>
+          <h3 class="world__case-name" id="caseName">Bitso</h3>
+          <p class="world__case-desc" id="caseDesc">La primera plataforma cripto de México escaló de startup regional a procesar más de $1B USD anuales. Sin una sola sucursal física. Solo tecnología, confianza y una experiencia digital impecable que convirtió a millones de mexicanos en sus primeros usuarios de crypto.</p>
+          <div class="world__case-metric">
+            <span class="world__case-num" id="caseNum">$1B+</span>
+            <span class="world__case-unit" id="caseUnit">USD procesados / año</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology" class="methodology reveal-section">
+  <div class="methodology__inner">
+    <span class="label">05 — Proceso</span>
+    <h2 class="methodology__title">Cómo lo<br/><em>hacemos</em>.</h2>
+    <div class="method-graph" id="methodGraph" aria-label="Proceso de trabajo">
+      <svg class="method-svg" viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Background dashed tracks -->
+        <path d="M 160 150 C 230 150 280 150 320 150" stroke="rgba(49,149,255,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 420 150 C 490 150 540 150 580 150" stroke="rgba(234,51,63,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <path d="M 680 150 C 750 150 800 150 840 150" stroke="rgba(92,225,230,0.15)" stroke-width="1" stroke-dasharray="4 4" fill="none"/>
+        <!-- Progress fill lines (JS-animated via dashoffset) -->
+        <path id="prog01" d="M 160 150 C 230 150 280 150 320 150" stroke="#3195ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path id="prog12" d="M 420 150 C 490 150 540 150 580 150" stroke="#ea333f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path id="prog23" d="M 680 150 C 750 150 800 150 840 150" stroke="#5ce1e6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Glow dot at path start (activated by JS) -->
+        <circle id="glow01" cx="320" cy="150" r="4" fill="#3195ff" opacity="0"/>
+        <circle id="glow12" cx="580" cy="150" r="4" fill="#ea333f" opacity="0"/>
+        <circle id="glow23" cx="840" cy="150" r="4" fill="#5ce1e6" opacity="0"/>
+        <!-- Continuously flowing particles along each connector -->
+        <circle r="5" fill="#ff3131" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0s"
+            path="M 160 150 C 230 150 280 150 320 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4" fill="#ff3131" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.9s"
+            path="M 160 150 C 230 150 280 150 320 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.9s"/>
+        </circle>
+        <circle r="5" fill="#ea333f" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.3s"
+            path="M 420 150 C 490 150 540 150 580 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+        </circle>
+        <circle r="4" fill="#ea333f" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="1.2s"
+            path="M 420 150 C 490 150 540 150 580 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="1.2s"/>
+        </circle>
+        <circle r="5" fill="#5ce1e6" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.6s"
+            path="M 680 150 C 750 150 800 150 840 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.6s"/>
+        </circle>
+        <circle r="4" fill="#5ce1e6" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="1.5s"
+            path="M 680 150 C 750 150 800 150 840 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+      </svg>
+      <!-- Nodes -->
+      <div class="method-nodes">
+        <div class="method-node reveal-node" data-delay="0">
+          <div class="method-node__icon" style="--c:#ff3131">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M11 8v3l2 2"/></svg>
+          </div>
+          <span class="method-node__word">Radiografiar</span>
+          <p class="method-node__desc">Diseccionamos tu negocio. Cada ángulo, cada variable, sin suposiciones.</p>
+        </div>
+        <div class="method-node reveal-node" data-delay="0.2">
+          <div class="method-node__icon" style="--c:#1a3446">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="method-node__word">Proyectar</span>
+          <p class="method-node__desc">Arquitectamos la solución exacta. ROI visible desde el diseño.</p>
+        </div>
+        <div class="method-node reveal-node" data-delay="0.4">
+          <div class="method-node__icon" style="--c:#113c41">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="method-node__word">Encender</span>
+          <p class="method-node__desc">Lanzamos con velocidad quirúrgica. Sprints semanales, resultados reales.</p>
+        </div>
+        <div class="method-node reveal-node" data-delay="0.6">
+          <div class="method-node__icon" style="--c:#ff3131">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/><circle cx="5" cy="19" r="2"/></svg>
+          </div>
+          <span class="method-node__word">Multiplicar</span>
+          <p class="method-node__desc">Crecimiento compuesto. Tu equipo digital que no para nunca.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact reveal-section">
+  <div class="contact__inner">
+    <div class="contact__left">
+      <span class="label">06 — Contacto</span>
+      <h2 class="contact__title">Tu proyecto<br/>empieza<br/><em>hoy</em>.</h2>
+      <p class="contact__sub">Primera consulta sin costo. Te decimos honestamente qué necesitas — sin ventas de humo.</p>
+      <div class="contact__links">
+        <a href="mailto:hola@project4.mx" class="contact__link">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M2 4h16l-8 8-8-8zm0 0v12h16V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          hola@project4.mx
+        </a>
+        <a href="https://wa.me/5216141000000" class="contact__link">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.54.42 2.98 1.14 4.22L2 18l3.86-1.12A7.94 7.94 0 0010 18c4.42 0 8-3.58 8-8s-3.58-8-8-8z" stroke="currentColor" stroke-width="1.4"/></svg>
+          WhatsApp directo
+        </a>
+      </div>
+    </div>
+    <div class="contact__right">
+      <div class="glass-card" id="contactCard">
+        <div class="glass-card__border" aria-hidden="true"></div>
+        <form class="contact-form" id="contactForm" novalidate>
+          <h3 class="contact-form__title">Solicitar propuesta</h3>
+          <div class="form-group">
+            <label for="fname">NOMBRE COMPLETO *</label>
+            <input type="text" id="fname" name="name" placeholder="Ej. Carlos Mendoza" required autocomplete="name"/>
+          </div>
+          <div class="form-group">
+            <label for="femail">CORREO CORPORATIVO *</label>
+            <input type="email" id="femail" name="email" placeholder="tu@empresa.com" required autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label for="fmsg">ÁREA DE INTERÉS O RETO *</label>
+            <textarea id="fmsg" name="message" placeholder="Describe qué necesitas..." rows="4" required></textarea>
+          </div>
+          <label class="form-check">
+            <input type="checkbox" required/>
+            <span>He leído y acepto la <a href="#">política de privacidad</a></span>
+          </label>
+          <button type="submit" class="btn-send">
+            Enviar solicitud <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="form-note">Respondemos en menos de 24 horas.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <!-- Mirror footer statement -->
+  <div class="footer__mirror" aria-hidden="true">
+    <!-- Top reflection: inverted, fading up -->
+    <div class="footer__mirror-ref footer__mirror-ref--top">
+      <span class="footer__mirror-text">PROJECT 4</span>
+    </div>
+    <!-- Mirror axis line -->
+    <div class="footer__mirror-axis"></div>
+    <!-- Main text -->
+    <div class="footer__mirror-main">
+      <span class="footer__mirror-text">PROJECT 4</span>
+    </div>
+    <!-- Mirror axis line -->
+    <div class="footer__mirror-axis"></div>
+    <!-- Bottom reflection: inverted, fading down -->
+    <div class="footer__mirror-ref footer__mirror-ref--bot">
+      <span class="footer__mirror-text">PROJECT 4</span>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 Project 4. Chihuahua, México.</span>
+    <div class="footer__nav">
+      <a href="#about">Nosotros</a>
+      <a href="#services">Servicios</a>
+      <a href="#portfolio">Portafolio</a>
+      <a href="#contact">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/globe.js" defer></script>
+<script src="js/cursor.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
