@@ -461,7 +461,7 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 
 /* Left panel – pill list */
 .svc-carousel__left{
-  position:relative;width:100%;background:var(--navy);
+  position:relative;width:100%;background:#0a1a1c;
   overflow:hidden;display:flex;align-items:center;justify-content:center;
   min-height:260px;
 }
@@ -472,8 +472,8 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   content:'';position:absolute;left:0;right:0;
   height:clamp(60px,10%,90px);z-index:5;pointer-events:none;
 }
-.svc-carousel__left::before{top:0;background:linear-gradient(to bottom,var(--navy),transparent)}
-.svc-carousel__left::after{bottom:0;background:linear-gradient(to top,var(--navy),transparent)}
+.svc-carousel__left::before{top:0;background:linear-gradient(to bottom,#0a1a1c,transparent)}
+.svc-carousel__left::after{bottom:0;background:linear-gradient(to top,#0a1a1c,transparent)}
 
 /* Track – the single centered slot where pills stack via GSAP y */
 .svc-left__track{
@@ -560,11 +560,10 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   text-transform:uppercase;color:rgba(240,236,228,.7);
 }
 
-/* More services */
-.services__more{margin-top:clamp(28px,4vw,48px);padding:clamp(20px,3vw,32px);border:1px solid var(--gray2);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg3)}
-.services__more-text{font-size:clamp(14px,1.1vw,16px);color:var(--gray-text);line-height:1.7;max-width:500px}
-.services__more-text strong{color:var(--white)}
-@media(max-width:600px){.services__more{flex-direction:column;align-items:flex-start}}
+/* Services CTA */
+.services__cta-row{margin-top:clamp(28px,4vw,48px);display:flex;justify-content:center}
+/* Portfolio "y más" accent */
+.portfolio__title-more{font-family:var(--font-body);font-weight:300;font-size:.55em;letter-spacing:.05em;color:var(--gray-text);vertical-align:middle;font-style:italic}
 
 /* ── PORTFOLIO ──────────────────────────────────────────────── */
 .portfolio__header{margin-bottom:clamp(40px,5vw,70px)}
@@ -691,10 +690,24 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 }
 .glass-card::before{
   content:'';position:absolute;inset:0;border-radius:16px;padding:1.5px;
-  background:conic-gradient(from var(--angle,0deg),var(--red),var(--navy),rgba(255,255,255,.3),var(--red));
+  /* Two bright stripes at 0° and 180° rotating around the border */
+  background:conic-gradient(
+    from var(--angle,0deg),
+    transparent 0deg,
+    rgba(255,49,49,.9) 25deg,
+    rgba(255,255,255,.7) 42deg,
+    rgba(255,49,49,.5) 58deg,
+    transparent 85deg,
+    transparent 180deg,
+    rgba(255,49,49,.9) 205deg,
+    rgba(255,255,255,.7) 222deg,
+    rgba(255,49,49,.5) 238deg,
+    transparent 265deg,
+    transparent 360deg
+  );
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;
-  animation:borderSpin 4s linear infinite;
+  animation:borderSpin 3.5s linear infinite;
 }
 @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes borderSpin{to{--angle:360deg}}
@@ -851,7 +864,6 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   .svc-pill__icon{width:13px;height:13px}
   .svc-carousel__right{min-height:320px;padding:20px}
   .svc-stack{max-width:240px}
-  .services__more{padding:18px 20px;gap:16px}
 }
 
 /* ── MOBILE PORTFOLIO ───────────────────────────────────────── */

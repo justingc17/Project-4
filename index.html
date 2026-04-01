@@ -215,9 +215,7 @@
       </div>
     </div>
 
-    <!-- More services -->
-    <div class="services__more">
-      <p class="services__more-text">También hacemos <strong>creación de contenido</strong>, <strong>fotografía & video</strong>, <strong>gestión de redes</strong>, <strong>package design</strong> y mucho más.</p>
+    <div class="services__cta-row">
       <a href="#contact" class="btn-primary">
         Cuéntanos tu proyecto
         <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -231,7 +229,7 @@
   <div class="portfolio__inner">
     <div class="portfolio__header">
       <span class="label">03 — Portafolio</span>
-      <h2 class="portfolio__title">Trabajo<br/><em>selecto</em>.</h2>
+      <h2 class="portfolio__title">Trabajo<br/><em>selecto</em><span class="portfolio__title-more"> y más</span>.</h2>
     </div>
     <div class="portfolio__layout">
       <ul class="pf-list" id="pfList">
@@ -255,13 +253,13 @@
             <div class="pf-item__bar"></div>
           </a>
         </li>
-        <li class="pf-item" data-img="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80">
-          <a href="https://reinventacapacitacion.com.mx" target="_blank" rel="noopener" class="pf-item__link">
+        <li class="pf-item" data-img="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80">
+          <a href="#contact" class="pf-item__link">
             <div class="pf-item__meta">
-              <span class="pf-item__cat">Consultoría · Educación</span>
-              <span class="pf-item__year">2023</span>
+              <span class="pf-item__cat">Lifestyle · E-Commerce</span>
+              <span class="pf-item__year">2024</span>
             </div>
-            <div class="pf-item__name">Reinventa<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="pf-item__name">Savanma<svg viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
             <div class="pf-item__bar"></div>
           </a>
         </li>
@@ -318,10 +316,10 @@
         </div>
       </div>
       <div class="polaroid polaroid--es" id="polES" data-case="2">
-        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&q=80')"></div>
+        <div class="polaroid__img" style="background-image:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=300&q=80')"></div>
         <div class="polaroid__label">
           <span class="polaroid__pin"></span>
-          <span>España</span>
+          <span>Japón · Tokio</span>
         </div>
       </div>
     </div>
@@ -332,7 +330,7 @@
         <div class="world__case-tabs" aria-hidden="true" style="display:none">
           <button class="world__tab world__tab--active" data-case="0">Bitso · MX</button>
           <button class="world__tab" data-case="1">Gymshark · UK</button>
-          <button class="world__tab" data-case="2">Nude Project · ES</button>
+          <button class="world__tab" data-case="2">Mercari · JP</button>
         </div>
         <div class="world__scroll-dots" aria-hidden="true">
           <span class="world__dot world__dot--active" data-case="0"></span>
@@ -373,36 +371,67 @@
         <circle id="glow01" cx="320" cy="150" r="4" fill="#3195ff" opacity="0"/>
         <circle id="glow12" cx="580" cy="150" r="4" fill="#ea333f" opacity="0"/>
         <circle id="glow23" cx="840" cy="150" r="4" fill="#5ce1e6" opacity="0"/>
+        <!-- Continuously flowing particles along each connector -->
+        <circle r="5" fill="#ff3131" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0s"
+            path="M 160 150 C 230 150 280 150 320 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4" fill="#ff3131" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.9s"
+            path="M 160 150 C 230 150 280 150 320 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.9s"/>
+        </circle>
+        <circle r="5" fill="#ea333f" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.3s"
+            path="M 420 150 C 490 150 540 150 580 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+        </circle>
+        <circle r="4" fill="#ea333f" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="1.2s"
+            path="M 420 150 C 490 150 540 150 580 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="1.2s"/>
+        </circle>
+        <circle r="5" fill="#5ce1e6" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.6s"
+            path="M 680 150 C 750 150 800 150 840 150"/>
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="0.6s"/>
+        </circle>
+        <circle r="4" fill="#5ce1e6" opacity="0" class="flow-particle">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="1.5s"
+            path="M 680 150 C 750 150 800 150 840 150"/>
+          <animate attributeName="opacity" values="0;0.5;0.5;0" keyTimes="0;0.1;0.85;1" dur="1.8s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
       </svg>
       <!-- Nodes -->
       <div class="method-nodes">
         <div class="method-node reveal-node" data-delay="0">
           <div class="method-node__icon" style="--c:#ff3131">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M11 8v3l2 2"/></svg>
           </div>
-          <span class="method-node__word">Entender</span>
-          <p class="method-node__desc">Escuchamos. No asumimos. Mapeamos tu negocio desde adentro.</p>
+          <span class="method-node__word">Radiografiar</span>
+          <p class="method-node__desc">Diseccionamos tu negocio. Cada ángulo, cada variable, sin suposiciones.</p>
         </div>
         <div class="method-node reveal-node" data-delay="0.2">
           <div class="method-node__icon" style="--c:#1a3446">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           </div>
-          <span class="method-node__word">Estrategia</span>
-          <p class="method-node__desc">Diseñamos la solución exacta. Cada decisión tiene ROI medible.</p>
+          <span class="method-node__word">Proyectar</span>
+          <p class="method-node__desc">Arquitectamos la solución exacta. ROI visible desde el diseño.</p>
         </div>
         <div class="method-node reveal-node" data-delay="0.4">
           <div class="method-node__icon" style="--c:#113c41">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <span class="method-node__word">Activar</span>
-          <p class="method-node__desc">Sprints visibles. Ves el progreso cada semana. Sin sorpresas.</p>
+          <span class="method-node__word">Encender</span>
+          <p class="method-node__desc">Lanzamos con velocidad quirúrgica. Sprints semanales, resultados reales.</p>
         </div>
         <div class="method-node reveal-node" data-delay="0.6">
           <div class="method-node__icon" style="--c:#ff3131">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/><circle cx="5" cy="19" r="2"/></svg>
           </div>
-          <span class="method-node__word">Crecer</span>
-          <p class="method-node__desc">Mejora continua. Somos tu equipo digital permanente.</p>
+          <span class="method-node__word">Multiplicar</span>
+          <p class="method-node__desc">Crecimiento compuesto. Tu equipo digital que no para nunca.</p>
         </div>
       </div>
     </div>

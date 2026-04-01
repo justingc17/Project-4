@@ -184,7 +184,7 @@ let mCount=3, showGlow=true, autoRot=true;
   const PINS=[
     {id:'polMX',lat:19.43,lng:-99.13,r:-6},  // CDMX
     {id:'polUK',lat:51.51,lng:-0.13, r: 5},  // London
-    {id:'polES',lat:40.42,lng:-3.70, r:-3},  // Madrid
+    {id:'polES',lat:35.68,lng:139.69, r: 3},  // Tokyo
   ];
   const _pinEls=PINS.map(p=>({...p,el:document.getElementById(p.id)}));
 

@@ -511,7 +511,7 @@ window.addEventListener('load',()=>{
   const GLOBE_POS = [
     { rotY:-1.2, rotX:0.25 },   /* 0: CDMX / México */
     { rotY: 0.02, rotX:0.30 },  /* 1: London / UK   */
-    { rotY:-0.18, rotX:0.26 },  /* 2: Madrid / Spain */
+    { rotY: 2.36, rotX:0.28 },  /* 2: Tokyo / Japan  */
   ];
 
   if(window.globeState) window.globeState.autoRot = false;
@@ -556,9 +556,9 @@ const CASES = [
   { country:'🇬🇧 United Kingdom', name:'Gymshark', tab:'Gymshark · UK',
     desc:'De un garaje en Birmingham a una marca valuada en $1.4B USD. Gymshark construyó un empire de fitness apparel sin retail tradicional — puro e-commerce, comunidad digital y contenido que conecta con millones de atletas globales.',
     num:'$1.4B', unit:'USD valuación sin retail' },
-  { country:'🇪🇸 España', name:'Nude Project', tab:'Nude Project · ES',
-    desc:'Dos jóvenes de 19 años lanzaron desde Instagram una marca de streetwear que factura millones sin tienda física. Drops limitados, comunidad auténtica y una identidad visual poderosa — el poder del ecosistema digital ejecutado a la perfección.',
-    num:'€10M+', unit:'facturación anual sin tienda' },
+  { country:'🇯🇵 Japón', name:'Mercari', tab:'Mercari · JP',
+    desc:'Nació como una app de segunda mano en Tokio y se convirtió en el marketplace digital más grande de Japón. Sin tiendas físicas, sin inventario propio — puro ecosistema digital que procesa millones de transacciones diarias y conquistó también el mercado estadounidense.',
+    num:'¥100B+', unit:'revenue anual · expansión global' },
 ];
 
 const caseTabs    = document.querySelectorAll('.world__tab');
