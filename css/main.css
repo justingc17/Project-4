@@ -162,6 +162,11 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   display:block;will-change:transform;
   padding:0;
 }
+.nav-btn__icon{
+  display:flex;align-items:center;justify-content:center;
+  margin-left:10px;width:14px;height:14px;flex-shrink:0;
+  will-change:transform;
+}
 
 /* ── KINETIC NAV ────────────────────────────────────────────── */
 .nav-overlay{position:fixed;inset:0;z-index:1000;display:none;pointer-events:none}
