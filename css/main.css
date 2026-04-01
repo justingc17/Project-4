@@ -76,7 +76,7 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 
 /* ── HEADER ─────────────────────────────────────────────────── */
 .header{
-  position:fixed;top:0;left:0;right:0;z-index:900;
+  position:fixed;top:0;left:0;right:0;z-index:1001;
   padding:clamp(14px,2vw,22px) clamp(20px,5vw,60px);
   overflow:hidden;
   transition:background .5s,backdrop-filter .5s,border-color .5s,box-shadow .5s;
@@ -164,7 +164,7 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
 }
 
 /* ── KINETIC NAV ────────────────────────────────────────────── */
-.nav-overlay{position:fixed;inset:0;z-index:800;display:none;pointer-events:none}
+.nav-overlay{position:fixed;inset:0;z-index:1000;display:none;pointer-events:none}
 .nav-overlay[data-state="open"]{display:block;pointer-events:auto}
 .nav-overlay__bg{position:absolute;inset:0;background:rgba(4,5,7,.6);opacity:0}
 
@@ -173,7 +173,6 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   position:absolute;top:0;right:0;
   width:100vw;height:100%;
   display:flex;flex-direction:column;justify-content:center;
-  transform:translateX(100%);
 }
 .nav-menu__panels{position:absolute;inset:0;overflow:hidden}
 .nav-panel{position:absolute;inset:0;transform:translateX(105%)}
