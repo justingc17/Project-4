@@ -171,7 +171,7 @@ Cada sección tiene un `ScrollTrigger` propio con `once: true`. El patrón:
 | Algoritso | SaaS · Tecnología | 2024 | algoritso.com |
 | Hot Yoga CUU | Wellness · Reservas | 2024 | hotyogacuu.com.mx |
 | Reinventa | Consultoría · Educación | 2023 | reinventacapacitacion.com.mx |
-| Herrcava | Constructora · Corporativo | 2023 | — |
+| Herrcava | Constructora · Corporativo | 2023 | [—](https://www.instagram.com/herrcavaconsultores/) |
 | Gallery 2020 | Arte · Galería | 2022 | gallery2020mx.netlify.app |
 
 **Casos de referencia global** (marcas que demuestran el poder de lo digital):
