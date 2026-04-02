@@ -135,6 +135,8 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
   transition:background .3s,border-color .3s,box-shadow .3s;
   overflow:hidden;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .nav-btn::before{
   content:'';position:absolute;inset:0;pointer-events:none;
@@ -967,6 +969,25 @@ body.cursor-hover .cursor__ring{width:56px;height:56px;border-color:var(--red)}
   .nav-links{padding:0 clamp(24px,6vw,48px)}
   .nav-link__text{font-size:clamp(36px,10vw,64px)}
   .nav-menu__footer{padding:16px clamp(24px,6vw,48px)}
+  /* Nav links: tap targets comfortable, no hover decoration */
+  .nav-link{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+}
+
+/* ── NAV LANDSCAPE / SHORT SCREEN ───────────────────────────── */
+/* On landscape mobile the 5 large links would overflow the footer */
+@media(max-height:500px){
+  .nav-links{
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    justify-content:flex-start;
+    padding-top:64px;
+    padding-bottom:16px;
+    height:100%;
+    gap:0;
+  }
+  .nav-link__text{font-size:clamp(26px,5.5vw,40px)}
+  .nav-link{padding:6px 0}
+  .nav-menu__footer{display:none}
 }
 
 /* ── UTILS ──────────────────────────────────────────────────── */

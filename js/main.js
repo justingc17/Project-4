@@ -175,6 +175,10 @@ if(menuBtn){
 }
 navBg && navBg.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'&&menuOpen) closeMenu(); });
+/* Close menu when a nav link is tapped (same-page anchors leave overlay open otherwise) */
+overlay && overlay.querySelectorAll('.nav-link').forEach(link=>{
+  link.addEventListener('click', closeMenu);
+});
 
 /* Shape hover per nav item */
 allNavLinks.forEach(item=>{
