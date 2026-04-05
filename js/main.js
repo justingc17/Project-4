@@ -64,7 +64,7 @@ function enterHero(){
   gsap.set(wordChars, { yPercent:115, rotation:5 });
   gsap.set(numEl,     { scale:.3, opacity:0, filter:'blur(30px)', y:24 });
   gsap.set(eyebrow,   { opacity:0, y:10 });
-  gsap.set(accent,    { scaleX:0, transformOrigin:'left center' });
+  gsap.set(accent,    { scaleX:0, transformOrigin:'center center' });
   gsap.set(sub,       { opacity:0, y:16 });
   gsap.set(ctaRow,    { opacity:0, y:16 });
   gsap.set(scroll,    { opacity:0 });
